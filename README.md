@@ -8,6 +8,6 @@ Application  API repository available [here](https://github.com/DrozdDominik/Eve
 
 Application API is created with:
 
-*React.js
-*TypeScript
-*OpenStreetMap
+* **React.js**
+* **TypeScript**
+* **OpenStreetMap**
