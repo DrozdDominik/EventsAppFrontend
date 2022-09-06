@@ -1,10 +1,21 @@
 import React from 'react';
 import './App.css';
+import {Header} from "./layout/Header/Header";
+import {Menu} from "./layout/Menu/Menu";
 
 export const App = () => {
     return (
-        <div className="App">
-            Events App
-        </div>
+        <>
+            <Header name={"strona główna"} />
+            <main>
+                <p>Witamy w aplikacji pozwalającej sprawdzić wydarzenia w Twojej okolicy!</p>
+                <p>Możesz przeglądać listę wydarzeń bez rejestracji.</p>
+                <p>Poznanie szczegółów danego wydarzenia wymaga utworzenia darmowego konta użytkownika.</p>
+                <p>W celu uzyskania możliwości dodawania wydarzeń do aplikacji należy skontaktować się z administratorem w celu rozszerzenia uprawnień konta.</p>
+            </main>
+            <div>
+                <Menu options={['logowanie', 'rejestracja']}/>
+            </div>
+        </>
     );
 }
