@@ -8,7 +8,7 @@ interface Props {
 export const Menu = (props: Props) => {
  return (
      <ul>
-         {props.options.map(item => <li><MenuItem name={item} /></li>)}
+         {props.options.map((item, index) => <li key={index}><MenuItem name={item} /></li>)}
      </ul>
  )
 }

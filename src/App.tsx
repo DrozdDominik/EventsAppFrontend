@@ -1,21 +1,19 @@
 import React from 'react';
 import './App.css';
-import {Header} from "./layout/Header/Header";
-import {Menu} from "./layout/Menu/Menu";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {RegisterPage} from "./components/Register/RegisterPage";
+import {StartPage} from "./components/StartPage/StartPage";
+
+const router = createBrowserRouter([
+    {path: '/', element: <StartPage />},
+    {path: '/rejestracja', element: <RegisterPage />},
+]);
 
 export const App = () => {
     return (
         <>
-            <Header name={"strona główna"} />
-            <main>
-                <p>Witamy w aplikacji pozwalającej sprawdzić wydarzenia w Twojej okolicy!</p>
-                <p>Możesz przeglądać listę wydarzeń bez rejestracji.</p>
-                <p>Poznanie szczegółów danego wydarzenia wymaga utworzenia darmowego konta użytkownika.</p>
-                <p>W celu uzyskania możliwości dodawania wydarzeń do aplikacji należy skontaktować się z administratorem w celu rozszerzenia uprawnień konta.</p>
-            </main>
-            <div>
-                <Menu options={['logowanie', 'rejestracja']}/>
-            </div>
+            <RouterProvider router={router} />
+
         </>
     );
 }
