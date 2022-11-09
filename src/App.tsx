@@ -1,19 +1,16 @@
 import React from 'react';
 import './App.css';
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import {RegisterPage} from "./components/Register/RegisterPage";
-import {StartPage} from "./components/StartPage/StartPage";
-
-const router = createBrowserRouter([
-    {path: '/', element: <StartPage />},
-    {path: '/rejestracja', element: <RegisterPage />},
-]);
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {StartPage} from "./pages/Start/StartPage";
 
 export const App = () => {
     return (
         <>
-            <RouterProvider router={router} />
-
+            <BrowserRouter>
+                <Routes>
+                    <Route path={'/'} element={<StartPage /> } />
+                </Routes>
+            </BrowserRouter>
         </>
     );
 }

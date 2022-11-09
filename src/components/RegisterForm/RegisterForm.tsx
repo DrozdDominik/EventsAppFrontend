@@ -1,7 +1,11 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
 import {apiUrl} from "../../config/api";
+import {NotificationStatus, uiAction} from "../../store/ui-slice";
+import './RegisterForm.css'
+import {useDispatch} from "react-redux";
 
 export const RegisterForm = () => {
+    const dispatch = useDispatch()
 
     const [user, setUser] = useState({
         name: '',
@@ -27,15 +31,29 @@ export const RegisterForm = () => {
             },
             body: JSON.stringify(user)
         })
-        console.log(result)
+
+        if(result.status === 201) {
+            dispatch(uiAction.showNotification({
+                status: NotificationStatus.success,
+                title: 'Rejestracja powiodła się!',
+                message: 'Możesz już się zalogować',
+            }))
+        } else {
+            dispatch((uiAction.showNotification({
+                status: NotificationStatus.error,
+                title: 'Błąd',
+                message: 'Nieudana rejestracja!',
+            })))
+        }
     }
 
 
     return (
         <>
-            <form onSubmit={submit}>
+            <h1>Rejestracja</h1>
+            <form onSubmit={submit} className={"registerForm"}>
                 <label>
-                    Login
+                    Nazwa użytkownika
                     <input type="text" name="name" value={user.name} onChange={change}/>
                 </label>
                 <label>

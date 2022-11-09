@@ -1,0 +1,19 @@
+.menuList {
+    display: flex;
+    list-style: none;
+}
+
+.menuItem {
+    margin: 30px;
+}
+
+.logoutBtn {
+    margin-top: 20px;
+    padding: 10px;
+    text-decoration: none;
+    width: 15%;
+    height: 10%;
+    border-radius: 15px;
+    background-color: #40bd89;
+    color: white;
+}
