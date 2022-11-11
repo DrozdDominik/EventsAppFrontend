@@ -10,6 +10,7 @@ export interface NotificationData {
     status: NotificationStatus;
     title: string;
     message: string;
+    duration?: number;
 }
 
 interface UiState {
@@ -29,6 +30,7 @@ export const uiSlice = createSlice({
                 status: action.payload.status,
                 title: action.payload.title,
                 message: action.payload.message,
+                duration: action.payload.duration ?? 2000,
             }
         },
         clearNotification(state) {

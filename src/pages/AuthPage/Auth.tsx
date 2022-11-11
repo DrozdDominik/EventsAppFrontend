@@ -19,7 +19,7 @@ export const Auth = () => {
     return (
         <>
             <Button type={formType} click={handleChangeFormType}/>
-            {formType === FormType.Register ? <LoginForm /> : <RegisterForm />}
+            {formType === FormType.Register ? <LoginForm /> : <RegisterForm changeFormType={handleChangeFormType}/>}
         </>
     )
 }

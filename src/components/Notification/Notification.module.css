@@ -1,4 +1,10 @@
 .notification {
+    box-sizing: border-box;
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    transition: transform .6s ease-in-out;
+    animation: toast-in-right .7s;
     height: 3rem;
     background-color: #1a8ed1;
     display: flex;
@@ -7,6 +13,10 @@
     padding: 0.5rem 10%;
     align-items: center;
     color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #999;
+    opacity: .8;
+    z-index: 1;
 }
 
 .notification h2,
@@ -25,4 +35,14 @@
 
 .info {
     background-color: #1a8ed1;
+}
+
+@keyframes toast-in-right {
+    from {
+        transform: translateX(100%);
+
+    }
+    to {
+        transform: translateX(0);
+    }
 }

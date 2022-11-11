@@ -44,12 +44,14 @@ export const LoginForm = () => {
                status: NotificationStatus.success,
                title: 'Udane logowanie!',
                message: 'Witamy w serwisie',
+               duration: 3000,
            }))
        } else {
            dispatch(uiAction.showNotification({
                status: NotificationStatus.error,
                title: 'Błąd',
                message: 'Niepoprawne dane logowania!',
+               duration: 2500,
            }))
        }
 
