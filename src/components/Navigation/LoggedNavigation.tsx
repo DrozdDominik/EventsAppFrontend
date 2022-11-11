@@ -23,6 +23,7 @@ export const LoggedNavigation = () => {
                 status: NotificationStatus.info,
                 title: 'Poprawne wylogowanie',
                 message: 'Do zobaczenia!',
+                duration: 3500,
             }))
         } else {
             dispatch((uiAction.showNotification({

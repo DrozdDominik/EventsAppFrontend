@@ -53,7 +53,7 @@ export const StartPage = () => {
         if(notification) {
             setTimeout(() => {
                 dispatch(uiAction.clearNotification())
-            }, 5000)
+            }, notification.duration)
         }
     }, [notification])
 
