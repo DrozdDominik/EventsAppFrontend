@@ -1,6 +1,7 @@
 import React from "react";
 import { MainEventData } from "types";
-import {SingleEvent} from "../Event/SingleEvent";
+import {EventCard} from "../Event/EventCard";
+import classes from "./EventList.module.css";
 
 interface Props {
     events: MainEventData[],
@@ -9,8 +10,8 @@ interface Props {
 export const EventsList = (props: Props) => {
     console.log('eventList prop', props.events)
     return (
-        <>
-            { props.events.map(event => <SingleEvent key={event.id} event={event} />) }
-        </>
+        <ul className={classes.events}>
+            { props.events.map(event => <li key={event.id}><EventCard event={event} /> </li>) }
+        </ul>
     )
 }
