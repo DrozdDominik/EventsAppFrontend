@@ -6,7 +6,7 @@ import {authActions} from "../../store/auth-slice";
 import {apiUrl} from "../../config/api";
 import { UserRole } from "types";
 import {EventsPage} from "../Events/EventsPage";
-import {Auth} from "../AuthPage/Auth";
+import {Auth} from "../Auth/Auth";
 import {Notification} from "../../components/Notification/Notification";
 import {uiAction} from "../../store/ui-slice";
 

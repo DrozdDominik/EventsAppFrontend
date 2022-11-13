@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button} from "../../components/common/Button";
+import {AuthButton} from "../../components/common/AuthButton";
 import {LoginForm} from "../../components/LoginForm/LoginForm";
 import {RegisterForm} from "../../components/RegisterForm/RegisterForm";
 
@@ -18,7 +18,7 @@ export const Auth = () => {
 
     return (
         <>
-            <Button type={formType} click={handleChangeFormType}/>
+            <AuthButton type={formType} click={handleChangeFormType}/>
             {formType === FormType.Register ? <LoginForm /> : <RegisterForm changeFormType={handleChangeFormType}/>}
         </>
     )

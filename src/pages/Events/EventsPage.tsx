@@ -2,34 +2,35 @@ import React, {useEffect, useState} from "react";
 import {MainEventData} from 'types'
 import {apiUrl} from "../../config/api";
 import {EventsList} from "../../components/EventsList/EventsList";
+import {Map} from "../../components/Map/Map"
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-
+import classes from './EventPage.module.css'
 import {LoggedNavigation} from "../../components/Navigation/LoggedNavigation";
 
+const getEvents = async (): Promise<MainEventData[] | false> => {
 
-export const EventsPage = () => {
-    const { isLogged } = useSelector((state: RootState) => state.auth);
-    const { role } = useSelector((state: RootState) => state.role);
-    const [events, setEvents] = useState<MainEventData[]>([]);
-
-    const getEvents = async (): Promise<MainEventData[] | false> => {
-
-        const data = await fetch(`${apiUrl}/api/event`, {method: "GET",
+    const data = await fetch(`${apiUrl}/api/event`,
+        {method: "GET",
             credentials: "include",
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },})
 
-        if(data.status === 401) {
-            return false;
-        }
-
-        const result = await data.json() as {events: MainEventData[]}
-
-        return result.events;
+    if(data.status === 401) {
+        return false;
     }
+
+    const result = await data.json() as {events: MainEventData[]}
+
+    return result.events;
+}
+
+export const EventsPage = () => {
+    const { isLogged } = useSelector((state: RootState) => state.auth);
+    const { role } = useSelector((state: RootState) => state.role);
+    const [events, setEvents] = useState<MainEventData[]>([]);
 
     useEffect(() => {
 
@@ -48,8 +49,13 @@ export const EventsPage = () => {
 
     return (
         <>
-            <LoggedNavigation />
-            <EventsList events={events}/>
+            <div className={classes.layout}>
+                <LoggedNavigation />
+                <main className={classes.main}>
+                    <EventsList events={events}/>
+                    <Map events={events}/>
+                </main>
+            </div>
         </>
     );
 }
