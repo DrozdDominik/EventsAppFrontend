@@ -3,7 +3,6 @@ import classes from "./LoginForm.module.css";
 import {apiUrl} from "../../config/api";
 import {useDispatch} from "react-redux";
 import {authActions} from "../../store/auth-slice";
-import {roleActions} from "../../store/role-slice";
 import {UserRole} from "types";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
 
@@ -38,8 +37,7 @@ export const LoginForm = () => {
 
        if(result.status === 200) {
            const data = await result.json() as {role: UserRole};
-           dispatch(roleActions.setRole(data.role))
-           dispatch(authActions.login())
+           dispatch(authActions.login(data.role))
            dispatch(uiAction.showNotification({
                status: NotificationStatus.success,
                title: 'Udane logowanie!',

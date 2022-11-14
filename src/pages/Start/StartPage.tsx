@@ -1,52 +1,33 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
-import {roleActions} from "../../store/role-slice";
-import {authActions} from "../../store/auth-slice";
-import {apiUrl} from "../../config/api";
-import { UserRole } from "types";
 import {EventsPage} from "../Events/EventsPage";
 import {Auth} from "../Auth/Auth";
 import {Notification} from "../../components/Notification/Notification";
 import {uiAction} from "../../store/ui-slice";
+import {authActions} from "../../store/auth-slice";
+import {getUserRole} from "../../utils/get-role";
 
 export const StartPage = () => {
-    const { isLogged } = useSelector((state: RootState) => state.auth);
-    const { role } = useSelector((state: RootState) => state.role);
+    const { role } = useSelector((state: RootState) => state.auth);
     const notification = useSelector((state: RootState) => state.ui.notification);
     const dispatch = useDispatch();
-
-    const getUserRole = async (): Promise<UserRole | false> => {
-        const result = await fetch(`${apiUrl}/user/role`, {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }
-        })
-
-        if(result.status === 401) {
-            return false;
-        }
-
-        const data = await result.json() as {role: UserRole}
-
-        return data.role;
-    }
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         if(role) {
             return;
+        } else {
+            setLoading(true)
         }
+
         (async () => {
-            const role = await getUserRole();
-            if(role) {
-                dispatch(roleActions.setRole(role))
-                dispatch(authActions.login())
+            const userRole = await getUserRole();
+            if(userRole) {
+                dispatch(authActions.login(userRole))
             }
         })()
-
+        setLoading(false)
     }, [])
 
     useEffect(() => {
@@ -57,6 +38,10 @@ export const StartPage = () => {
         }
     }, [notification])
 
+    if (loading) {
+        return <h2>Loading...</h2>;
+    }
+
     return (
         <>
             {notification && (
@@ -66,7 +51,7 @@ export const StartPage = () => {
                     message={notification.message}
                 />
             )}
-            { isLogged ? <EventsPage /> : <Auth /> }
+            { !!role ? <EventsPage /> : <Auth /> }
         </>
     )
 }

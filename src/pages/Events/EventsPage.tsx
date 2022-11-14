@@ -28,8 +28,7 @@ const getEvents = async (): Promise<MainEventData[] | false> => {
 }
 
 export const EventsPage = () => {
-    const { isLogged } = useSelector((state: RootState) => state.auth);
-    const { role } = useSelector((state: RootState) => state.role);
+    const { role } = useSelector((state: RootState) => state.auth);
     const [events, setEvents] = useState<MainEventData[]>([]);
 
     useEffect(() => {
@@ -45,7 +44,7 @@ export const EventsPage = () => {
             }
         })()
 
-    }, [isLogged])
+    }, [role])
 
     return (
         <>

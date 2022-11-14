@@ -1,12 +1,15 @@
 import React from 'react';
-
 import classes from './LoggedNavigation.module.css';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { authActions } from '../../store/auth-slice'
 import {apiUrl} from "../../config/api";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
+import {RootState} from "../../store";
+import { UserRole } from 'types'
+import {NavigateBtn} from "../common/NavigateBtn";
 
 export const LoggedNavigation = () => {
+    const { role } = useSelector((state: RootState) => state.auth )
     const dispatch = useDispatch();
 
     const logout = async () => {
@@ -39,6 +42,7 @@ export const LoggedNavigation = () => {
          <nav>
              <ul className={classes.menuList}>
                 <li><button className={classes.logoutBtn} onClick={logout}>Wyloguj</button></li>
+                 {role === UserRole.Editor && <li><NavigateBtn url={'/event/add'} text={'Dodaj wydarzenie'} /> </li>}
              </ul>
          </nav>
      </header>
