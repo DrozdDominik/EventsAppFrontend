@@ -7,6 +7,7 @@ import { UserRole } from "types";
 import {getUserRole} from "../../utils/get-role";
 import {authActions} from "../../store/auth-slice";
 import {NavigateBtn} from "../../components/common/NavigateBtn";
+import {EventAddForm} from "../../components/EventAddForm/EventAddForm";
 
 export const AddEventPage = () => {
     const { role } = useSelector((state: RootState) => state.auth);
@@ -54,7 +55,7 @@ export const AddEventPage = () => {
 
     return (
         <>
-            <h1>ok: {role}</h1>
+            <EventAddForm />
             <NavigateBtn url={'/'} text={'Powrót'} />
 
         </>

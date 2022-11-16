@@ -61,7 +61,6 @@ export const EventPage = () => {
     },[])
 
     if (loading) {
-        console.log('ok')
         return <h1>Loading...</h1>
     }
 
