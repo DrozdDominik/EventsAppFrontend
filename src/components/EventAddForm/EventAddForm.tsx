@@ -2,6 +2,7 @@ import React, {SyntheticEvent, useState} from "react";
 import {NewEventData} from "types";
 import {geocode} from "../../utils/geocoding";
 import {apiUrl} from "../../config/api";
+import classes from "./EventAddForm.module.css";
 
 type EventFormData = {
     name: string;
@@ -51,26 +52,27 @@ export const EventAddForm = () => {
         e.preventDefault();
 
         setLoading(true);
+        setErrors([]);
 
         try {
             if(!eventData.name || eventData.name.length < 3 || eventData.name.length > 50) {
-                //TODO handle wrong name
+                setErrors(prev => [...prev, `Nazwa wydarzenia musi mieć od 3 do 50 znaków - obecnie jest ${eventData.name.length}`])
             }
 
             if(!eventData.description || eventData.description.length < 10 || eventData.description.length > 500) {
-                //TODO handle wrong description
+                setErrors(prev => [...prev, `Opis wydarzenia musi mieć od 10 do 500 znaków - obecnie jest ${eventData.description.length}`])
             }
 
             if(eventData.time <= 0) {
-                //TODO handle wrong time
+                setErrors(prev => [...prev, `Czas wydarzenia musi być wiekszy od 0`])
             }
 
             const address = `${eventData.number} ${eventData.street} ${eventData.city} ${eventData.country}`;
             const data = await geocode(address);
 
             if(data === null) {
-                //TODO handle wrong address
-            } else {
+                setErrors(prev => [...prev, `Podano błędne dane adresowe`])
+            } else if(errors.length === 0) {
                 const {lat, lon} = data;
 
                 const eventToSave: NewEventData = {
@@ -83,7 +85,7 @@ export const EventAddForm = () => {
                 }
 
                 if(!await sendData(eventToSave)) {
-                    //TODO handle insert event error
+                    setErrors(['Przepraszamy, wystąpił problem z dodaniem wydarzenia.'])
                 }
             }
         } finally {
@@ -93,6 +95,7 @@ export const EventAddForm = () => {
 
     const [eventData, setEventData] = useState<EventFormData>(initialState);
     const [loading, setLoading] = useState<boolean>(false);
+    const [errors, setErrors] = useState<string[]>([]);
 
     if (loading) {
         return <h2>Trwa dodawanie wydarzenia...</h2>;
@@ -101,7 +104,7 @@ export const EventAddForm = () => {
     return (
         <>
             <h1>Dodaj wydarzenie</h1>
-            <form onSubmit={saveEvent}>
+            <form className={classes.addEventForm} onSubmit={saveEvent}>
                 <label>
                     Nazwa wydarzenia
                     <input type="text" name="name" value={eventData.name} onChange={e => updateForm('name', e.target.value)}/>
@@ -136,6 +139,7 @@ export const EventAddForm = () => {
                 </label>
                 <button type="submit">Dodaj!</button>
             </form>
+            {errors.length !== 0 && <div><ul>{errors.map((error, index) => <li key={index}>{error}</li>)}</ul></div>}
         </>
     )
 }
