@@ -1,21 +1,17 @@
-import React, {SyntheticEvent, useState} from "react";
+import React, {SyntheticEvent, useEffect, useState} from "react";
 import {NewEventData} from "types";
-import {geocode} from "../../utils/geocoding";
 import {apiUrl} from "../../config/api";
 import classes from "./EventAddForm.module.css";
-
-type EventFormData = {
-    name: string;
-    description: string;
-    time: number;
-    link: string;
-    country: string;
-    city: string;
-    street: string;
-    number: string;
-}
+import {NavigateBtn} from "../common/NavigateBtn";
+import {useDispatch, useSelector} from "react-redux";
+import {NotificationStatus, uiAction} from "../../store/ui-slice";
+import {RootState} from "../../store";
+import { EventFormData } from "src/types";
+import {validateData} from "../../utils/validate-event-data";
 
 export const EventAddForm = () => {
+    const dispatch = useDispatch();
+    const notification = useSelector((state: RootState) => state.ui.notification);
 
     const initialState: EventFormData = {
         name: '',
@@ -54,48 +50,57 @@ export const EventAddForm = () => {
         setLoading(true);
         setErrors([]);
 
-        try {
-            if(!eventData.name || eventData.name.length < 3 || eventData.name.length > 50) {
-                setErrors(prev => [...prev, `Nazwa wydarzenia musi mieć od 3 do 50 znaków - obecnie jest ${eventData.name.length}`])
-            }
+        const validationResult = await validateData(eventData);
 
-            if(!eventData.description || eventData.description.length < 10 || eventData.description.length > 500) {
-                setErrors(prev => [...prev, `Opis wydarzenia musi mieć od 10 do 500 znaków - obecnie jest ${eventData.description.length}`])
-            }
-
-            if(eventData.time <= 0) {
-                setErrors(prev => [...prev, `Czas wydarzenia musi być wiekszy od 0`])
-            }
-
-            const address = `${eventData.number} ${eventData.street} ${eventData.city} ${eventData.country}`;
-            const data = await geocode(address);
-
-            if(data === null) {
-                setErrors(prev => [...prev, `Podano błędne dane adresowe`])
-            } else if(errors.length === 0) {
-                const {lat, lon} = data;
-
-                const eventToSave: NewEventData = {
-                    name: eventData.name,
-                    description: eventData.description,
-                    estimatedTime: Number(eventData.time),
-                    link: eventData.link !== '' ? eventData.link : null,
-                    lat,
-                    lon,
-                }
-
-                if(!await sendData(eventToSave)) {
-                    setErrors(['Przepraszamy, wystąpił problem z dodaniem wydarzenia.'])
-                }
-            }
-        } finally {
+        if(Array.isArray(validationResult)) {
+            setErrors(validationResult);
             setLoading(false);
+            return;
         }
+
+        const {lat, lon} = validationResult;
+
+        const eventToSave: NewEventData = {
+            name: eventData.name,
+            description: eventData.description,
+            estimatedTime: Number(eventData.time),
+            link: eventData.link !== '' ? eventData.link : null,
+            lat,
+            lon,
+        }
+
+        if(!await sendData(eventToSave)) {
+            dispatch(uiAction.showNotification({
+                status: NotificationStatus.error,
+                title: "Błąd",
+                message: "Nie udało się dodać wydarzenia!",
+                duration: 3000,
+            }));
+        } else {
+            dispatch(uiAction.showNotification({
+                status: NotificationStatus.success,
+                title: "Dodano wydarzenie",
+                message: "",
+                duration: 3500,
+            }));
+            setEventData(initialState);
+        }
+
+        setLoading(false);
+
     }
 
     const [eventData, setEventData] = useState<EventFormData>(initialState);
     const [loading, setLoading] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
+
+    useEffect(() => {
+        if(notification) {
+            setTimeout(() => {
+                dispatch(uiAction.clearNotification())
+            }, notification.duration)
+        }
+    }, [notification])
 
     if (loading) {
         return <h2>Trwa dodawanie wydarzenia...</h2>;
@@ -103,43 +108,50 @@ export const EventAddForm = () => {
 
     return (
         <>
-            <h1>Dodaj wydarzenie</h1>
-            <form className={classes.addEventForm} onSubmit={saveEvent}>
-                <label>
-                    Nazwa wydarzenia
-                    <input type="text" name="name" value={eventData.name} onChange={e => updateForm('name', e.target.value)}/>
-                </label>
-                <label>
-                    Opis
-                    <textarea name="description" value={eventData.description} onChange={e => updateForm('description', e.target.value)}/>
-                </label>
-                <label>
-                    Planowany czas trwania
-                    <input type="number" name="time" value={eventData.time} onChange={e => updateForm('time', e.target.value)}/>
-                </label>
-                <label>
-                    Link do strony wydarzenia
-                    <input type="text" name="link" value={eventData.link} onChange={e => updateForm('link', e.target.value)}/>
-                </label>
-                <label>
-                    Kraj
-                    <input type="text" name="country" value={eventData.country} onChange={e => updateForm('country', e.target.value)}/>
-                </label>
-                <label>
-                    Miasto
-                    <input type="text" name="city" value={eventData.city} onChange={e => updateForm('city', e.target.value)}/>
-                </label>
-                <label>
-                    Ulica
-                    <input type="text" name="street" value={eventData.street} onChange={e => updateForm('street', e.target.value)}/>
-                </label>
-                <label>
-                    Numer budynku
-                    <input type="text" name="number" value={eventData.number} onChange={e => updateForm('number', e.target.value)}/>
-                </label>
-                <button type="submit">Dodaj!</button>
-            </form>
-            {errors.length !== 0 && <div><ul>{errors.map((error, index) => <li key={index}>{error}</li>)}</ul></div>}
+            <div className={classes.card}>
+                <div className={classes.card_info}>
+                    <h1 className={classes.card_header}>Dodaj wydarzenie</h1>
+                </div>
+                <form className={classes.add_event_form} onSubmit={saveEvent}>
+                    <div className={classes.input}>
+                        <input type="text" className={classes.input_field} name="name" value={eventData.name} onChange={e => updateForm('name', e.target.value)} required={true}/>
+                        <label className={classes.input_label}>Nazwa wydarzenia</label>
+                    </div>
+                    <div className={classes.input}>
+                        <textarea className={classes.input_field} name="description" value={eventData.description} onChange={e => updateForm('description', e.target.value)} required={true}/>
+                        <label className={classes.input_label}>Opis</label>
+                    </div>
+                    <div className={classes.input}>
+                        <input type="number" className={classes.input_field} name="time" value={eventData.time} onChange={e => updateForm('time', e.target.value)} min={1} step={1} required={true}/>
+                        <label className={classes.input_label}>Planowany czas trwania (minuty)</label>
+                    </div>
+                    <div className={classes.input}>
+                        <input type="text" className={classes.input_field} name="link" value={eventData.link} onChange={e => updateForm('link', e.target.value)}/>
+                        <label className={classes.input_label}>Link do strony wydarzenia (opcjonalne)</label>
+                    </div>
+                    <div className={classes.input}>
+                        <input type="text" className={classes.input_field} name="country" value={eventData.country} onChange={e => updateForm('country', e.target.value)} required={true}/>
+                        <label className={classes.input_label}>Kraj</label>
+                        </div>
+                    <div className={classes.input}>
+                        <input type="text" className={classes.input_field} name="city" value={eventData.city} onChange={e => updateForm('city', e.target.value)} required={true}/>
+                        <label className={classes.input_label}>Miasto</label>
+                    </div>
+                    <div className={classes.input}>
+                        <input type="text" className={classes.input_field} name="street" value={eventData.street} onChange={e => updateForm('street', e.target.value)} required={true}/>
+                        <label className={classes.input_label}>Ulica</label>
+                    </div>
+                    <div className={classes.input}>
+                        <input type="text" className={classes.input_field} name="number" value={eventData.number} onChange={e => updateForm('number', e.target.value)} required={true}/>
+                        <label className={classes.input_label}>Numer budynku</label>
+                    </div>
+                    <div className={classes.div_submit} >
+                        <button className={classes.btn_submit} type="submit">Dodaj!</button>
+                    </div>
+                    <NavigateBtn url={'/'} text={'Powrót'} />
+                </form>
+                {errors.length !== 0 && <div className={classes.errors_container}><ul className={classes.errors_list}>{errors.map((error, index) => <li key={index} className={classes.error}>{error}</li>)}</ul></div>}
+            </div>
         </>
     )
 }

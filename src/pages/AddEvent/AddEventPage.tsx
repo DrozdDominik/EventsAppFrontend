@@ -6,14 +6,15 @@ import {NotificationStatus, uiAction} from "../../store/ui-slice";
 import { UserRole } from "types";
 import {getUserRole} from "../../utils/get-role";
 import {authActions} from "../../store/auth-slice";
-import {NavigateBtn} from "../../components/common/NavigateBtn";
 import {EventAddForm} from "../../components/EventAddForm/EventAddForm";
+import {Notification} from "../../components/Notification/Notification";
 
 export const AddEventPage = () => {
     const { role } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(true)
+    const notification = useSelector((state: RootState) => state.ui.notification);
 
     useEffect(() => {
         (async () => {
@@ -56,8 +57,13 @@ export const AddEventPage = () => {
     return (
         <>
             <EventAddForm />
-            <NavigateBtn url={'/'} text={'Powrót'} />
-
+            {notification && (
+                <Notification
+                    status={notification.status}
+                    title={notification.title}
+                    message={notification.message}
+                />
+            )}
         </>
     )
 }

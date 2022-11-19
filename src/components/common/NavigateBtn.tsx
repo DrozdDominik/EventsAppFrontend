@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import classes from "./NavigateBtn.module.css"
 
 interface Props {
     url: string;
@@ -8,6 +9,6 @@ interface Props {
 
 export const NavigateBtn = (props: Props) => {
     return (
-        <button><Link to={props.url}>{props.text}</Link></button>
+        <button className={classes.btn}><Link className={classes.link} to={props.url}>{props.text}</Link></button>
     )
 }

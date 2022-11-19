@@ -1,0 +1,21 @@
+.btn {
+    font: inherit;
+    font-size: 1.25rem;
+    margin: 0.75rem 0;
+    padding: 1em;
+    width: 100%;
+    font-weight: 500;
+    background-color: #64e88a;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+}
+.btn:focus {
+    outline-color: blueviolet;
+}
+
+.link {
+    outline: none;
+    text-decoration: none;
+    color: white;
+}
