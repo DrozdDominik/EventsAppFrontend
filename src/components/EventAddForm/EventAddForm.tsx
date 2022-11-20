@@ -1,17 +1,16 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
 import {NewEventData} from "types";
-import {apiUrl} from "../../config/api";
 import classes from "./EventAddForm.module.css";
-import {NavigateBtn} from "../common/NavigateBtn";
+import {NavigateBtn} from "../common/Btns/NavigateBtn";
 import {useDispatch, useSelector} from "react-redux";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
 import {RootState} from "../../store";
 import { EventFormData } from "src/types";
 import {validateData} from "../../utils/validate-event-data";
+import {fetchPost} from "../../utils/fetch-post";
+import {ErrorsScreen} from "../ErrorsScreen/ErrorsScreen";
 
 export const EventAddForm = () => {
-    const dispatch = useDispatch();
-    const notification = useSelector((state: RootState) => state.ui.notification);
 
     const initialState: EventFormData = {
         name: '',
@@ -24,6 +23,12 @@ export const EventAddForm = () => {
         number: '',
     }
 
+    const [eventData, setEventData] = useState<EventFormData>(initialState);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [errors, setErrors] = useState<string[]>([]);
+    const dispatch = useDispatch();
+    const notification = useSelector((state: RootState) => state.ui.notification);
+
     const updateForm = (key: string, value: string | number) => {
         setEventData(eventData => ({
             ...eventData,
@@ -32,14 +37,7 @@ export const EventAddForm = () => {
     };
 
     const sendData = async (data: NewEventData): Promise<boolean> => {
-        const result = await fetch(`${apiUrl}/api/event`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify(data)
-        })
+        const result = await fetchPost('api/event', data);
 
         return result.status === 201;
     }
@@ -54,6 +52,12 @@ export const EventAddForm = () => {
 
         if(Array.isArray(validationResult)) {
             setErrors(validationResult);
+            dispatch(uiAction.showNotification({
+                status: NotificationStatus.error,
+                title: "Błąd",
+                message: "Podano błędne dane!",
+                duration: 4000,
+            }));
             setLoading(false);
             return;
         }
@@ -87,12 +91,7 @@ export const EventAddForm = () => {
         }
 
         setLoading(false);
-
     }
-
-    const [eventData, setEventData] = useState<EventFormData>(initialState);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [errors, setErrors] = useState<string[]>([]);
 
     useEffect(() => {
         if(notification) {
@@ -108,6 +107,7 @@ export const EventAddForm = () => {
 
     return (
         <>
+            {errors.length !== 0 && <ErrorsScreen errors={errors} />}
             <div className={classes.card}>
                 <div className={classes.card_info}>
                     <h1 className={classes.card_header}>Dodaj wydarzenie</h1>
@@ -147,10 +147,10 @@ export const EventAddForm = () => {
                     </div>
                     <div className={classes.div_submit} >
                         <button className={classes.btn_submit} type="submit">Dodaj!</button>
+                        <NavigateBtn url={'/'} text={'Powrót'} />
                     </div>
-                    <NavigateBtn url={'/'} text={'Powrót'} />
                 </form>
-                {errors.length !== 0 && <div className={classes.errors_container}><ul className={classes.errors_list}>{errors.map((error, index) => <li key={index} className={classes.error}>{error}</li>)}</ul></div>}
+                {/*{errors.length !== 0 && <div className={classes.errors_container}><ul className={classes.errors_list}>{errors.map((error, index) => <li key={index} className={classes.error}>{error}</li>)}</ul></div>}*/}
             </div>
         </>
     )

@@ -6,7 +6,7 @@ import {apiUrl} from "../../config/api";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
 import {RootState} from "../../store";
 import { UserRole } from 'types'
-import {NavigateBtn} from "../common/NavigateBtn";
+import {NavigateBtn} from "../common/Btns/NavigateBtn";
 
 export const LoggedNavigation = () => {
     const { role } = useSelector((state: RootState) => state.auth )

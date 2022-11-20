@@ -1,6 +1,6 @@
 import React from "react";
 import { MainEventData } from "types";
-import {NavigateBtn} from "../common/NavigateBtn";
+import {NavigateBtn} from "../common/Btns/NavigateBtn";
 
 interface Props {
     event: MainEventData

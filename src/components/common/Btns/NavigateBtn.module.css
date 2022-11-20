@@ -1,21 +1,18 @@
-.btn {
+.link {
+    display: block;
     font: inherit;
     font-size: 1.25rem;
     margin: 0.75rem 0;
     padding: 1em;
-    width: 100%;
     font-weight: 500;
     background-color: #64e88a;
     border-radius: 6px;
     border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: white;
     cursor: pointer;
 }
-.btn:focus {
+.link:focus {
     outline-color: blueviolet;
-}
-
-.link {
-    outline: none;
-    text-decoration: none;
-    color: white;
 }
