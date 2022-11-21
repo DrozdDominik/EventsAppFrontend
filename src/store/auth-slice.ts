@@ -1,22 +1,23 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import { UserRole } from 'types'
 
 interface AuthState {
-    isLogged: boolean;
+    role: UserRole | null;
 }
 
 const initialState: AuthState = {
-    isLogged: false,
+    role: null,
 }
 
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login(state) {
-            state.isLogged = true;
+        login(state, action: PayloadAction<UserRole>) {
+            state.role = action.payload;
         },
         logout(state) {
-            state.isLogged = false;
+            state.role = null;
         }
     }
 })

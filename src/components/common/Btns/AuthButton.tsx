@@ -1,5 +1,5 @@
 import React from "react";
-import {FormType} from "../../pages/Auth/Auth";
+import {FormType} from "../../../pages/Auth/Auth";
 import classes from './AuthButton.module.css'
 
 interface Props {

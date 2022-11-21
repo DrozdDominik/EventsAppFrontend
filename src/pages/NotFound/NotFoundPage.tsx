@@ -1,5 +1,5 @@
 import React from "react";
-import {NavigateBtn} from "../../components/common/NavigateBtn";
+import {NavigateBtn} from "../../components/common/Btns/NavigateBtn";
 
 export const NotFoundPage = () => {
     return (

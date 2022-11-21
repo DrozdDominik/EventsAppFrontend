@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const EventsList = (props: Props) => {
-    console.log('eventList prop', props.events)
     return (
         <ul className={classes.events}>
             { props.events.map(event => <li key={event.id}><EventCard event={event} /> </li>) }
