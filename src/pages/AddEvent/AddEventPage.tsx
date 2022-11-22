@@ -8,6 +8,7 @@ import {getUserRole} from "../../utils/get-role";
 import {authActions} from "../../store/auth-slice";
 import {EventAddForm} from "../../components/EventAddForm/EventAddForm";
 import {Notification} from "../../components/Notification/Notification";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 export const AddEventPage = () => {
     const { role } = useSelector((state: RootState) => state.auth);
@@ -51,7 +52,7 @@ export const AddEventPage = () => {
     }, []);
 
     if (loading) {
-        return <h2>Loading...</h2>;
+        return <Spinner isLoading={loading} />
     }
 
     return (

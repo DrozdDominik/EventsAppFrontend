@@ -7,6 +7,7 @@ import {Notification} from "../../components/Notification/Notification";
 import {uiAction} from "../../store/ui-slice";
 import {authActions} from "../../store/auth-slice";
 import {getUserRole} from "../../utils/get-role";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 export const StartPage = () => {
     const { role } = useSelector((state: RootState) => state.auth);
@@ -39,7 +40,7 @@ export const StartPage = () => {
     }, [notification])
 
     if (loading) {
-        return <h2>Loading...</h2>;
+        return <Spinner isLoading={loading} />
     }
 
     return (

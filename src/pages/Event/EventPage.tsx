@@ -10,6 +10,7 @@ import {RootState} from "../../store";
 import {getUserRole} from "../../utils/get-role";
 import {authActions} from "../../store/auth-slice";
 import {getEvent} from "../../utils/get-event";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 type EventParams = {
     id: string;
@@ -61,7 +62,7 @@ export const EventPage = () => {
     },[])
 
     if (loading) {
-        return <h1>Loading...</h1>
+        return <Spinner isLoading={loading} />
     }
 
     return (

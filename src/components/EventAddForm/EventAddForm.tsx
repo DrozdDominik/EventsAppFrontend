@@ -9,6 +9,7 @@ import { EventFormData } from "src/types";
 import {validateData} from "../../utils/validate-event-data";
 import {fetchPost} from "../../utils/fetch-post";
 import {ErrorsScreen} from "../ErrorsScreen/ErrorsScreen";
+import {Spinner} from "../Spinner/Spinner";
 
 export const EventAddForm = () => {
 
@@ -102,7 +103,7 @@ export const EventAddForm = () => {
     }, [notification])
 
     if (loading) {
-        return <h2>Trwa dodawanie wydarzenia...</h2>;
+        return <Spinner isLoading={loading} />
     }
 
     return (
@@ -150,7 +151,6 @@ export const EventAddForm = () => {
                         <NavigateBtn url={'/'} text={'Powrót'} />
                     </div>
                 </form>
-                {/*{errors.length !== 0 && <div className={classes.errors_container}><ul className={classes.errors_list}>{errors.map((error, index) => <li key={index} className={classes.error}>{error}</li>)}</ul></div>}*/}
             </div>
         </>
     )
