@@ -1,0 +1,12 @@
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 1rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #94c9c3;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 0 rgba(153, 153, 153, 0.25);
+    padding: 0.75rem;
+}

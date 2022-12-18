@@ -1,5 +1,6 @@
 .events {
-    width: 500px;
+    width: 600px;
     display: flex;
     flex-direction: column;
+    list-style: none;
 }
