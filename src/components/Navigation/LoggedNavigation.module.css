@@ -3,6 +3,10 @@
     list-style: none;
 }
 
+.menuList li {
+    margin: 0 1rem;
+}
+
 .menuItem {
     margin: 30px;
 }
