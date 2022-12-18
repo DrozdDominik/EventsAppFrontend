@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import classes from "./LoginForm.module.css";
+import classes from "../../layouts/form/form.module.css";
 import {apiUrl} from "../../config/api";
 import {useDispatch} from "react-redux";
 import {authActions} from "../../store/auth-slice";

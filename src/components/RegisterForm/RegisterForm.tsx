@@ -1,8 +1,9 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
 import {apiUrl} from "../../config/api";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
-import './RegisterForm.css'
 import {useDispatch} from "react-redux";
+import classes from "../../layouts/form/form.module.css";
+import {CancelBtn} from "../common/Btns/Cancel/CancelBtn";
 
 interface Props {
     changeFormType: () => void
@@ -68,25 +69,40 @@ export const RegisterForm = (props: Props) => {
         }
     }
 
+    const cancel = () => {
+        setUser({
+            name: '',
+            email: '',
+            password: '',
+        })
+    }
 
     return (
-        <>
+        <div className={classes.formContainer}>
             <h1>Rejestracja</h1>
             <form onSubmit={submit} className={"registerForm"}>
-                <label>
-                    Nazwa użytkownika
-                    <input type="text" name="name" value={user.name} onChange={change}/>
-                </label>
-                <label>
-                    Email
-                    <input type="email" name="email" value={user.email} onChange={change}/>
-                </label>
-                <label>
-                    Hasło
-                    <input type="password" name="password" value={user.password} onChange={change}/>
-                </label>
-                <button type="submit">Zarejestruj!</button>
+                <fieldset>
+                    <legend>Podaj dane</legend>
+                    <label>
+                        <span>Użytkownik</span>
+                        <input type="text" name="name" value={user.name} onChange={change} required={true}/>
+                    </label>
+                    <label>
+                        <span>Email</span>
+                        <input type="email" name="email" value={user.email} onChange={change} required={true}/>
+                    </label>
+                    <label>
+                        <span>Hasło</span>
+                        <input type="password" name="password" value={user.password} onChange={change} required={true}/>
+                    </label>
+                    <div className={classes.btnsContainer}>
+                        <CancelBtn handleCancel={cancel}/>
+                        <button className={classes.submit} type="submit">
+                            Zarejestruj!
+                        </button>
+                    </div>
+                </fieldset>
             </form>
-        </>
+        </div>
     )
 }
