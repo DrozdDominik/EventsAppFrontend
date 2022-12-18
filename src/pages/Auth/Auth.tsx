@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {AuthButton} from "../../components/common/Btns/AuthButton";
+import {AuthBtn} from "../../components/common/Btns/Auth/AuthBtn";
 import {LoginForm} from "../../components/LoginForm/LoginForm";
 import {RegisterForm} from "../../components/RegisterForm/RegisterForm";
+import classes from "./Auth.module.css"
 
 export enum FormType {
     "Register",
@@ -17,9 +18,11 @@ export const Auth = () => {
     }
 
     return (
-        <>
-            <AuthButton type={formType} click={handleChangeFormType}/>
+        <div className={classes.authContainer}>
+            <nav>
+                <AuthBtn type={formType} click={handleChangeFormType}/>
+            </nav>
             {formType === FormType.Register ? <LoginForm /> : <RegisterForm changeFormType={handleChangeFormType}/>}
-        </>
+        </div>
     )
 }

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
 import {useNavigate, useParams} from "react-router-dom";
 import {MapDetailed} from "../../components/Map/MapDetailed";
-import {NavigateBtn} from "../../components/common/Btns/NavigateBtn";
+import {NavigateBtn} from "../../components/common/Btns/Navigate/NavigateBtn";
 import {RootState} from "../../store";
 import {getUserRole} from "../../utils/get-role";
 import {authActions} from "../../store/auth-slice";

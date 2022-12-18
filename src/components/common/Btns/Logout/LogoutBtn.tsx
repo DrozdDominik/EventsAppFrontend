@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./LogoutBtn.module.css"
-import {apiUrl} from "../../../config/api";
-import {authActions} from "../../../store/auth-slice";
-import {NotificationStatus, uiAction} from "../../../store/ui-slice";
+import {apiUrl} from "../../../../config/api";
+import {authActions} from "../../../../store/auth-slice";
+import {NotificationStatus, uiAction} from "../../../../store/ui-slice";
 import {useDispatch} from "react-redux";
 
 export const LogoutBtn = () => {

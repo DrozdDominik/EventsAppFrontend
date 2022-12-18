@@ -3,8 +3,8 @@ import classes from './LoggedNavigation.module.css';
 import { useSelector} from "react-redux";
 import {RootState} from "../../store";
 import { UserRole } from 'types'
-import {NavigateBtn} from "../common/Btns/NavigateBtn";
-import {LogoutBtn} from "../common/Btns/LogoutBtn";
+import {NavigateBtn} from "../common/Btns/Navigate/NavigateBtn";
+import {LogoutBtn} from "../common/Btns/Logout/LogoutBtn";
 
 export const LoggedNavigation = () => {
     const { role } = useSelector((state: RootState) => state.auth )

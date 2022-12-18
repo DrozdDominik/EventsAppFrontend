@@ -1,7 +1,7 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
 import {NewEventData} from "types";
 import classes from "./EventAddForm.module.css";
-import {NavigateBtn} from "../common/Btns/NavigateBtn";
+import {NavigateBtn} from "../common/Btns/Navigate/NavigateBtn";
 import {useDispatch, useSelector} from "react-redux";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
 import {RootState} from "../../store";
