@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Event} from "../../components/Event/Event"
+import {EventDescription} from "../../components/EventDescription/EventDescription"
 import {EventEntity} from "types";
 import {useDispatch, useSelector} from "react-redux";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
@@ -11,6 +11,7 @@ import {getUserRole} from "../../utils/get-role";
 import {authActions} from "../../store/auth-slice";
 import {getEvent} from "../../utils/get-event";
 import {Spinner} from "../../components/Spinner/Spinner";
+import classes from "./EventPage.module.css"
 
 type EventParams = {
     id: string;
@@ -66,13 +67,18 @@ export const EventPage = () => {
     }
 
     return (
-        <>
-            {event &&
-            <div>
-            <Event event={event}/>
-            <MapDetailed event={event} />
-            <NavigateBtn url={'/'} text={'Wszystkie wydarzenia'}/>
-            </div>}
-        </>
+         <div className={classes.container}>
+             {event &&
+                <>
+                    <div className={classes.main}>
+                        <EventDescription event={event}/>
+                        <MapDetailed event={event} />
+                    </div>
+                    <div className={classes.navBtn}>
+                        <NavigateBtn url={'/'} text={'Wszystkie wydarzenia'}/>
+                    </div>
+                </>
+             }
+        </div>
     )
 }

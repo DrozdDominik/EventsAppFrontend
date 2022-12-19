@@ -1,0 +1,15 @@
+.mapDetailed {
+    position: relative;
+    top: 2rem;
+    height: 70vh;
+    width: 50vw;
+}
+
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}
+
+.popup {
+
+}

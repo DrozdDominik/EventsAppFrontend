@@ -1,6 +1,6 @@
 import React from "react";
 import { MainEventData } from "types";
-import {EventCard} from "../Event/EventCard";
+import {EventCard} from "../EventCard/EventCard";
 import classes from "./EventList.module.css";
 
 interface Props {
