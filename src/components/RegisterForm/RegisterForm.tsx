@@ -54,10 +54,10 @@ export const RegisterForm = (props: Props) => {
             })))
         } else if (result.status === 422) {
             dispatch((uiAction.showNotification({
-                status: NotificationStatus.error,
-                title: 'Błąd',
-                message: 'Podano nieprawidłowe dane!',
-                duration: 2500,
+                status: NotificationStatus.info,
+                title: 'Niepoprawne hasło!',
+                message: 'Hasło musi zawierać od 7 do 15 znaków w tym przynajmniej jedną literą, cyfrę i znak specjalny',
+                duration: 6000,
             })))
         } else {
             dispatch((uiAction.showNotification({
