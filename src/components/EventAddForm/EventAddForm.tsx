@@ -9,6 +9,7 @@ import { EventFormData } from "src/types";
 import {validateData} from "../../utils/validate-event-data";
 import {fetchPost} from "../../utils/fetch-post";
 import {ErrorsScreen} from "../ErrorsScreen/ErrorsScreen";
+import {addProtocol} from "../../utils/addProtocol";
 
 export const EventAddForm = () => {
 
@@ -68,7 +69,7 @@ export const EventAddForm = () => {
             name: eventData.name,
             description: eventData.description,
             estimatedTime: Number(eventData.time),
-            link: eventData.link !== '' ? eventData.link : null,
+            link: eventData.link !== '' ? addProtocol(eventData.link) : null,
             lat,
             lon,
         }
