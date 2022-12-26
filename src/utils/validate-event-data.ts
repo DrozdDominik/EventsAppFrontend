@@ -1,5 +1,6 @@
 import { EventFormData } from "src/types";
 import {Coordinates, geocode} from "./geocoding";
+import {validUrl} from "./valid-url";
 
 export const validateData = async (data: EventFormData): Promise<Coordinates | string[]> => {
     const errors: string[] = [];
@@ -14,6 +15,11 @@ export const validateData = async (data: EventFormData): Promise<Coordinates | s
 
     if(data.time <= 0) {
         errors.push('Czas wydarzenia musi być wiekszy od 0');
+    }
+
+    if(!validUrl(data.link)) {
+        console.log('valid')
+        errors.push('Podano niepoprawny link')
     }
 
     const address = `${data.number} ${data.street} ${data.city} ${data.country}`;
