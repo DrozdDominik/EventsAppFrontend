@@ -7,3 +7,21 @@
     height: 100%;
     width: 100%;
 }
+
+.leaflet-popup-content-wrapper {
+    background: #7cafda !important;
+    box-shadow: 0 10px 20px 0 #4a58f5 !important;
+}
+
+.link {
+    text-decoration: none;
+    color: #6f359f !important;
+}
+
+.popup h3 {
+    font-size: 1.3rem;
+}
+
+.popup p {
+    font-size: 1rem;
+}

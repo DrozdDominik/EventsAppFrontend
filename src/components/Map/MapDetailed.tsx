@@ -21,7 +21,7 @@ export const MapDetailed = (props: Props) => {
                         <Popup className={"popup"}>
                             <h3>{props.event.name}</h3>
                             <p>{props.event.description}</p>
-                            {props.event.link && <p><a href={props.event.link} target="_blank"><i>Wyświetl stronę wydarzenia</i></a></p>}
+                            {props.event.link && <p><a className={"link"} href={props.event.link} target="_blank" rel="noreferrer" ><i>Wyświetl stronę wydarzenia</i></a></p>}
                         </Popup>
                     </Marker>
                 ))

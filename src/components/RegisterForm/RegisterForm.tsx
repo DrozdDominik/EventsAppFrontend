@@ -54,7 +54,7 @@ export const RegisterForm = (props: Props) => {
             })))
         } else if (result.status === 422) {
             dispatch((uiAction.showNotification({
-                status: NotificationStatus.info,
+                status: NotificationStatus.error,
                 title: 'Niepoprawne hasło!',
                 message: 'Hasło musi zawierać od 7 do 15 znaków w tym przynajmniej jedną literą, cyfrę i znak specjalny',
                 duration: 6000,

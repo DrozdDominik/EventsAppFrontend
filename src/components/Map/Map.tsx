@@ -21,10 +21,10 @@ export const Map = (props: Props) => {
             {
                 props.events.map(event => (
                     <Marker key={event.id} position={[event.lat, event.lon]}>
-                        <Popup>
+                        <Popup className={"popup"}>
                             <h3>{event.name}</h3>
                             <p>{event.description}</p>
-                            <Link to={`/event/${event.id}`}>Szczegóły</Link>
+                            <Link className={"link"} to={`/event/${event.id}`}>Szczegóły</Link>
                         </Popup>
                     </Marker>
                 ))
