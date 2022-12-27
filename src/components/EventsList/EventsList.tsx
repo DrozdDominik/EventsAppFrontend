@@ -9,8 +9,10 @@ interface Props {
 
 export const EventsList = (props: Props) => {
     return (
-        <ul className={classes.events}>
-            { props.events.map(event => <li key={event.id}><EventCard event={event} /> </li>) }
-        </ul>
+        <div className={classes.listContainer}>
+            <ul className={classes.events}>
+                { props.events.map(event => <li key={event.id}><EventCard event={event} /> </li>) }
+            </ul>
+        </div>
     )
 }

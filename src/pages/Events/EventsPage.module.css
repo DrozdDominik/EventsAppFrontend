@@ -1,10 +1,11 @@
 .layout {
-    padding: 30px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
 }
 
 .main {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
 }

@@ -1,7 +1,7 @@
 .cardContainer {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 440px;
     margin: 1rem;
     justify-content: center;
     align-items: center;

@@ -5,7 +5,7 @@ import {EventsList} from "../../components/EventsList/EventsList";
 import {Map} from "../../components/Map/Map"
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import classes from './EventPage.module.css'
+import classes from './EventsPage.module.css'
 import {LoggedNavigation} from "../../components/Navigation/LoggedNavigation";
 import {Spinner} from "../../components/Spinner/Spinner";
 

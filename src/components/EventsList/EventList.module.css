@@ -1,6 +1,30 @@
 .events {
-    width: 600px;
+    width: 450px;
     display: flex;
     flex-direction: column;
     list-style: none;
+}
+
+.listContainer {
+    width: 550px;
+    height: 800px;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #94c9c3;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00b2ff;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6474ff;
 }
