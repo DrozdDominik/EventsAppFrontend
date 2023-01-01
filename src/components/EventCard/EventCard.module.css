@@ -1,7 +1,7 @@
 .cardContainer {
     display: flex;
     flex-direction: column;
-    width: 440px;
+    width: 500px;
     margin: 1rem;
     justify-content: center;
     align-items: center;
@@ -9,4 +9,98 @@
     border-radius: 10px;
     box-shadow: 0 10px 20px 0 rgb(45, 162, 155);
     padding: 0.75rem;
+    overflow: hidden;
+}
+
+@media (max-width: 1800px) {
+    .cardContainer {
+        width: 480px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .cardContainer {
+        width: 450px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .cardContainer {
+        width: 380px;
+    }
+}
+
+@media (max-width: 1050px) {
+    .cardContainer {
+        width: 320px;
+    }
+}
+
+@media (max-width: 750px) {
+    .cardContainer {
+        width: 280px;
+        margin: 0.6rem;
+    }
+}
+
+@media (max-width: 650px) {
+    .cardContainer {
+        width: 260px;
+        margin: 0.4rem;
+    }
+}
+
+@media (max-width: 540px) {
+    .cardContainer {
+        width: 230px;
+        margin: 0.3rem;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 950px)  {
+    .cardContainer {
+        width: 650px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 720px) {
+    .cardContainer {
+        width: 580px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 620px) {
+    .cardContainer {
+        width: 480px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 520px) {
+    .cardContainer {
+        width: 380px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 420px) {
+    .cardContainer {
+        width: 300px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 360px) {
+    .cardContainer {
+        width: 210px;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 720px) {
+    .cardContainer {
+        width: 600px;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 620px) {
+    .cardContainer {
+        width: 500px;
+    }
 }

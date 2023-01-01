@@ -56,14 +56,12 @@ export const EventsPage = () => {
     }
 
     return (
-        <>
-            <div className={classes.layout}>
-                <LoggedNavigation />
-                <main className={classes.main}>
-                    <EventsList events={events}/>
-                    <Map events={events}/>
-                </main>
-            </div>
-        </>
+        <div className={classes.layout}>
+            <LoggedNavigation />
+            <main className={classes.main}>
+                <EventsList events={events}/>
+                <Map events={events}/>
+            </main>
+        </div>
     );
 }

@@ -16,3 +16,15 @@
 .link:focus {
     outline-color: blueviolet;
 }
+
+@media (orientation: portrait) and (max-width: 320px) {
+    .link {
+        font-size: 16px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .link {
+        font-size: 14px;
+    }
+}

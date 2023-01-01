@@ -21,3 +21,9 @@
     background-color: #40bd89;
     color: white;
 }
+
+@media (orientation: portrait) and (max-width: 360px) {
+    .menuList li {
+        margin: 0 0.5rem;
+    }
+}

@@ -2,13 +2,15 @@
     width: 450px;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     list-style: none;
 }
 
 .listContainer {
-    width: 550px;
+    width: 580px;
     height: 800px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -28,3 +30,205 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #6474ff;
 }
+
+@media (max-width: 1800px) {
+    .listContainer {
+        width: 550px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .listContainer {
+        width: 520px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .listContainer {
+        width: 450px;
+    }
+}
+
+@media (max-width: 1050px) {
+    .listContainer {
+        width: 380px;
+    }
+}
+
+@media (max-width: 750px) {
+    .listContainer {
+        width: 340px;
+    }
+}
+
+@media (max-width: 650px) {
+    .listContainer {
+        width: 300px;
+    }
+}
+
+@media (max-width: 540px) {
+    .listContainer {
+        width: 270px;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 720px) {
+    .listContainer {
+        margin-top: 20px;
+        width: 600px;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 620px) {
+    .listContainer {
+        width: 500px;
+    }
+}
+
+@media (max-height: 950px) {
+    .listContainer {
+        height: 750px;
+    }
+}
+
+@media (max-height: 880px) {
+    .listContainer {
+        height: 700px;
+    }
+}
+
+@media (max-height: 830px) {
+    .listContainer {
+        height: 650px;
+    }
+}
+
+@media (max-height: 780px) {
+    .listContainer {
+        height: 600px;
+    }
+}
+
+@media (max-height: 720px) {
+    .listContainer {
+        height: 550px;
+    }
+}
+
+@media (max-height: 670px) {
+    .listContainer {
+        height: 500px;
+    }
+}
+
+@media (max-height: 620px) {
+    .listContainer {
+        height: 450px;
+    }
+}
+
+@media (max-height: 570px) {
+    .listContainer {
+        height: 400px;
+    }
+}
+
+@media (max-height: 520px) {
+    .listContainer {
+        height: 350px;
+    }
+}
+
+@media (max-height: 470px) {
+    .listContainer {
+        height: 300px;
+    }
+}
+
+@media (max-height: 420px) {
+    .listContainer {
+        height: 250px;
+    }
+}
+
+@media (orientation: portrait)  {
+    .listContainer {
+        height: 400px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 950px)  {
+    .listContainer {
+        margin-top: 20px;
+        width: 750px;
+        height: 600px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 720px) {
+    .listContainer {
+        margin-top: 20px;
+        width: 600px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 620px) {
+    .listContainer {
+        width: 500px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 520px) {
+    .listContainer {
+        width: 400px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 420px) {
+    .listContainer {
+        width: 320px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 360px) {
+    .listContainer {
+        width: 240px;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 500px) {
+    .listContainer {
+        height: 300px;
+    }
+}
+
+/*@media (orientation: portrait) and (max-height: 999px) {*/
+/*    .listContainer {*/
+/*        height: 380px;*/
+/*    }*/
+/*}*/
+
+/*@media (orientation: portrait) and (max-height: 850px) {*/
+/*    .listContainer {*/
+/*        height: 300px;*/
+/*    }*/
+/*}*/
+
+/*@media (orientation: portrait) and (max-height: 700px) {*/
+/*    .listContainer {*/
+/*        height: 250px;*/
+/*    }*/
+/*}*/
+
+/*@media (orientation: portrait) and (max-height: 600px) {*/
+/*    .listContainer {*/
+/*        height: 200px;*/
+/*    }*/
+/*}*/
+
+/*@media (orientation: portrait) and (max-height: 500px) {*/
+/*    .listContainer {*/
+/*        height: 160px;*/
+/*    }*/
+/*}*/

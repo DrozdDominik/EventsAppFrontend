@@ -16,3 +16,15 @@
 .logout:focus {
     outline-color: blueviolet;
 }
+
+@media (orientation: portrait) and (max-width: 320px) {
+    .logout {
+        font-size: 18px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .logout {
+        font-size: 14px;
+    }
+}
