@@ -28,3 +28,9 @@
         font-size: 14px;
     }
 }
+
+@media (orientation: portrait) and (max-width: 400px) {
+    .link {
+        font-size: 15px;
+    }
+}
