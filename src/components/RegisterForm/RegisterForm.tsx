@@ -4,6 +4,7 @@ import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 import classes from '../../layouts/form/form.module.css';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
+import { ShowPassword } from '../common/ShowPassword/ShowPassword';
 
 interface Props {
   changeFormType: () => void;
@@ -17,6 +18,8 @@ export const RegisterForm = (props: Props) => {
     email: '',
     password: '',
   });
+
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const change = (e: ChangeEvent<HTMLInputElement>) =>
     setUser(person => ({
@@ -83,10 +86,14 @@ export const RegisterForm = (props: Props) => {
     });
   };
 
+  const handleTogglePassword = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <div className={classes.formContainer}>
       <h1>Rejestracja</h1>
-      <form onSubmit={submit} className={'registerForm'}>
+      <form onSubmit={submit} className={classes.registerForm}>
         <fieldset>
           <legend>Podaj dane</legend>
           <label>
@@ -112,11 +119,15 @@ export const RegisterForm = (props: Props) => {
           <label>
             <span>Hasło</span>
             <input
-              type="password"
+              type={passwordVisible ? 'text' : 'password'}
               name="password"
               value={user.password}
               onChange={change}
               required={true}
+            />
+            <ShowPassword
+              passwordVisible={passwordVisible}
+              togglePassword={handleTogglePassword}
             />
           </label>
           <div className={classes.btnsContainer}>
