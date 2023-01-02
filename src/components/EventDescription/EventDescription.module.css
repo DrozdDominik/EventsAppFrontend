@@ -1,10 +1,10 @@
 .container {
-    max-width: 35vw;
+    max-width: 45vw;
     max-height: 80vh;
     margin: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: #1a8ed1;
     border-radius: 10px;
@@ -15,20 +15,32 @@
 .title {
     font-size: 3rem;
     color: #2ff3b9;
-    margin: 0.5rem 0;
+    margin: 0.5rem 0 2rem 0;
 }
 
 .main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     font-size: 1.5rem;
     color: #0fe189;
 }
 
+.time {
+    margin-bottom: 1rem;
+}
+
+.description {
+    text-align: justify;
+}
+
 .minutes {
     color: #2b3bc4;
+}
+
+.link {
+    margin-top: 1.5rem;
 }
 
 .link a {
@@ -37,4 +49,130 @@
 }
 a:hover {
     color: #5d4bf6;
+}
+
+@media (max-width: 1024px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .main {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 850px) {
+  .time span {
+      display: block;
+      text-align: center;
+  }
+}
+
+@media (max-width: 720px) {
+    .title {
+        font-size: 1.7rem;
+    }
+
+    .main {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+   .container {
+       max-width: 80vw;
+       max-height: 40vh;
+       margin: 1.5rem 1rem 0.1rem;
+   }
+
+    .title {
+        margin: 0.5rem 0 1rem 0;
+        font-size: 1.6rem;
+    }
+
+    .main {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        max-width: 80vw;
+        max-height: 50vh;
+        margin: 1.5rem 1rem 0.1rem;
+    }
+
+    .title {
+        margin: 0.5rem 0 0.8rem 0;
+        font-size: 1.4rem;
+    }
+
+    .main {
+        font-size: 1rem;
+    }
+}
+
+@media (orientation:portrait) {
+    .container {
+        max-width: 80vw;
+        max-height: 100vh;
+        margin: 1.5rem 1rem 0.1rem;
+    }
+
+    .title {
+        margin: 0.5rem 0 1rem 0;
+        font-size: 2rem;
+    }
+
+    .main {
+        font-size: 1.5rem;
+    }
+}
+
+@media (orientation:portrait) and (max-width: 420px) {
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .main {
+        font-size: 1.2rem;
+    }
+}
+
+@media (orientation:portrait) and (max-width: 340px) {
+    .title {
+        font-size: 1.3rem;
+    }
+
+    .main {
+        font-size: 1rem;
+    }
+}
+
+@media (orientation:portrait) and (max-width: 260px) {
+    .title {
+        font-size: 1.1rem;
+    }
+
+    .main {
+        font-size: 0.8rem;
+    }
+}
+
+
+@media (orientation: landscape) and (max-height: 600px) {
+    .container {
+        max-width: 80vw;
+        max-height: 110vh;
+        margin: 1.5rem 1rem 0.1rem;
+    }
+
+    .title {
+        margin: 0.5rem 0 1rem 0;
+        font-size: 1.6rem;
+    }
+
+    .main {
+        font-size: 1.1rem;
+    }
 }

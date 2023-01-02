@@ -2,10 +2,38 @@
     position: relative;
     top: 2rem;
     height: 70vh;
-    width: 30vw;
+    width: 35vw;
 }
 
 .leaflet-container {
     height: 100%;
     width: 100%;
+}
+
+@media (max-width: 600px) {
+    .mapDetailed {
+        height: 40vh;
+        width: 75vw;
+    }
+}
+
+@media (orientation:portrait) {
+    .mapDetailed {
+        height: 40vh;
+        width: 75vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .mapDetailed {
+        height: 35vh;
+        width: 75vw;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+    .mapDetailed {
+        height: 40vh;
+        width: 75vw;
+    }
 }
