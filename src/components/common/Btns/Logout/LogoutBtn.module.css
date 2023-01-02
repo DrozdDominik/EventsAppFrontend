@@ -1,0 +1,30 @@
+.logout {
+    display: block;
+    font: inherit;
+    font-size: 1.25rem;
+    margin: 0.75rem 0;
+    padding: 1em;
+    font-weight: 500;
+    background-color: #e86464;
+    border-radius: 6px;
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.logout:focus {
+    outline-color: blueviolet;
+}
+
+@media (orientation: portrait) and (max-width: 320px) {
+    .logout {
+        font-size: 18px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .logout {
+        font-size: 14px;
+    }
+}

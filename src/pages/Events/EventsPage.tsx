@@ -5,8 +5,9 @@ import {EventsList} from "../../components/EventsList/EventsList";
 import {Map} from "../../components/Map/Map"
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import classes from './EventPage.module.css'
+import classes from './EventsPage.module.css'
 import {LoggedNavigation} from "../../components/Navigation/LoggedNavigation";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 const getEvents = async (): Promise<MainEventData[] | false> => {
 
@@ -30,6 +31,7 @@ const getEvents = async (): Promise<MainEventData[] | false> => {
 export const EventsPage = () => {
     const { role } = useSelector((state: RootState) => state.auth);
     const [events, setEvents] = useState<MainEventData[]>([]);
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
 
@@ -37,24 +39,29 @@ export const EventsPage = () => {
         return;
         }
 
+        setLoading(true);
+
         (async () => {
             const result = await getEvents()
             if(result) {
+                setLoading(false);
                 setEvents(result)
             }
         })()
 
     }, [role])
 
+    if (loading) {
+        return <Spinner isLoading={loading} />
+    }
+
     return (
-        <>
-            <div className={classes.layout}>
-                <LoggedNavigation />
-                <main className={classes.main}>
-                    <EventsList events={events}/>
-                    <Map events={events}/>
-                </main>
-            </div>
-        </>
+        <div className={classes.layout}>
+            <LoggedNavigation />
+            <main className={classes.main}>
+                <EventsList events={events}/>
+                <Map events={events}/>
+            </main>
+        </div>
     );
 }

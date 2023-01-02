@@ -1,10 +1,11 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import classes from "./LoginForm.module.css";
+import classes from "../../layouts/form/form.module.css";
 import {apiUrl} from "../../config/api";
 import {useDispatch} from "react-redux";
 import {authActions} from "../../store/auth-slice";
 import {UserRole} from "types";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
+import {CancelBtn} from "../common/Btns/Cancel/CancelBtn";
 
 
 export const LoginForm = () => {
@@ -52,32 +53,37 @@ export const LoginForm = () => {
                duration: 2500,
            }))
        }
+    }
 
+    const cancel = () => {
+        setUser({
+            email: '',
+            password: '',
+        })
     }
 
     return (
-        <>
+        <div className={classes.formContainer}>
             <h1>Logowanie</h1>
             <form className={classes.loginForm} onSubmit={submit}>
                 <fieldset>
+                    <legend>Autentykacja</legend>
                     <label>
                         Email
-                        <input type="email" name="email" value={user.email} onChange={change}/>
+                        <input type="email" name="email" value={user.email} onChange={change} required={true}/>
                     </label>
-                </fieldset>
-                <fieldset>
                     <label>
                         Hasło
-                        <input type="password" name="password" value={user.password} onChange={change}/>
+                        <input type="password" name="password" value={user.password} onChange={change} required={true}/>
                     </label>
+                    <div className={classes.btnsContainer}>
+                        <CancelBtn handleCancel={cancel}/>
+                        <button className={classes.submit} type="submit">
+                            Zaloguj
+                        </button>
+                    </div>
                 </fieldset>
-                <button type="button">
-                    Anuluj
-                </button>
-                <button type="submit">
-                    Zaloguj
-                </button>
             </form>
-        </>
+        </div>
     )
 }

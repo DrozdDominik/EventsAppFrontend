@@ -1,11 +1,11 @@
-.link {
+.auth {
     display: block;
     font: inherit;
     font-size: 1.25rem;
     margin: 0.75rem 0;
     padding: 1em;
     font-weight: 500;
-    background-color: #64e88a;
+    background-color: #3d4275;
     border-radius: 6px;
     border: 0;
     text-decoration: none;
@@ -13,6 +13,6 @@
     color: white;
     cursor: pointer;
 }
-.link:focus {
-    outline-color: blueviolet;
+.auth:focus {
+    outline-color: #64e88a;
 }

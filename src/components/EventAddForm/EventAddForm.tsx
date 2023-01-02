@@ -1,7 +1,7 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
 import {NewEventData} from "types";
 import classes from "./EventAddForm.module.css";
-import {NavigateBtn} from "../common/Btns/NavigateBtn";
+import {NavigateBtn} from "../common/Btns/Navigate/NavigateBtn";
 import {useDispatch, useSelector} from "react-redux";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
 import {RootState} from "../../store";
@@ -9,6 +9,7 @@ import { EventFormData } from "src/types";
 import {validateData} from "../../utils/validate-event-data";
 import {fetchPost} from "../../utils/fetch-post";
 import {ErrorsScreen} from "../ErrorsScreen/ErrorsScreen";
+import {Spinner} from "../Spinner/Spinner";
 import {addProtocol} from "../../utils/addProtocol";
 
 export const EventAddForm = () => {
@@ -103,7 +104,7 @@ export const EventAddForm = () => {
     }, [notification])
 
     if (loading) {
-        return <h2>Trwa dodawanie wydarzenia...</h2>;
+        return <Spinner isLoading={loading} />
     }
 
     return (
@@ -151,7 +152,6 @@ export const EventAddForm = () => {
                         <NavigateBtn url={'/'} text={'Powrót'} />
                     </div>
                 </form>
-                {/*{errors.length !== 0 && <div className={classes.errors_container}><ul className={classes.errors_list}>{errors.map((error, index) => <li key={index} className={classes.error}>{error}</li>)}</ul></div>}*/}
             </div>
         </>
     )

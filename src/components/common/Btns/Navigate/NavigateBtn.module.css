@@ -1,0 +1,36 @@
+.link {
+    display: block;
+    font: inherit;
+    font-size: 1.25rem;
+    margin: 0.75rem 0;
+    padding: 1em;
+    font-weight: 500;
+    background-color: #64e88a;
+    border-radius: 6px;
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.link:focus {
+    outline-color: blueviolet;
+}
+
+@media (orientation: portrait) and (max-width: 320px) {
+    .link {
+        font-size: 16px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .link {
+        font-size: 14px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 400px) {
+    .link {
+        font-size: 15px;
+    }
+}

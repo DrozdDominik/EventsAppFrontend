@@ -1,6 +1,6 @@
 import React from "react";
 import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
-import './Map.css'
+import './MapDetailed.css'
 import 'leaflet/dist/leaflet.css';
 import '../../utils/map-icons'
 import { EventEntity } from "types";
@@ -18,10 +18,10 @@ export const MapDetailed = (props: Props) => {
             <MapContainer center={[props.event.lat, props.event.lon]} zoom={10}>
                 <TileLayer url={mapUrl} attribution={attribution} />
                     <Marker position={[props.event.lat, props.event.lon]}>
-                        <Popup>
+                        <Popup className={"popup"}>
                             <h3>{props.event.name}</h3>
                             <p>{props.event.description}</p>
-                            {props.event.link && <p><a href={props.event.link} target="_blank"><i>Wyświetl stronę wydarzenia</i></a></p>}
+                            {props.event.link && <p><a className={"link"} href={props.event.link} target="_blank" rel="noreferrer" ><i>Wyświetl stronę wydarzenia</i></a></p>}
                         </Popup>
                     </Marker>
                 ))

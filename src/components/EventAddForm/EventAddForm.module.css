@@ -5,7 +5,7 @@
     max-width: 750px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 10px 20px 0 rgba(153, 153, 153, 0.25);
+    box-shadow: 0 10px 20px 0 #6474FFFF;
     padding: 0.75rem;
 }
 
@@ -43,7 +43,7 @@ textarea {
 .input_label {
     color: #8597a3;
     position: absolute;
-    top: 1.5rem;
+    top: 1.3rem;
     transition: 0.25s ease;
 }
 
@@ -100,6 +100,13 @@ textarea {
 
 }
 
+
+@media (max-width: 1400px) {
+    .input_label {
+        top: 1rem
+    }
+}
+
 @media (max-width: 1200px) {
     .card {
         max-width: 600px;
@@ -123,3 +130,42 @@ textarea {
     }
 }
 
+@media (max-width: 400px) {
+    .card {
+        max-width: 300px;
+        font-size: 12px;
+    }
+
+    .input_field {
+        font-size: 12px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 420px) {
+    .card {
+        max-width: 340px;
+        font-size: 12px;
+    }
+
+    .input_field {
+        font-size: 0.9rem;
+    }
+
+    .btn_submit {
+        font-size: 15px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 360px) {
+    .card {
+        max-width: 300px;
+        font-size: 11px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 320px) {
+    .card {
+        max-width: 240px;
+        font-size: 10px;
+    }
+}

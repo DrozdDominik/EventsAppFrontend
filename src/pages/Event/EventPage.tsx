@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from "react";
-import {Event} from "../../components/Event/Event"
+import {EventDescription} from "../../components/EventDescription/EventDescription"
 import {EventEntity} from "types";
 import {useDispatch, useSelector} from "react-redux";
 import {NotificationStatus, uiAction} from "../../store/ui-slice";
 import {useNavigate, useParams} from "react-router-dom";
 import {MapDetailed} from "../../components/Map/MapDetailed";
-import {NavigateBtn} from "../../components/common/Btns/NavigateBtn";
+import {NavigateBtn} from "../../components/common/Btns/Navigate/NavigateBtn";
 import {RootState} from "../../store";
 import {getUserRole} from "../../utils/get-role";
 import {authActions} from "../../store/auth-slice";
 import {getEvent} from "../../utils/get-event";
+import {Spinner} from "../../components/Spinner/Spinner";
+import classes from "./EventPage.module.css"
 
 type EventParams = {
     id: string;
@@ -61,17 +63,22 @@ export const EventPage = () => {
     },[])
 
     if (loading) {
-        return <h1>Loading...</h1>
+        return <Spinner isLoading={loading} />
     }
 
     return (
-        <>
-            {event &&
-            <div>
-            <Event event={event}/>
-            <MapDetailed event={event} />
-            <NavigateBtn url={'/'} text={'Wszystkie wydarzenia'}/>
-            </div>}
-        </>
+         <div className={classes.container}>
+             {event &&
+                <>
+                    <div className={classes.main}>
+                        <EventDescription event={event}/>
+                        <MapDetailed event={event} />
+                    </div>
+                    <div className={classes.navBtn}>
+                        <NavigateBtn url={'/'} text={'Wszystkie wydarzenia'}/>
+                    </div>
+                </>
+             }
+        </div>
     )
 }

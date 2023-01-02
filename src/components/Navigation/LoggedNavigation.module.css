@@ -3,6 +3,10 @@
     list-style: none;
 }
 
+.menuList li {
+    margin: 0 1rem;
+}
+
 .menuItem {
     margin: 30px;
 }
@@ -16,4 +20,10 @@
     border-radius: 15px;
     background-color: #40bd89;
     color: white;
+}
+
+@media (orientation: portrait) and (max-width: 360px) {
+    .menuList li {
+        margin: 0 0.5rem;
+    }
 }
