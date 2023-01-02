@@ -6,6 +6,7 @@ import { authActions } from '../../store/auth-slice';
 import { UserRole } from 'types';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
+import { ShowPassword } from '../common/ShowPassword/ShowPassword';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,8 @@ export const LoginForm = () => {
     email: '',
     password: '',
   });
+
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const change = (e: ChangeEvent<HTMLInputElement>) =>
     setUser(user => ({
@@ -61,6 +64,10 @@ export const LoginForm = () => {
     });
   };
 
+  const handleTogglePassword = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <div className={classes.formContainer}>
       <h1>Logowanie</h1>
@@ -80,11 +87,15 @@ export const LoginForm = () => {
           <label>
             Hasło
             <input
-              type="password"
+              type={passwordVisible ? 'text' : 'password'}
               name="password"
               value={user.password}
               onChange={change}
               required={true}
+            />
+            <ShowPassword
+              passwordVisible={passwordVisible}
+              togglePassword={handleTogglePassword}
             />
           </label>
           <div className={classes.btnsContainer}>

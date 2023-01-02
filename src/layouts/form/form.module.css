@@ -29,7 +29,7 @@ fieldset * {
 label {
   padding: 0 1rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   color: #8597a3;
 }
@@ -96,5 +96,18 @@ legend {
 }
 
 .btnsContainer * {
-  margin: 0 0.2rem;
+  margin: 0.8rem;
+}
+
+.loginForm {
+  margin-top: 1rem;
+}
+
+.registerForm {
+  margin-top: 1rem;
+}
+
+i {
+  height: 1.2rem;
+  width: 1.2rem;
 }
