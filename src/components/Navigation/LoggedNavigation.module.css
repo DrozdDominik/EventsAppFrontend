@@ -1,29 +1,29 @@
 .menuList {
-    display: flex;
-    list-style: none;
+  display: flex;
+  list-style: none;
 }
 
 .menuList li {
-    margin: 0 1rem;
+  margin: 0 1rem;
 }
 
 .menuItem {
-    margin: 30px;
+  margin: 30px;
 }
 
 .logoutBtn {
-    margin-top: 20px;
-    padding: 10px;
-    text-decoration: none;
-    width: 150px;
-    height: 50px;
-    border-radius: 15px;
-    background-color: #40bd89;
-    color: white;
+  margin-top: 20px;
+  padding: 10px;
+  text-decoration: none;
+  width: 150px;
+  height: 50px;
+  border-radius: 15px;
+  background-color: #40bd89;
+  color: white;
 }
 
 @media (orientation: portrait) and (max-width: 360px) {
-    .menuList li {
-        margin: 0 0.5rem;
-    }
+  .menuList li {
+    margin: 0 0.5rem;
+  }
 }

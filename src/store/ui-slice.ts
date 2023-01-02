@@ -1,42 +1,42 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export enum NotificationStatus {
-    'success',
-    'error',
-    'info',
+  'success',
+  'error',
+  'info',
 }
 
 export interface NotificationData {
-    status: NotificationStatus;
-    title: string;
-    message: string;
-    duration?: number;
+  status: NotificationStatus;
+  title: string;
+  message: string;
+  duration?: number;
 }
 
 interface UiState {
-   notification: NotificationData | null;
+  notification: NotificationData | null;
 }
 
 const initialState: UiState = {
-    notification: null,
-}
+  notification: null,
+};
 
 export const uiSlice = createSlice({
-    name: 'ui',
-    initialState,
-    reducers: {
-        showNotification(state, action: PayloadAction<NotificationData>) {
-            state.notification = {
-                status: action.payload.status,
-                title: action.payload.title,
-                message: action.payload.message,
-                duration: action.payload.duration ?? 2000,
-            }
-        },
-        clearNotification(state) {
-            state.notification = null
-        }
-    }
-})
+  name: 'ui',
+  initialState,
+  reducers: {
+    showNotification(state, action: PayloadAction<NotificationData>) {
+      state.notification = {
+        status: action.payload.status,
+        title: action.payload.title,
+        message: action.payload.message,
+        duration: action.payload.duration ?? 2000,
+      };
+    },
+    clearNotification(state) {
+      state.notification = null;
+    },
+  },
+});
 
 export const uiAction = uiSlice.actions;

@@ -1,20 +1,20 @@
-import React, {CSSProperties} from "react";
-import {ClipLoader} from "react-spinners";
+import React, { CSSProperties } from 'react';
+import { ClipLoader } from 'react-spinners';
 
 interface Props {
-    isLoading: boolean;
+  isLoading: boolean;
 }
 
 const override: CSSProperties = {
-    display: "block",
-    margin: "200px auto",
-    borderColor: "royalblue",
+  display: 'block',
+  margin: '200px auto',
+  borderColor: 'royalblue',
 };
 
 export const Spinner = (props: Props) => {
-    return (
-        <>
-            <ClipLoader loading={props.isLoading} cssOverride={override} size={400} />
-        </>
-    )
-}
+  return (
+    <>
+      <ClipLoader loading={props.isLoading} cssOverride={override} size={400} />
+    </>
+  );
+};

@@ -1,171 +1,171 @@
 .card {
-    margin: 2rem auto;
-    display: flex;
-    flex-direction: column;
-    max-width: 750px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px 0 #6474FFFF;
-    padding: 0.75rem;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 750px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px 0 #6474ffff;
+  padding: 0.75rem;
 }
 
 .card_info {
-    border-radius: 8px;
+  border-radius: 8px;
 }
 
 .card_header {
-    font-size: 2.25rem;
-    font-weight: 700;
-    color: #5645dc;
-    line-height: 1.222;
-    text-align: center;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #5645dc;
+  line-height: 1.222;
+  text-align: center;
 }
 
 .add_event_form {
-    padding: 2rem 1rem 0;
+  padding: 2rem 1rem 0;
 }
 
 .input {
-    display: flex;
-    flex-direction: column-reverse;
-    position: relative;
-    padding-top: 2.6rem;
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  padding-top: 2.6rem;
 }
 
 textarea {
-    resize: none;
+  resize: none;
 }
 
 .input + .input {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .input_label {
-    color: #8597a3;
-    position: absolute;
-    top: 1.3rem;
-    transition: 0.25s ease;
+  color: #8597a3;
+  position: absolute;
+  top: 1.3rem;
+  transition: 0.25s ease;
 }
 
 .input_field {
-    border: 0;
-    z-index: 1;
-    background-color: transparent;
-    border-bottom: 2px solid #eee;
-    font: inherit;
-    font-size: 1.125rem;
-    padding: 0.25rem 0;
-    color: #47d5cc;
+  border: 0;
+  z-index: 1;
+  background-color: transparent;
+  border-bottom: 2px solid #eee;
+  font: inherit;
+  font-size: 1.125rem;
+  padding: 0.25rem 0;
+  color: #47d5cc;
 }
 
-.input_field:focus, .input_field:valid {
-    outline: 0;
-    border-bottom-color: #6658d3;
+.input_field:focus,
+.input_field:valid {
+  outline: 0;
+  border-bottom-color: #6658d3;
 }
-.input_field:focus + .input_label, .input_field:valid + .input-label {
-    color: #6658d3;
-    transform: translateY(-1.5rem);
+.input_field:focus + .input_label,
+.input_field:valid + .input-label {
+  color: #6658d3;
+  transform: translateY(-1.5rem);
 }
 
 .div_submit {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .btn_submit {
-    font: inherit;
-    font-size: 1.25rem;
-    padding: 1em;
-    width: 100%;
-    font-weight: 500;
-    background-color: #6658d3;
-    border-radius: 6px;
-    color: #fff;
-    border: 0;
-    cursor: pointer;
+  font: inherit;
+  font-size: 1.25rem;
+  padding: 1em;
+  width: 100%;
+  font-weight: 500;
+  background-color: #6658d3;
+  border-radius: 6px;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
 }
 .btn_submit:focus {
-    outline-color: #05b931;
+  outline-color: #05b931;
 }
 
 .errors_container {
-    margin: 1rem 0;
-    border: 2px solid #bd0d0d;
+  margin: 1rem 0;
+  border: 2px solid #bd0d0d;
 }
 
 .errors_list {
-    list-style: none;
+  list-style: none;
 }
 
 .error {
-
 }
 
-
 @media (max-width: 1400px) {
-    .input_label {
-        top: 1rem
-    }
+  .input_label {
+    top: 1rem;
+  }
 }
 
 @media (max-width: 1200px) {
-    .card {
-        max-width: 600px;
-    }
+  .card {
+    max-width: 600px;
+  }
 }
 
 @media (max-width: 800px) {
-    .card {
-        max-width: 400px;
-    }
+  .card {
+    max-width: 400px;
+  }
 }
 
 @media (max-width: 450px) {
-    .card {
-        max-width: 300px;
-    }
+  .card {
+    max-width: 300px;
+  }
 
-    .card_header {
-        top: 10%;
-        font-size: 25px;
-    }
+  .card_header {
+    top: 10%;
+    font-size: 25px;
+  }
 }
 
 @media (max-width: 400px) {
-    .card {
-        max-width: 300px;
-        font-size: 12px;
-    }
+  .card {
+    max-width: 300px;
+    font-size: 12px;
+  }
 
-    .input_field {
-        font-size: 12px;
-    }
+  .input_field {
+    font-size: 12px;
+  }
 }
 
 @media (orientation: portrait) and (max-width: 420px) {
-    .card {
-        max-width: 340px;
-        font-size: 12px;
-    }
+  .card {
+    max-width: 340px;
+    font-size: 12px;
+  }
 
-    .input_field {
-        font-size: 0.9rem;
-    }
+  .input_field {
+    font-size: 0.9rem;
+  }
 
-    .btn_submit {
-        font-size: 15px;
-    }
+  .btn_submit {
+    font-size: 15px;
+  }
 }
 
 @media (orientation: portrait) and (max-width: 360px) {
-    .card {
-        max-width: 300px;
-        font-size: 11px;
-    }
+  .card {
+    max-width: 300px;
+    font-size: 11px;
+  }
 }
 
 @media (orientation: portrait) and (max-width: 320px) {
-    .card {
-        max-width: 240px;
-        font-size: 10px;
-    }
+  .card {
+    max-width: 240px;
+    font-size: 10px;
+  }
 }

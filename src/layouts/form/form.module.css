@@ -1,98 +1,100 @@
 body {
-    background-color: #94b0ab;
+  background-color: #94b0ab;
 }
 
 .formContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px 0 rgba(153, 153, 153, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px 0 rgba(153, 153, 153, 0.25);
 }
 
 fieldset {
-    padding: 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    border-color: #40bd89;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  border-color: #40bd89;
 }
 
 fieldset * {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 label {
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #8597a3;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #8597a3;
 }
 
 input {
-    margin-left: 0.5rem;
-    border: 0;
-    background-color: transparent;
-    border-bottom: 2px solid #eee;
-    font: inherit;
-    font-size: 1.125rem;
-    padding: 0.25rem 0;
-    color: #47d5cc;
+  margin-left: 0.5rem;
+  border: 0;
+  background-color: transparent;
+  border-bottom: 2px solid #eee;
+  font: inherit;
+  font-size: 1.125rem;
+  padding: 0.25rem 0;
+  color: #47d5cc;
 }
 
-input:focus, input:valid {
-    outline: 0;
-    border-bottom-color: #6658d3;
+input:focus,
+input:valid {
+  outline: 0;
+  border-bottom-color: #6658d3;
 }
 
-input:focus + input, input:valid + input {
-    color: #6658d3;
+input:focus + input,
+input:valid + input {
+  color: #6658d3;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-    -webkit-text-fill-color: #47d5cc !important;
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #47d5cc !important;
 }
 
 legend {
-    background-color: #40bd89;
-    color: white;
-    padding: 5px 10px;
+  background-color: #40bd89;
+  color: white;
+  padding: 5px 10px;
 }
 
 .submit {
-    display: block;
-    font: inherit;
-    font-size: 1.25rem;
-    margin: 0.75rem 0;
-    padding: 1em;
-    font-weight: 500;
-    background-color: #40bd89;
-    border-radius: 6px;
-    border: 0;
-    text-decoration: none;
-    text-align: center;
-    color: white;
-    cursor: pointer;
+  display: block;
+  font: inherit;
+  font-size: 1.25rem;
+  margin: 0.75rem 0;
+  padding: 1em;
+  font-weight: 500;
+  background-color: #40bd89;
+  border-radius: 6px;
+  border: 0;
+  text-decoration: none;
+  text-align: center;
+  color: white;
+  cursor: pointer;
 }
 .submit:focus {
-    outline-color: #5d4bf6;
+  outline-color: #5d4bf6;
 }
 
 .btnsContainer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .btnsContainer * {
-    margin: 0 0.2rem;
+  margin: 0 0.2rem;
 }

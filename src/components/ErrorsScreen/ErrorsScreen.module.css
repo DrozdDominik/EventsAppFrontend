@@ -1,26 +1,26 @@
 .screen {
-    box-sizing: border-box;
-    position: fixed;
-    top: 150px;
-    right: 12px;
-    width: 320px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    list-style: none;
+  box-sizing: border-box;
+  position: fixed;
+  top: 150px;
+  right: 12px;
+  width: 320px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  list-style: none;
 }
 
 @media (max-width: 600px) {
-    .screen {
-        width: 240px
-    }
+  .screen {
+    width: 240px;
+  }
 }
 
 @media (max-width: 420px) {
-    .error {
-        padding: 0.5rem 5%;
-        width: 180px
-    }
+  .error {
+    padding: 0.5rem 5%;
+    width: 180px;
+  }
 }
