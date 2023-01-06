@@ -232,44 +232,8 @@
   }
 }
 
-/*@media (orientation: portrait) and (max-width: 720px) {*/
-/*    .map {*/
-/*        width: 600px;*/
-/*    }*/
-/*}*/
-
-/*@media (orientation: portrait) and (min-height: 1000px) {*/
-/*    .map {*/
-/*        height: 400px;*/
-/*    }*/
-/*}*/
-
-/*@media (orientation: portrait) and (max-height: 999px) {*/
-/*    .map {*/
-/*        height: 380px;*/
-/*    }*/
-/*}*/
-
-/*@media (orientation: portrait) and (max-height: 850px) {*/
-/*    .map {*/
-/*        height: 300px;*/
-/*    }*/
-/*}*/
-
 @media (orientation: portrait) and (max-height: 700px) {
   .map {
     height: 250px;
   }
 }
-
-/*@media (orientation: portrait) and (max-height: 600px) {*/
-/*    .map {*/
-/*        height: 200px;*/
-/*    }*/
-/*}*/
-
-/*@media (orientation: portrait) and (max-height: 500px) {*/
-/*    .map {*/
-/*        height: 160px;*/
-/*    }*/
-/*}*/

@@ -89,6 +89,10 @@ textarea {
   outline-color: #05b931;
 }
 
+.btn_submit:hover {
+  color: #64e88a;
+}
+
 .errors_container {
   margin: 1rem 0;
   border: 2px solid #bd0d0d;
