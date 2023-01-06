@@ -17,14 +17,24 @@
   outline-color: blueviolet;
 }
 
-@media (orientation: portrait) and (max-width: 320px) {
-  .logout {
-    font-size: 18px;
-  }
+.logout:hover {
+  color: #5d4bf6;
 }
 
 @media (orientation: landscape) and (max-height: 320px) {
   .logout {
     font-size: 14px;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 400px) {
+  .logout {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 320px) {
+  .logout {
+    font-size: 13px;
   }
 }
