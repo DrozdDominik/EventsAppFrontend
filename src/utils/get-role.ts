@@ -1,15 +1,8 @@
 import { UserRole } from 'types';
-import { apiUrl } from '../config/api';
+import { fetchGet } from './fetch-get';
 
 export const getUserRole = async (): Promise<UserRole | null> => {
-  const result = await fetch(`${apiUrl}/user/role`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  });
+  const result = await fetchGet(`user/role`);
 
   if (result.status === 401) {
     return null;
