@@ -5,23 +5,8 @@ import { DeleteBtn } from '../../components/common/Btns/Delete/DeleteBtn';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { Spinner } from '../../components/Spinner/Spinner';
-import { apiUrl } from '../../config/api';
 import { UserRole } from 'types';
-
-const getUserName = async (): Promise<string> => {
-  const data = await fetch(`${apiUrl}/user/name`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  });
-
-  const result: { name: string } = await data.json();
-
-  return result.name;
-};
+import { getUserName } from '../../utils/get-username';
 
 export const UserPanel = () => {
   const { role } = useSelector((state: RootState) => state.auth);

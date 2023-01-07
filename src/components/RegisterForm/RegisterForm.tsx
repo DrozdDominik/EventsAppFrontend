@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { apiUrl } from '../../config/api';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 import classes from '../../layouts/form/form.module.css';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
+import { fetchPost } from '../../utils/fetch-post';
 
 interface Props {
   changeFormType: () => void;
@@ -29,13 +29,8 @@ export const RegisterForm = (props: Props) => {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    const result = await fetch(`${apiUrl}/user/`, {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    });
+
+    const result = await fetchPost('user', user);
 
     if (result.status === 201) {
       dispatch(
