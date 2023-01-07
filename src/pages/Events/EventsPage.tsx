@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { MainEventData } from 'types';
-import { apiUrl } from '../../config/api';
 import { EventsList } from '../../components/EventsList/EventsList';
 import { Map } from '../../components/Map/Map';
 import { useSelector } from 'react-redux';
@@ -8,25 +7,7 @@ import { RootState } from '../../store';
 import classes from './EventsPage.module.css';
 import { LoggedNavigation } from '../../components/Navigation/LoggedNavigation';
 import { Spinner } from '../../components/Spinner/Spinner';
-
-const getEvents = async (): Promise<MainEventData[] | false> => {
-  const data = await fetch(`${apiUrl}/api/event`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (data.status === 401) {
-    return false;
-  }
-
-  const result = (await data.json()) as { events: MainEventData[] };
-
-  return result.events;
-};
+import { getEvents } from '../../utils/get-events';
 
 export const EventsPage = () => {
   const { role } = useSelector((state: RootState) => state.auth);
