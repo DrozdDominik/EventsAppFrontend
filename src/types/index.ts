@@ -8,3 +8,9 @@ export type EventFormData = {
   street: string;
   number: string;
 };
+
+export interface UserData {
+  name: string;
+  email: string;
+  password: string;
+}
