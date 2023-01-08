@@ -1,32 +1,97 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigateBtn } from '../../components/common/Btns/Navigate/NavigateBtn';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { EditDataType } from '../../types';
+import { Notification } from '../../components/Notification/Notification';
+import { EditName } from '../../components/EditForms/EditName';
+import { Spinner } from '../../components/Spinner/Spinner';
+import { getUserRole } from '../../utils/get-role';
+import { NotificationStatus, uiAction } from '../../store/ui-slice';
+import { useNavigate } from 'react-router-dom';
+import classes from './EditData.module.css';
 
 interface Props {
-  dataType: 'name' | 'email' | 'password' | 'role';
+  dataType: EditDataType;
 }
 export const EditData = (props: Props) => {
-  let editDataType;
+  const { role } = useSelector((state: RootState) => state.auth);
+  const notification = useSelector((state: RootState) => state.ui.notification);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  switch (props.dataType) {
-    case 'name':
-      editDataType = 'Nazwa użytkownika';
-      break;
-    case 'email':
-      editDataType = 'Email';
-      break;
-    case 'password':
-      editDataType = 'Hasło';
-      break;
-    case 'role':
-      editDataType = 'Uprawnienia użytkownika';
-      break;
+  useEffect(() => {
+    (async () => {
+      let userRole = role;
+      if (!role) {
+        userRole = await getUserRole();
+        if (!userRole) {
+          dispatch(
+            uiAction.showNotification({
+              status: NotificationStatus.info,
+              title: 'Wymagane logowanie!',
+              message: '',
+              duration: 4000,
+            }),
+          );
+
+          navigate('/');
+          return;
+        }
+      }
+
+      setLoading(false);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (notification) {
+      setTimeout(() => {
+        dispatch(uiAction.clearNotification());
+      }, notification.duration);
+    }
+  }, [notification]);
+
+  if (loading) {
+    return <Spinner isLoading={loading} />;
   }
 
   return (
-    <>
+    <div className={classes.container}>
       <h2>Edytuj</h2>
-      <p>{editDataType}</p>
+      {props.dataType === EditDataType.name && (
+        <>
+          <p>Nazwa użytkownika</p>
+          <EditName />
+        </>
+      )}
+      {props.dataType === EditDataType.email && (
+        <>
+          <p>Email</p>
+          <EditName />
+        </>
+      )}
+      {props.dataType === EditDataType.password && (
+        <>
+          <p>Hasło</p>
+          <EditName />
+        </>
+      )}
+      {props.dataType === EditDataType.role && (
+        <>
+          <p>Uprawnienia użytkownika</p>
+          <EditName />
+        </>
+      )}
       <NavigateBtn url={'/user/settings'} text={'Powrót'} />
-    </>
+      {notification && (
+        <Notification
+          status={notification.status}
+          title={notification.title}
+          message={notification.message}
+        />
+      )}
+    </div>
   );
 };

@@ -14,3 +14,10 @@ export interface UserData {
   email: string;
   password: string;
 }
+
+export enum EditDataType {
+  name = 'name',
+  email = 'email',
+  password = 'password',
+  role = 'role',
+}
