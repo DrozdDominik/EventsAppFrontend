@@ -1,10 +1,14 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { apiUrl } from '../../config/api';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 import classes from '../../layouts/form/form.module.css';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
+import { fetchPost } from '../../utils/fetch-post';
+import { UserData } from '../../types';
+import { validateUserData } from '../../utils/validate-user-data';
+import { Spinner } from '../Spinner/Spinner';
+import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
 
 interface Props {
   changeFormType: () => void;
@@ -13,13 +17,14 @@ interface Props {
 export const RegisterForm = (props: Props) => {
   const dispatch = useDispatch();
 
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserData>({
     name: '',
     email: '',
     password: '',
   });
-
-  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<string[]>([]);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const change = (e: ChangeEvent<HTMLInputElement>) =>
     setUser(person => ({
@@ -27,15 +32,29 @@ export const RegisterForm = (props: Props) => {
       [e.target.name]: e.target.value,
     }));
 
-  const submit = async (e: FormEvent) => {
+  const submit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    const result = await fetch(`${apiUrl}/user/`, {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    });
+
+    setLoading(true);
+    setErrors([]);
+
+    const validationResult = await validateUserData(user);
+
+    if (Array.isArray(validationResult)) {
+      setErrors(validationResult);
+      dispatch(
+        uiAction.showNotification({
+          status: NotificationStatus.error,
+          title: 'Błąd',
+          message: 'Podano błędne dane!',
+          duration: 4000,
+        }),
+      );
+      setLoading(false);
+      return;
+    }
+
+    const result = await fetchPost('user', user);
 
     if (result.status === 201) {
       dispatch(
@@ -76,6 +95,8 @@ export const RegisterForm = (props: Props) => {
         }),
       );
     }
+
+    setLoading(false);
   };
 
   const cancel = () => {
@@ -90,54 +111,61 @@ export const RegisterForm = (props: Props) => {
     setPasswordVisible(!passwordVisible);
   };
 
+  if (loading) {
+    return <Spinner isLoading={loading} />;
+  }
+
   return (
-    <div className={classes.formContainer}>
-      <h1>Rejestracja</h1>
-      <form onSubmit={submit} className={classes.registerForm}>
-        <fieldset>
-          <legend>Podaj dane</legend>
-          <label>
-            <span>Użytkownik</span>
-            <input
-              type="text"
-              name="name"
-              value={user.name}
-              onChange={change}
-              required={true}
-            />
-          </label>
-          <label>
-            <span>Email</span>
-            <input
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={change}
-              required={true}
-            />
-          </label>
-          <label>
-            <span>Hasło</span>
-            <input
-              type={passwordVisible ? 'text' : 'password'}
-              name="password"
-              value={user.password}
-              onChange={change}
-              required={true}
-            />
-            <ShowPassword
-              passwordVisible={passwordVisible}
-              togglePassword={handleTogglePassword}
-            />
-          </label>
-          <div className={classes.btnsContainer}>
-            <CancelBtn handleCancel={cancel} />
-            <button className={classes.submit} type="submit">
-              Zarejestruj!
-            </button>
-          </div>
-        </fieldset>
-      </form>
-    </div>
+    <>
+      {errors.length !== 0 && <ErrorsScreen errors={errors} />}
+      <div className={classes.formContainer}>
+        <h1>Rejestracja</h1>
+        <form onSubmit={submit} className={classes.registerForm}>
+          <fieldset>
+            <legend>Podaj dane</legend>
+            <label>
+              <span>Użytkownik</span>
+              <input
+                type="text"
+                name="name"
+                value={user.name}
+                onChange={change}
+                required={true}
+              />
+            </label>
+            <label>
+              <span>Email</span>
+              <input
+                type="email"
+                name="email"
+                value={user.email}
+                onChange={change}
+                required={true}
+              />
+            </label>
+            <label>
+              <span>Hasło</span>
+              <input
+                type={passwordVisible ? 'text' : 'password'}
+                name="password"
+                value={user.password}
+                onChange={change}
+                required={true}
+              />
+              <ShowPassword
+                passwordVisible={passwordVisible}
+                togglePassword={handleTogglePassword}
+              />
+            </label>
+            <div className={classes.btnsContainer}>
+              <CancelBtn handleCancel={cancel} />
+              <button className={classes.submit} type="submit">
+                Zarejestruj!
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </>
   );
 };
