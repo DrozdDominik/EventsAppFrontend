@@ -98,13 +98,6 @@ textarea {
   border: 2px solid #bd0d0d;
 }
 
-.errors_list {
-  list-style: none;
-}
-
-.error {
-}
-
 @media (max-width: 1400px) {
   .input_label {
     top: 1rem;

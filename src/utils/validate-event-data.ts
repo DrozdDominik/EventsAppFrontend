@@ -27,8 +27,7 @@ export const validateData = async (
     errors.push('Czas wydarzenia musi być wiekszy od 0');
   }
 
-  if (!validUrl(data.link)) {
-    console.log('valid');
+  if (data.link !== '' && !validUrl(data.link)) {
     errors.push('Podano niepoprawny link');
   }
 
