@@ -11,6 +11,7 @@ import { fetchPost } from '../../utils/fetch-post';
 import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
 import { Spinner } from '../Spinner/Spinner';
 import { addProtocol } from '../../utils/addProtocol';
+import { useNavigate } from 'react-router-dom';
 
 export const EventAddForm = () => {
   const initialState: EventFormData = {
@@ -29,6 +30,7 @@ export const EventAddForm = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useDispatch();
   const notification = useSelector((state: RootState) => state.ui.notification);
+  const navigate = useNavigate();
 
   const updateForm = (key: string, value: string | number) => {
     setEventData(eventData => ({
@@ -37,10 +39,10 @@ export const EventAddForm = () => {
     }));
   };
 
-  const sendData = async (data: NewEventData): Promise<boolean> => {
+  const sendData = async (data: NewEventData): Promise<string | null> => {
     const result = await fetchPost('api/event', data);
 
-    return result.status === 201;
+    return result.status === 201 ? await result.json() : null;
   };
 
   const saveEvent = async (e: SyntheticEvent) => {
@@ -76,7 +78,9 @@ export const EventAddForm = () => {
       lon,
     };
 
-    if (!(await sendData(eventToSave))) {
+    const id = await sendData(eventToSave);
+
+    if (!id) {
       dispatch(
         uiAction.showNotification({
           status: NotificationStatus.error,
@@ -95,6 +99,7 @@ export const EventAddForm = () => {
         }),
       );
       setEventData(initialState);
+      navigate(`/event/${id}`);
     }
 
     setLoading(false);
