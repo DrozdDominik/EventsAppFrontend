@@ -1,5 +1,31 @@
 .container {
     display: flex;
     flex-direction: column;
-    width: 80vw;
+    width: 60vw;
+    margin: 5rem auto;
+    justify-content: center;
+    align-items: center;
+    background-color: #94c9c3;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 0 rgb(45, 162, 155);
+    padding: 2rem;
+    overflow: hidden;
+}
+
+.title {
+    margin-bottom: 1.5rem;
+    font-size: 3rem;
+    color: #4a58f5;
+}
+
+.main {
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+.text {
+    margin: 2rem 0;
+    color: #4a58f5;
+    font-size: 2rem;
+    text-align: center;
 }

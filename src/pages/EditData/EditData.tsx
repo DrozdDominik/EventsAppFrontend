@@ -10,6 +10,7 @@ import { getUserRole } from '../../utils/get-role';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useNavigate } from 'react-router-dom';
 import classes from './EditData.module.css';
+import { EditEmail } from '../../components/EditForms/EditEmail';
 
 interface Props {
   dataType: EditDataType;
@@ -59,28 +60,28 @@ export const EditData = (props: Props) => {
 
   return (
     <div className={classes.container}>
-      <h2>Edytuj</h2>
+      <h2 className={classes.title}>Edytuj</h2>
       {props.dataType === EditDataType.name && (
-        <>
-          <p>Nazwa użytkownika</p>
+        <div className={classes.main}>
+          <p className={classes.text}>Nazwa użytkownika</p>
           <EditName />
-        </>
+        </div>
       )}
       {props.dataType === EditDataType.email && (
         <>
-          <p>Email</p>
-          <EditName />
+          <p className={classes.text}>Email</p>
+          <EditEmail />
         </>
       )}
       {props.dataType === EditDataType.password && (
         <>
-          <p>Hasło</p>
+          <p className={classes.text}>Hasło</p>
           <EditName />
         </>
       )}
       {props.dataType === EditDataType.role && (
         <>
-          <p>Uprawnienia użytkownika</p>
+          <p className={classes.text}>Uprawnienia użytkownika</p>
           <EditName />
         </>
       )}
