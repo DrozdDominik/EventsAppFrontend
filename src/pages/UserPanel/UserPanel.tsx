@@ -44,6 +44,20 @@ export const UserPanel = () => {
       }
 
       const name = await getUserName();
+      if (name === null) {
+        dispatch(authActions.logout());
+        dispatch(
+          uiAction.showNotification({
+            status: NotificationStatus.info,
+            title: 'Sesja wygasła!',
+            message: 'Wymagane ponowne logowanie',
+            duration: 4000,
+          }),
+        );
+
+        navigate('/');
+        return;
+      }
       setUserName(name);
       setLoading(false);
     })();
@@ -66,7 +80,7 @@ export const UserPanel = () => {
 
     (async () => {
       const name = await getUserName();
-      setUserName(name);
+      setUserName(name as string);
       setLoading(false);
     })();
   }, []);
