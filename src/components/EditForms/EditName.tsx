@@ -6,6 +6,8 @@ import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
 import { Spinner } from '../Spinner/Spinner';
 import { fetchPost } from '../../utils/fetch-post';
 import { useNavigate } from 'react-router-dom';
+import classes from './EditForms.module.css';
+import { ChangeBtn } from '../common/Btns/Change/ChangeBtn';
 
 export const EditName = () => {
   const [inputData, setInputData] = useState('');
@@ -56,7 +58,7 @@ export const EditName = () => {
         status: NotificationStatus.success,
         title: 'Udana edycja',
         message: '',
-        duration: 3500,
+        duration: 2500,
       }),
     );
 
@@ -73,13 +75,14 @@ export const EditName = () => {
   return (
     <>
       {error.length !== 0 && <ErrorsScreen errors={error} />}
-      <form onSubmit={editName}>
+      <form onSubmit={editName} className={classes.form}>
         <input
+          className={classes.edit_input}
           type={'text'}
           value={inputData}
           onChange={e => setInputData(e.target.value)}
         />
-        <button type={'submit'}>Zmień</button>
+        <ChangeBtn />
       </form>
     </>
   );
