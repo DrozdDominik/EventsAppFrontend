@@ -16,3 +16,7 @@
 .change:focus {
     outline-color: #fff;
 }
+
+.change:hover {
+    color: #73eab7;
+}

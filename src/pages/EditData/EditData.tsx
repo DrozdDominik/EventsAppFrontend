@@ -11,6 +11,7 @@ import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useNavigate } from 'react-router-dom';
 import classes from './EditData.module.css';
 import { EditEmail } from '../../components/EditForms/EditEmail';
+import { EditPassword } from '../../components/EditForms/EditPassword';
 
 interface Props {
   dataType: EditDataType;
@@ -76,7 +77,7 @@ export const EditData = (props: Props) => {
       {props.dataType === EditDataType.password && (
         <>
           <p className={classes.text}>Hasło</p>
-          <EditName />
+          <EditPassword />
         </>
       )}
       {props.dataType === EditDataType.role && (
