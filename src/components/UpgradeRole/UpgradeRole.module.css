@@ -1,0 +1,27 @@
+.upgrade {
+    display: block;
+    font: inherit;
+    font-size: 1.25rem;
+    margin: 0.75rem 0;
+    padding: 1em;
+    font-weight: 500;
+    background-color: #68a1ff;
+    border-radius: 6px;
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.upgrade:focus {
+    outline-color: #fff;
+}
+
+.upgrade:hover {
+    color: #73eab7;
+}
+
+.message {
+    font-size: 2rem;
+    color: #00b2ff;
+}

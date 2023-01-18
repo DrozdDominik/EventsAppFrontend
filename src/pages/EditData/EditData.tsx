@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import classes from './EditData.module.css';
 import { EditEmail } from '../../components/EditForms/EditEmail';
 import { EditPassword } from '../../components/EditForms/EditPassword';
+import { UpgradeRole } from '../../components/UpgradeRole/UpgradeRole';
 
 interface Props {
   dataType: EditDataType;
@@ -82,8 +83,8 @@ export const EditData = (props: Props) => {
       )}
       {props.dataType === EditDataType.role && (
         <>
-          <p className={classes.text}>Uprawnienia użytkownika</p>
-          <EditName />
+          <p className={classes.text}>Podnieś uprawnienia użytkownika</p>
+          <UpgradeRole />
         </>
       )}
       <NavigateBtn url={'/user/settings'} text={'Powrót'} />
