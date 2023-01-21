@@ -12,6 +12,7 @@ import { authActions } from '../../store/auth-slice';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useNavigate } from 'react-router-dom';
 import { Notification } from '../../components/Notification/Notification';
+import { DeleteModal } from '../../components/DeleteModal/DeleteModal';
 
 export const UserPanel = () => {
   const { role } = useSelector((state: RootState) => state.auth);
@@ -20,6 +21,7 @@ export const UserPanel = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -104,8 +106,13 @@ export const UserPanel = () => {
     }
   }
 
+  const handleCancel = () => {
+    setIsVisible(false);
+  };
+
   return (
     <>
+      {isVisible && <DeleteModal onCancel={handleCancel} />}
       <div className={classes.container}>
         <h2>Panel użytkownika</h2>
         <div className={classes.header}>
@@ -139,7 +146,7 @@ export const UserPanel = () => {
               </li>
             )}
             <li>
-              <DeleteBtn />
+              <DeleteBtn onDelete={() => setIsVisible(true)} />
             </li>
             <li>
               <NavigateBtn url={'/'} text={'Powrót'} />

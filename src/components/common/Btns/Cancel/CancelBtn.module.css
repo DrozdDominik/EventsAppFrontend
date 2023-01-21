@@ -16,3 +16,19 @@
 .cancel:focus {
   outline-color: #4a58f5;
 }
+
+.cancel:hover {
+  color: #4a58f5;
+}
+
+@media (orientation: portrait) and (max-width: 400px) {
+  .cancel {
+    font-size: 15px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+  .cancel {
+    font-size: 14px;
+  }
+}
