@@ -1,12 +1,12 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import classes from '../../layouts/form/form.module.css';
-import { apiUrl } from '../../config/api';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../store/auth-slice';
 import { UserRole } from 'types';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
+import { fetchPost } from '../../utils/fetch-post';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -25,14 +25,8 @@ export const LoginForm = () => {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    const result = await fetch(`${apiUrl}/user/login`, {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(user),
-    });
+
+    const result = await fetchPost('user/login', user);
 
     if (result.status === 200) {
       const data = (await result.json()) as { role: UserRole };

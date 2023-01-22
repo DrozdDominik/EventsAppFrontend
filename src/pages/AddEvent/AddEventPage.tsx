@@ -14,7 +14,7 @@ export const AddEventPage = () => {
   const { role } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const notification = useSelector((state: RootState) => state.ui.notification);
 
   useEffect(() => {

@@ -1,0 +1,147 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    margin: 4rem auto;
+    justify-content: center;
+    align-items: center;
+    background-color: #94c9c3;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 0 rgb(45, 162, 155);
+    padding: 0.75rem;
+}
+
+.container h2 {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 2rem;
+    color: #4a58f5;
+}
+
+.header {
+    margin: 2rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header p {
+    margin: 0 0.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #4a58f5;
+}
+
+.header span {
+    font-weight: bold;
+}
+
+.list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.list li {
+    width: 50vw;
+}
+
+@media (max-width: 1200px) {
+    .header p {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 1000px) {
+    .header p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 850px) {
+    .header p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 745px) {
+    .header p {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 540px) {
+    .container {
+        width: 70vw;
+    }
+
+    .container h2 {
+        font-size: 1.5rem;
+    }
+
+    .header p {
+        font-size: 0.9rem;
+    }
+
+    .list li {
+        width: 60vw;
+    }
+}
+
+@media (max-width: 440px) {
+    .container h2 {
+        font-size: 1.3rem;
+    }
+
+    .header p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        width: 80vw;
+    }
+
+    .header {
+        flex-direction: column;
+        margin: 1.5rem 0 0;
+    }
+
+    .header p  {
+        margin-bottom: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .list li {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 270px) {
+    .container {
+        width: 90vw;
+    }
+
+    .list li {
+        width: 80vw;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .container {
+        margin: 2rem auto;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 740px) {
+    .container {
+        margin: 1.5rem auto;
+    }
+}

@@ -1,13 +1,14 @@
 import { UserData } from '../types';
 import { validateEmail } from './validate-email';
 import { validatePassword } from './validate-password';
+import { validateUsername } from './validate-username';
 
 export const validateUserData = async (
   data: UserData,
 ): Promise<true | string[]> => {
   const errors: string[] = [];
 
-  if (!data.name || data.name.length < 2 || data.name.length > 30) {
+  if (!validateUsername(data.name)) {
     errors.push(
       `Nazwa użytkownika musi mieć od 2 do 30 znaków - obecnie jest ${data.name.length}`,
     );

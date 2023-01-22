@@ -1,0 +1,40 @@
+.delete {
+    display: block;
+    font: inherit;
+    font-size: 1.25rem;
+    margin: 0.75rem 0;
+    padding: 1em;
+    font-weight: 500;
+    background-color: #e86464;
+    border-radius: 6px;
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.delete:focus {
+    outline-color: blueviolet;
+}
+
+.delete:hover {
+    color: #5d4bf6;
+}
+
+@media (max-width: 320px) {
+    .delete {
+        font-size: 13px;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 400px) {
+    .delete {
+        font-size: 15px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .delete {
+        font-size: 14px;
+    }
+}

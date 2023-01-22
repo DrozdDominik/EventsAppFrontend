@@ -1,0 +1,22 @@
+.change {
+    display: block;
+    font: inherit;
+    font-size: 1.25rem;
+    margin: 0.75rem 0;
+    padding: 1em;
+    font-weight: 500;
+    background-color: #68a1ff;
+    border-radius: 6px;
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.change:focus {
+    outline-color: #fff;
+}
+
+.change:hover {
+    color: #73eab7;
+}
