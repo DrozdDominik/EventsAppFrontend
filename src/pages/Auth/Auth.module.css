@@ -5,3 +5,9 @@
   justify-content: center;
   align-items: center;
 }
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .authContainer {
+    margin: 1rem;
+  }
+}

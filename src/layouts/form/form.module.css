@@ -89,6 +89,10 @@ legend {
   outline-color: #5d4bf6;
 }
 
+.submit:hover {
+  color: #4a58f5;
+}
+
 .btnsContainer {
   display: flex;
   justify-content: space-around;
@@ -110,4 +114,40 @@ legend {
 i {
   height: 1.2rem;
   width: 1.2rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+@media (max-width: 460px) {
+  .formContainer * {
+    width: 100%;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 400px) {
+  .submit {
+    font-size: 15px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+  .submit {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  .loginForm {
+    width: 240px;
+  }
+
+  .registerForm {
+    width: 240px;
+  }
+
+  fieldset {
+    padding: 1rem 1rem;
+  }
 }
