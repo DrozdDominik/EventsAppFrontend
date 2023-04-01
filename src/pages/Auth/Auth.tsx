@@ -3,6 +3,7 @@ import { AuthBtn } from '../../components/common/Btns/Auth/AuthBtn';
 import { LoginForm } from '../../components/LoginForm/LoginForm';
 import { RegisterForm } from '../../components/RegisterForm/RegisterForm';
 import classes from './Auth.module.css';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 export enum FormType {
   'Register',
@@ -10,8 +11,13 @@ export enum FormType {
 }
 
 export const Auth = () => {
+  const navigate = useNavigate();
+  const data = useLoaderData();
   const [formType, setFormType] = useState<FormType>(FormType.Register);
 
+  if (data) {
+    navigate('/events');
+  }
   const handleChangeFormType = () => {
     const type =
       formType === FormType.Register ? FormType.Login : FormType.Register;

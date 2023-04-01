@@ -1,46 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MainEventData } from 'types';
 import { EventsList } from '../../components/EventsList/EventsList';
 import { Map } from '../../components/Map/Map';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import classes from './EventsPage.module.css';
-import { LoggedNavigation } from '../../components/Navigation/LoggedNavigation';
 import { Spinner } from '../../components/Spinner/Spinner';
-import { getEvents } from '../../utils/get-events';
+import { json, redirect, useLoaderData, useNavigation } from 'react-router-dom';
+import { fetchGet } from '../../utils/fetch-get';
+import { getRole } from '../../utils/auth';
 
 export const EventsPage = () => {
-  const { role } = useSelector((state: RootState) => state.auth);
-  const [events, setEvents] = useState<MainEventData[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const navigation = useNavigation();
+  const isLoading = navigation.state === 'loading';
+  const { events } = useLoaderData() as { events: MainEventData[] };
 
-  useEffect(() => {
-    if (!role) {
-      return;
-    }
-
-    setLoading(true);
-
-    (async () => {
-      const result = await getEvents();
-      if (result) {
-        setLoading(false);
-        setEvents(result);
-      }
-    })();
-  }, [role]);
-
-  if (loading) {
-    return <Spinner isLoading={loading} />;
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
   }
 
   return (
-    <div className={classes.layout}>
-      <LoggedNavigation />
-      <main className={classes.main}>
-        <EventsList events={events} />
-        <Map events={events} />
-      </main>
-    </div>
+    <main className={classes.main}>
+      <EventsList events={events} />
+      <Map events={events} />
+    </main>
   );
+};
+
+export const eventsLoader = async () => {
+  const role = getRole();
+
+  if (!role) {
+    return redirect('/auth');
+  }
+
+  const data = await fetchGet('api/event');
+
+  if (!data.ok) {
+    if (data.status === 401) {
+      return redirect('/auth');
+    }
+    throw json({ message: 'Wystąpił błąd!' }, { status: 500 });
+  }
+  return data;
 };

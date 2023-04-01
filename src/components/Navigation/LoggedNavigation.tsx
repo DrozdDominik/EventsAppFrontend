@@ -15,7 +15,7 @@ export const LoggedNavigation = () => {
         <ul className={classes.menuList}>
           {role === UserRole.Editor && (
             <li>
-              <NavigateBtn url={'/event/add'} text={'Dodaj wydarzenie'} />
+              <NavigateBtn url={'/events/add'} text={'Dodaj wydarzenie'} />
             </li>
           )}
           <li>

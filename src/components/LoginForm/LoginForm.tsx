@@ -1,36 +1,29 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import classes from '../../layouts/form/form.module.css';
 import { useDispatch } from 'react-redux';
-import { authActions } from '../../store/auth-slice';
 import { UserRole } from 'types';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
 import { fetchPost } from '../../utils/fetch-post';
+import { Form, json, useActionData, useNavigate } from 'react-router-dom';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
-
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const response = useActionData() as { logged: boolean } | undefined;
 
-  const change = (e: ChangeEvent<HTMLInputElement>) =>
-    setUser(user => ({
-      ...user,
-      [e.target.name]: e.target.value,
-    }));
+  useEffect(() => {
+    if (!response) {
+      return;
+    }
 
-  const submit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const result = await fetchPost('user/login', user);
-
-    if (result.status === 200) {
-      const data = (await result.json()) as { role: UserRole };
-      dispatch(authActions.login(data.role));
+    if (response.logged) {
       dispatch(
         uiAction.showNotification({
           status: NotificationStatus.success,
@@ -39,17 +32,24 @@ export const LoginForm = () => {
           duration: 3000,
         }),
       );
-    } else {
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Błąd',
-          message: 'Niepoprawne dane logowania!',
-          duration: 2500,
-        }),
-      );
+      return navigate('/events');
     }
-  };
+
+    dispatch(
+      uiAction.showNotification({
+        status: NotificationStatus.error,
+        title: 'Błąd',
+        message: 'Niepoprawne dane logowania!',
+        duration: 2500,
+      }),
+    );
+  }, [response]);
+
+  const change = (e: ChangeEvent<HTMLInputElement>) =>
+    setUser(user => ({
+      ...user,
+      [e.target.name]: e.target.value,
+    }));
 
   const cancel = () => {
     setUser({
@@ -65,7 +65,7 @@ export const LoginForm = () => {
   return (
     <div className={classes.formContainer}>
       <h1>Logowanie</h1>
-      <form className={classes.loginForm} onSubmit={submit}>
+      <Form method="post" className={classes.loginForm}>
         <fieldset>
           <legend>Autentykacja</legend>
           <label>
@@ -94,12 +94,27 @@ export const LoginForm = () => {
           </label>
           <div className={classes.btnsContainer}>
             <CancelBtn handleCancel={cancel} />
-            <button className={classes.submit} type="submit">
-              Zaloguj
-            </button>
+            <button className={classes.submit}>Zaloguj</button>
           </div>
         </fieldset>
-      </form>
+      </Form>
     </div>
   );
+};
+
+export const action = async ({ request }: { request: Request }) => {
+  const formData = await request.formData();
+  const user = {
+    email: formData.get('email'),
+    password: formData.get('password'),
+  };
+  const result = await fetchPost('user/login', user);
+
+  if (result.status === 401) {
+    return json({ logged: false });
+  }
+
+  const data = (await result.json()) as { role: UserRole };
+  localStorage.setItem('role', data.role);
+  return json({ logged: true });
 };
