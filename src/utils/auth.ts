@@ -34,6 +34,11 @@ export const authLoader = async (): Promise<UserRole | null> => {
   const result = await fetchGet(`user/role`);
 
   if (result.status === 401) {
+    const role = getRole();
+
+    if (role) {
+      localStorage.removeItem('role');
+    }
     return null;
   }
 
