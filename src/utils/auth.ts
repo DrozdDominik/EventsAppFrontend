@@ -24,9 +24,7 @@ export const getAuthLoader = async () => {
 export const checkAuthLoader = () => {
   const role = getRole();
 
-  console.log('check');
   if (!role) {
-    console.log('check to auth');
     redirect('/auth');
   }
   return null;
