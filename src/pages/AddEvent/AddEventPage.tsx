@@ -1,74 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { useNavigate } from 'react-router-dom';
-import { NotificationStatus, uiAction } from '../../store/ui-slice';
-import { UserRole } from 'types';
-import { getUserRole } from '../../utils/get-role';
-import { authActions } from '../../store/auth-slice';
+import React from 'react';
+import { json, useNavigation } from 'react-router-dom';
 import { EventAddForm } from '../../components/EventAddForm/EventAddForm';
-import { Notification } from '../../components/Notification/Notification';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { NewEventData } from 'types';
+import { EventFormData } from '../../types';
+import { validateData } from '../../utils/validate-event-data';
+import { addProtocol } from '../../utils/addProtocol';
+import { fetchPost } from '../../utils/fetch-post';
 
 export const AddEventPage = () => {
-  const { role } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const notification = useSelector((state: RootState) => state.ui.notification);
+  const navigation = useNavigation();
+  const isLoading = navigation.state === 'submitting';
 
-  useEffect(() => {
-    (async () => {
-      let userRole = role;
-      if (!role) {
-        userRole = await getUserRole();
-        if (userRole) {
-          dispatch(authActions.login(userRole));
-        } else {
-          dispatch(
-            uiAction.showNotification({
-              status: NotificationStatus.info,
-              title: 'Wymagane logowanie!',
-              message: '',
-              duration: 4000,
-            }),
-          );
-
-          navigate('/');
-          return;
-        }
-      }
-
-      if (userRole !== UserRole.Editor) {
-        dispatch(
-          uiAction.showNotification({
-            status: NotificationStatus.info,
-            title: 'Brak uprawnień',
-            message: 'Nie masz uprawnień aby wejść na stronę!',
-            duration: 4000,
-          }),
-        );
-
-        navigate('/');
-      }
-      setLoading(false);
-    })();
-  }, []);
-
-  if (loading) {
-    return <Spinner isLoading={loading} />;
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
   }
 
   return (
     <>
       <EventAddForm />
-      {notification && (
-        <Notification
-          status={notification.status}
-          title={notification.title}
-          message={notification.message}
-        />
-      )}
     </>
   );
+};
+
+const sendData = async (data: NewEventData): Promise<string | null> => {
+  const result = await fetchPost('api/event', data);
+
+  return result.status === 201 ? await result.json() : null;
+};
+
+export const addEventAction = async ({ request }: { request: Request }) => {
+  const formData = Object.fromEntries(
+    await request.formData(),
+  ) as unknown as EventFormData;
+  const validationResult = await validateData(formData);
+
+  if (Array.isArray(validationResult)) {
+    return json({ added: false, errors: validationResult, oldData: formData });
+  }
+
+  const { lat, lon } = validationResult;
+
+  const eventToSave: NewEventData = {
+    name: formData.name,
+    description: formData.description,
+    estimatedTime: Number(formData.time),
+    link: formData.link !== '' ? addProtocol(formData.link) : null,
+    lat,
+    lon,
+  };
+
+  const id = await sendData(eventToSave);
+
+  if (!id) {
+    throw json({ message: 'Nie udało się dodać wydarzenia!' }, { status: 500 });
+  } else {
+    return json({ added: true, id });
+  }
 };
