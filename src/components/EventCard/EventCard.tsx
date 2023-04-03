@@ -13,7 +13,7 @@ export const EventCard = (props: Props) => {
       <h3>{props.event.name}</h3>
       <p>{props.event.description}</p>
       <NavigateBtn
-        url={`/event/${props.event.id}`}
+        url={`/events/${props.event.id}`}
         text={'Więcej informacji'}
       />
     </div>

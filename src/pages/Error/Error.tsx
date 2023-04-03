@@ -4,7 +4,6 @@ import { NavigateBtn } from '../../components/common/Btns/Navigate/NavigateBtn';
 
 export const ErrorPage = () => {
   const error = useRouteError();
-  console.log(error);
   let title = 'Wystąpił błąd!';
   let message = 'Przepraszamy, coś poszło nie tak...';
 

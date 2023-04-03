@@ -25,7 +25,7 @@ export const checkAuthLoader = () => {
   const role = getRole();
 
   if (!role) {
-    redirect('/auth');
+    return redirect('/auth');
   }
   return null;
 };
