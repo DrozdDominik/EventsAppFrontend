@@ -1,27 +1,42 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import classes from '../../layouts/form/form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserRole } from 'types';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
-import { fetchPost } from '../../utils/fetch-post';
-import { Form, json, useActionData, useNavigate } from 'react-router-dom';
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom';
 import { RootState } from '../../store';
 import { Notification } from '../Notification/Notification';
 
-export const LoginForm = () => {
+interface Props {
+  path: string;
+}
+
+export const LoginForm = (props: Props) => {
   const dispatch = useDispatch();
   const notification = useSelector((state: RootState) => state.ui.notification);
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const response = useActionData() as { logged: boolean } | undefined;
+  const [path, setPath] = useState<string>('/');
+
+  const isSubmitting = navigation.state === 'submitting';
 
   useEffect(() => {
+    if (props.path) {
+      props.path === '/' ? setPath('events') : setPath(props.path);
+    }
+
     if (!response) {
       return;
     }
@@ -35,7 +50,8 @@ export const LoginForm = () => {
           duration: 3000,
         }),
       );
-      return navigate('/events');
+
+      return navigate(`${path}`);
     }
 
     dispatch(
@@ -47,14 +63,6 @@ export const LoginForm = () => {
       }),
     );
   }, [response]);
-
-  useEffect(() => {
-    if (notification) {
-      setTimeout(() => {
-        dispatch(uiAction.clearNotification());
-      }, notification.duration);
-    }
-  }, [notification]);
 
   const change = (e: ChangeEvent<HTMLInputElement>) =>
     setUser(user => ({
@@ -112,27 +120,12 @@ export const LoginForm = () => {
           </label>
           <div className={classes.btnsContainer}>
             <CancelBtn handleCancel={cancel} />
-            <button className={classes.submit}>Zaloguj</button>
+            <button className={classes.submit} disabled={isSubmitting}>
+              {isSubmitting ? 'Logowanie' : 'Zaloguj'}
+            </button>
           </div>
         </fieldset>
       </Form>
     </div>
   );
-};
-
-export const action = async ({ request }: { request: Request }) => {
-  const formData = await request.formData();
-  const user = {
-    email: formData.get('email'),
-    password: formData.get('password'),
-  };
-  const result = await fetchPost('user/login', user);
-
-  if (result.status === 401) {
-    return json({ logged: false });
-  }
-
-  const data = (await result.json()) as { role: UserRole };
-  localStorage.setItem('role', data.role);
-  return json({ logged: true });
 };

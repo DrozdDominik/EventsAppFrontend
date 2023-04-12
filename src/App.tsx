@@ -5,15 +5,15 @@ import { eventLoader, EventPage } from './pages/Event/EventPage';
 import { ErrorPage } from './pages/Error/Error';
 import { addEventAction, AddEventPage } from './pages/AddEvent/AddEventPage';
 import { EditData } from './pages/EditData/EditData';
-import { userNameLoader, UserPanel } from './pages/UserPanel/UserPanel';
+import { userLoader, UserPanel } from './pages/UserPanel/UserPanel';
 import { EditDataType } from './types';
 import { RootLayout } from './layouts/root/Root';
 import { eventsLoader, EventsPage } from './pages/Events/EventsPage';
 import { Auth } from './pages/Auth/Auth';
-import { authLoader, checkAuthLoader, getAuthLoader } from './utils/auth';
+import { checkEditorLoader, getAuthRole } from './utils/auth';
 import { EventsLayout } from './layouts/events/Events';
 import { action as logoutAction } from './pages/Logout/Logout';
-import { action as loginAction } from './components/LoginForm/LoginForm';
+import { authAction } from './pages/Auth/Auth';
 
 const router = createBrowserRouter([
   {
@@ -21,12 +21,16 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     id: 'root',
-    loader: authLoader,
+    loader: getAuthRole,
     children: [
       {
-        path: '/events',
+        index: true,
+        element: <Auth />,
+        action: authAction,
+      },
+      {
+        path: 'events',
         element: <EventsLayout />,
-        loader: checkAuthLoader,
         children: [
           {
             index: true,
@@ -36,6 +40,7 @@ const router = createBrowserRouter([
           {
             path: 'add',
             element: <AddEventPage />,
+            loader: checkEditorLoader,
             action: addEventAction,
           },
           {
@@ -47,13 +52,9 @@ const router = createBrowserRouter([
       },
       {
         path: 'user',
-        loader: checkAuthLoader,
+        element: <UserPanel />,
+        loader: userLoader,
         children: [
-          {
-            index: true,
-            element: <UserPanel />,
-            loader: userNameLoader,
-          },
           {
             path: 'name',
             element: <EditData dataType={EditDataType.name} />,
@@ -72,17 +73,11 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: 'logout',
+        action: logoutAction,
+      },
     ],
-  },
-  {
-    path: 'auth',
-    element: <Auth />,
-    action: loginAction,
-    loader: getAuthLoader,
-  },
-  {
-    path: '/logout',
-    action: logoutAction,
   },
 ]);
 

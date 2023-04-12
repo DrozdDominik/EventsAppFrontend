@@ -1,49 +1,39 @@
-import { redirect } from 'react-router-dom';
+import { LoaderFunction, redirect } from 'react-router-dom';
 import { UserRole } from 'types';
-import { fetchGet } from './fetch-get';
+import { getTokenDuration } from './get-token-duration';
+import { cleanUpLocalStorage } from './clean-up-storage';
 
 export const getRole = (): UserRole | null => {
-  const role = localStorage.getItem('role');
+  return localStorage.getItem('role') as UserRole | null;
+};
+
+export const checkEditorLoader = () => {
+  const role = getRole();
+  const path = 'events/add';
+
+  if (!role) {
+    return redirect(`/?path=${path}&logged=false`);
+  }
+
+  if (role !== UserRole.Editor) {
+    return redirect('/events?permissions=false');
+  }
+  return null;
+};
+
+export const getAuthRole: LoaderFunction = async () => {
+  const role = getRole();
 
   if (!role) {
     return null;
   }
 
-  return role as UserRole;
-};
-export const getAuthLoader = async () => {
-  const role = getRole();
+  const tokenDuration = getTokenDuration();
 
-  if (role) {
-    return redirect('/events');
-  }
-
-  return null;
-};
-
-export const checkAuthLoader = () => {
-  const role = getRole();
-
-  if (!role) {
-    return redirect('/auth');
-  }
-  return null;
-};
-
-export const authLoader = async (): Promise<UserRole | null> => {
-  const result = await fetchGet(`user/role`);
-
-  if (result.status === 401) {
-    const role = getRole();
-
-    if (role) {
-      localStorage.removeItem('role');
-    }
+  if (tokenDuration <= 0) {
+    cleanUpLocalStorage();
     return null;
   }
 
-  const { role } = (await result.json()) as { role: UserRole };
-  localStorage.setItem('role', role);
-
-  return role;
+  return null;
 };

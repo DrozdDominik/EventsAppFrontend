@@ -1,5 +1,6 @@
 import { json, redirect } from 'react-router-dom';
 import { apiUrl } from '../../config/api';
+import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
 
 export const action = async () => {
   const result = await fetch(`${apiUrl}/user/logout`, {
@@ -17,6 +18,6 @@ export const action = async () => {
     );
   }
 
-  localStorage.removeItem('role');
-  return redirect('/auth');
+  cleanUpLocalStorage();
+  return redirect('/');
 };
