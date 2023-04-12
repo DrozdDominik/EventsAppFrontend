@@ -3,23 +3,33 @@ import classes from './LoggedNavigation.module.css';
 import { UserRole } from 'types';
 import { NavigateBtn } from '../common/Btns/Navigate/NavigateBtn';
 import { LogoutBtn } from '../common/Btns/Logout/LogoutBtn';
-import { useRouteLoaderData } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { getRole } from '../../utils/auth';
 
 export const LoggedNavigation = () => {
-  const role = useRouteLoaderData('root');
+  const role = getRole();
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
     <header>
       <nav>
         <ul className={classes.menuList}>
-          {role === UserRole.Editor && (
+          {path !== '/events' && (
+            <li>
+              <NavigateBtn url={'/events'} text={'Wydarzenia'} />
+            </li>
+          )}
+          {role === UserRole.Editor && path !== '/events/add' && (
             <li>
               <NavigateBtn url={'/events/add'} text={'Dodaj wydarzenie'} />
             </li>
           )}
-          <li>
-            <NavigateBtn url={'/user/settings'} text={'Panel użytkownika'} />
-          </li>
+          {path !== '/user/settings' && (
+            <li>
+              <NavigateBtn url={'/user'} text={'Panel użytkownika'} />
+            </li>
+          )}
           <li>
             <LogoutBtn />
           </li>
