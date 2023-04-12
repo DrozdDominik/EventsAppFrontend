@@ -1,109 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classes from './UserPanel.module.css';
 import { NavigateBtn } from '../../components/common/Btns/Navigate/NavigateBtn';
 import { DeleteBtn } from '../../components/common/Btns/Delete/DeleteBtn';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { UserRole } from 'types';
-import { getUserName } from '../../utils/get-username';
-import { getUserRole } from '../../utils/get-role';
-import { authActions } from '../../store/auth-slice';
-import { NotificationStatus, uiAction } from '../../store/ui-slice';
-import { useNavigate } from 'react-router-dom';
-import { Notification } from '../../components/Notification/Notification';
+import {
+  json,
+  LoaderFunction,
+  redirect,
+  useLoaderData,
+  useNavigation,
+} from 'react-router-dom';
 import { DeleteModal } from '../../components/DeleteModal/DeleteModal';
+import { getRole } from '../../utils/auth';
+import { fetchGet } from '../../utils/fetch-get';
+import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
 
 export const UserPanel = () => {
-  const { role } = useSelector((state: RootState) => state.auth);
-  const notification = useSelector((state: RootState) => state.ui.notification);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [userName, setUserName] = useState('');
-  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState(false);
+  const permissions = getPermissions();
+  const { name } = useLoaderData() as { name: string };
+  const isLoading = navigation.state === 'loading';
 
-  useEffect(() => {
-    (async () => {
-      let userRole = role;
-      if (!role) {
-        userRole = await getUserRole();
-        if (userRole) {
-          dispatch(authActions.login(userRole));
-        } else {
-          dispatch(
-            uiAction.showNotification({
-              status: NotificationStatus.info,
-              title: 'Wymagane logowanie!',
-              message: '',
-              duration: 4000,
-            }),
-          );
-
-          navigate('/');
-          return;
-        }
-      }
-
-      const name = await getUserName();
-      if (name === null) {
-        dispatch(authActions.logout());
-        dispatch(
-          uiAction.showNotification({
-            status: NotificationStatus.info,
-            title: 'Sesja wygasła!',
-            message: 'Wymagane ponowne logowanie',
-            duration: 4000,
-          }),
-        );
-
-        navigate('/');
-        return;
-      }
-      setUserName(name);
-      setLoading(false);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (notification) {
-      setTimeout(() => {
-        dispatch(uiAction.clearNotification());
-      }, notification.duration);
-    }
-  }, [notification]);
-
-  useEffect(() => {
-    if (!role) {
-      return;
-    }
-
-    setLoading(true);
-
-    (async () => {
-      const name = await getUserName();
-      setUserName(name as string);
-      setLoading(false);
-    })();
-  }, []);
-
-  if (loading) {
-    return <Spinner isLoading={loading} />;
-  }
-
-  let permissions;
-
-  switch (role) {
-    case UserRole.User:
-      permissions = 'podstawowy';
-      break;
-    case UserRole.Editor:
-      permissions = 'edytor';
-      break;
-    case UserRole.Admin: {
-      permissions = 'admin';
-      break;
-    }
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
   }
 
   const handleCancel = () => {
@@ -117,7 +38,7 @@ export const UserPanel = () => {
         <h2>Panel użytkownika</h2>
         <div className={classes.header}>
           <p>
-            Użytkownik: <span>{userName}</span>
+            Użytkownik: <span>{name}</span>
           </p>
           <p>
             Poziom uprawnień: <span>{permissions}</span>
@@ -137,7 +58,7 @@ export const UserPanel = () => {
             <li>
               <NavigateBtn url={'/user/password'} text={'Zmień hasło'} />
             </li>
-            {role === UserRole.User && (
+            {permissions === 'podstawowy' && (
               <li>
                 <NavigateBtn
                   url={'/user/role'}
@@ -149,18 +70,59 @@ export const UserPanel = () => {
               <DeleteBtn onDelete={() => setIsVisible(true)} />
             </li>
             <li>
-              <NavigateBtn url={'/'} text={'Powrót'} />
+              <NavigateBtn url={'/events'} text={'Powrót'} />
             </li>
           </ul>
         </div>
       </div>
-      {notification && (
-        <Notification
-          status={notification.status}
-          title={notification.title}
-          message={notification.message}
-        />
-      )}
     </>
   );
+};
+
+export const userLoader: LoaderFunction = async () => {
+  const role = getRole();
+
+  if (!role) {
+    return redirect('/?path=user&logged=false');
+  }
+
+  const data = await fetchGet('user/name');
+
+  if (!data.ok) {
+    if (data.status === 401) {
+      cleanUpLocalStorage();
+      return redirect('/?path=user&logged=false');
+    }
+
+    throw json({ message: 'Przepraszamy wystąpił błąd!' }, { status: 500 });
+  }
+
+  return data;
+};
+
+const getPermissions = () => {
+  const role = getRole();
+
+  if (!role) {
+    return null;
+  }
+
+  let permissions: 'podstawowy' | 'edytor' | 'admin';
+
+  switch (role) {
+    case UserRole.User:
+      permissions = 'podstawowy';
+      break;
+    case UserRole.Editor:
+      permissions = 'edytor';
+      break;
+    case UserRole.Admin: {
+      permissions = 'admin';
+      break;
+    }
+    default:
+      permissions = 'podstawowy';
+  }
+
+  return permissions;
 };
