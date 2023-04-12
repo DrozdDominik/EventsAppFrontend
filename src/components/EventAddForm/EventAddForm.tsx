@@ -3,11 +3,20 @@ import classes from './EventAddForm.module.css';
 import { NavigateBtn } from '../common/Btns/Navigate/NavigateBtn';
 import { EventFormData } from 'src/types';
 import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
-import { Form, useActionData, useNavigate } from 'react-router-dom';
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 
 export const EventAddForm = () => {
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
   const initialState: EventFormData = {
     name: '',
     description: '',
@@ -27,7 +36,6 @@ export const EventAddForm = () => {
     oldData?: EventFormData;
     id?: string;
   };
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!data) {
@@ -162,8 +170,12 @@ export const EventAddForm = () => {
             <label className={classes.input_label}>Numer budynku</label>
           </div>
           <div className={classes.div_submit}>
-            <button className={classes.btn_submit} type="submit">
-              Dodaj!
+            <button
+              className={classes.btn_submit}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Dodawanie...' : 'Dodaj!'}
             </button>
             <NavigateBtn url={'/events'} text={'Powrót'} />
           </div>

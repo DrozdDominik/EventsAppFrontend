@@ -1,32 +1,19 @@
 import React from 'react';
-import { json, useNavigation } from 'react-router-dom';
+import { json, redirect } from 'react-router-dom';
 import { EventAddForm } from '../../components/EventAddForm/EventAddForm';
-import { Spinner } from '../../components/Spinner/Spinner';
 import { NewEventData } from 'types';
 import { EventFormData } from '../../types';
 import { validateData } from '../../utils/validate-event-data';
 import { addProtocol } from '../../utils/addProtocol';
 import { fetchPost } from '../../utils/fetch-post';
+import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
 
 export const AddEventPage = () => {
-  const navigation = useNavigation();
-  const isLoading = navigation.state === 'submitting';
-
-  if (isLoading) {
-    return <Spinner isLoading={isLoading} />;
-  }
-
   return (
     <>
       <EventAddForm />
     </>
   );
-};
-
-const sendData = async (data: NewEventData): Promise<string | null> => {
-  const result = await fetchPost('api/event', data);
-
-  return result.status === 201 ? await result.json() : null;
 };
 
 export const addEventAction = async ({ request }: { request: Request }) => {
@@ -50,11 +37,18 @@ export const addEventAction = async ({ request }: { request: Request }) => {
     lon,
   };
 
-  const id = await sendData(eventToSave);
+  const response = await fetchPost('api/event', eventToSave);
 
-  if (!id) {
+  if (!response.ok) {
+    if (response.status === 403) {
+      cleanUpLocalStorage();
+      return redirect(`/?permissions=false`);
+    }
+
     throw json({ message: 'Nie udało się dodać wydarzenia!' }, { status: 500 });
-  } else {
-    return json({ added: true, id });
   }
+
+  const id = (await response.json()) as string;
+
+  return json({ added: true, id });
 };
