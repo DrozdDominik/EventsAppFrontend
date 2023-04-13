@@ -74,15 +74,7 @@ export const UserPanel = () => {
   );
 };
 
-export const userLoader: LoaderFunction = async ({ request }) => {
-  const role = getRole();
-  const url = new URL(request.url);
-  const path = encodeURIComponent(url.pathname);
-
-  if (!role) {
-    return redirect(`/?path=${path}&logged=false`);
-  }
-
+export const userLoader: LoaderFunction = async () => {
   const data = await fetchGet('user/name');
 
   if (!data.ok) {
