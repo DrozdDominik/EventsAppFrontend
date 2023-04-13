@@ -15,7 +15,7 @@ import { EventsLayout } from './layouts/events/Events';
 import { action as logoutAction } from './pages/Logout/Logout';
 import { authAction } from './pages/Auth/Auth';
 import { editNameAction } from './components/EditForms/EditName';
-import { UserLayout } from './layouts/user/User';
+import { userAuthLoader, UserLayout } from './layouts/user/User';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +55,7 @@ const router = createBrowserRouter([
       {
         path: 'user',
         element: <UserLayout />,
+        loader: userAuthLoader,
         children: [
           {
             index: true,
