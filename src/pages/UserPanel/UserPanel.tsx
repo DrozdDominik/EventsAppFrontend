@@ -34,56 +34,53 @@ export const UserPanel = () => {
   return (
     <>
       {isVisible && <DeleteModal onCancel={handleCancel} />}
-      <div className={classes.container}>
-        <h2>Panel użytkownika</h2>
-        <div className={classes.header}>
-          <p>
-            Użytkownik: <span>{name}</span>
-          </p>
-          <p>
-            Poziom uprawnień: <span>{permissions}</span>
-          </p>
-        </div>
-        <div>
-          <ul className={classes.list}>
+      <h2 className={classes.title}>Panel użytkownika</h2>
+      <div className={classes.header}>
+        <p>
+          Użytkownik: <span>{name}</span>
+        </p>
+        <p>
+          Poziom uprawnień: <span>{permissions}</span>
+        </p>
+      </div>
+      <div>
+        <ul className={classes.list}>
+          <li>
+            <NavigateBtn url={'/user/name'} text={'Zmień nazwę użytkownika'} />
+          </li>
+          <li>
+            <NavigateBtn url={'/user/email'} text={'Zmień email'} />
+          </li>
+          <li>
+            <NavigateBtn url={'/user/password'} text={'Zmień hasło'} />
+          </li>
+          {permissions === 'podstawowy' && (
             <li>
               <NavigateBtn
-                url={'/user/name'}
-                text={'Zmień nazwę użytkownika'}
+                url={'/user/role'}
+                text={'Zwiększ poziom uprawnień'}
               />
             </li>
-            <li>
-              <NavigateBtn url={'/user/email'} text={'Zmień email'} />
-            </li>
-            <li>
-              <NavigateBtn url={'/user/password'} text={'Zmień hasło'} />
-            </li>
-            {permissions === 'podstawowy' && (
-              <li>
-                <NavigateBtn
-                  url={'/user/role'}
-                  text={'Zwiększ poziom uprawnień'}
-                />
-              </li>
-            )}
-            <li>
-              <DeleteBtn onDelete={() => setIsVisible(true)} />
-            </li>
-            <li>
-              <NavigateBtn url={'/events'} text={'Powrót'} />
-            </li>
-          </ul>
-        </div>
+          )}
+          <li>
+            <DeleteBtn onDelete={() => setIsVisible(true)} />
+          </li>
+          <li>
+            <NavigateBtn url={'/events'} text={'Powrót'} />
+          </li>
+        </ul>
       </div>
     </>
   );
 };
 
-export const userLoader: LoaderFunction = async () => {
+export const userLoader: LoaderFunction = async ({ request }) => {
   const role = getRole();
+  const url = new URL(request.url);
+  const path = encodeURIComponent(url.pathname);
 
   if (!role) {
-    return redirect('/?path=user&logged=false');
+    return redirect(`/?path=${path}&logged=false`);
   }
 
   const data = await fetchGet('user/name');

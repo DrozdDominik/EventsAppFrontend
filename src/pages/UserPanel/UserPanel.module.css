@@ -1,17 +1,4 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    width: 60vw;
-    margin: 4rem auto;
-    justify-content: center;
-    align-items: center;
-    background-color: #94c9c3;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px 0 rgb(45, 162, 155);
-    padding: 0.75rem;
-}
-
-.container h2 {
+.title {
     margin-top: 1rem;
     text-align: center;
     font-size: 2rem;
@@ -81,7 +68,7 @@
         width: 70vw;
     }
 
-    .container h2 {
+    .title {
         font-size: 1.5rem;
     }
 
@@ -95,7 +82,7 @@
 }
 
 @media (max-width: 440px) {
-    .container h2 {
+    .title {
         font-size: 1.3rem;
     }
 

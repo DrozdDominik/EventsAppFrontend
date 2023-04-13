@@ -14,6 +14,8 @@ import { checkEditorLoader, getAuthRole } from './utils/auth';
 import { EventsLayout } from './layouts/events/Events';
 import { action as logoutAction } from './pages/Logout/Logout';
 import { authAction } from './pages/Auth/Auth';
+import { editNameAction } from './components/EditForms/EditName';
+import { UserLayout } from './layouts/user/User';
 
 const router = createBrowserRouter([
   {
@@ -52,12 +54,17 @@ const router = createBrowserRouter([
       },
       {
         path: 'user',
-        element: <UserPanel />,
-        loader: userLoader,
+        element: <UserLayout />,
         children: [
+          {
+            index: true,
+            element: <UserPanel />,
+            loader: userLoader,
+          },
           {
             path: 'name',
             element: <EditData dataType={EditDataType.name} />,
+            action: editNameAction,
           },
           {
             path: 'email',
