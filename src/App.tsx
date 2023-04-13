@@ -16,6 +16,7 @@ import { action as logoutAction } from './pages/Logout/Logout';
 import { authAction } from './pages/Auth/Auth';
 import { editNameAction } from './components/EditForms/EditName';
 import { userAuthLoader, UserLayout } from './layouts/user/User';
+import {editPasswordAction} from "./components/EditForms/EditPassword";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
           {
             path: 'password',
             element: <EditData dataType={EditDataType.password} />,
+            action: editPasswordAction,
           },
           {
             path: 'role',
