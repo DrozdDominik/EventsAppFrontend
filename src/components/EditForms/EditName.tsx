@@ -5,6 +5,7 @@ import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
 import { fetchPost } from '../../utils/fetch-post';
 import {
+  ActionFunction,
   Form,
   json,
   redirect,
@@ -40,7 +41,7 @@ export const EditName = () => {
         uiAction.showNotification({
           status: NotificationStatus.error,
           title: 'Błąd',
-          message: 'Edycja niepowiodła się!',
+          message: 'Edycja nie powiodła się!',
           duration: 3000,
         }),
       );
@@ -79,7 +80,7 @@ export const EditName = () => {
   );
 };
 
-export const editNameAction = async ({ request }: { request: Request }) => {
+export const editNameAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const inputName = formData.get('name') as string;
 
@@ -93,9 +94,9 @@ export const editNameAction = async ({ request }: { request: Request }) => {
   const response = await fetchPost('user/name', { name: inputName });
 
   if (!response.ok) {
-    if (response.status === 403) {
+    if (response.status === 401) {
       cleanUpLocalStorage();
-      return redirect(`/?permissions=false`);
+      return redirect(`/?logged=false`);
     }
 
     throw json({ message: 'Edycja niepowiodła się!' }, { status: 500 });
