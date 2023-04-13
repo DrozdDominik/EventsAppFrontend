@@ -40,6 +40,11 @@ export const addEventAction = async ({ request }: { request: Request }) => {
   const response = await fetchPost('api/event', eventToSave);
 
   if (!response.ok) {
+    if (response.status === 401) {
+      cleanUpLocalStorage();
+      return redirect(`/?logged=false`);
+    }
+
     if (response.status === 403) {
       cleanUpLocalStorage();
       return redirect(`/?permissions=false`);
