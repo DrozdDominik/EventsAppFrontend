@@ -3,7 +3,6 @@ import { validateUsername } from '../../utils/validate-username';
 import { useDispatch } from 'react-redux';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
-import { fetchPost } from '../../utils/fetch-post';
 import {
   ActionFunction,
   Form,
@@ -16,6 +15,7 @@ import {
 import classes from './EditForms.module.css';
 import { ChangeBtn } from '../common/Btns/Change/ChangeBtn';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
+import { fetchPatch } from '../../utils/fetch-patch';
 
 export const EditName = () => {
   const [inputData, setInputData] = useState('');
@@ -66,10 +66,10 @@ export const EditName = () => {
       {data && !data.edited && data.errors && (
         <ErrorsScreen errors={data.errors} />
       )}
-      <Form method={'post'} className={classes.form}>
+      <Form method="patch" className={classes.form}>
         <input
           className={classes.edit_input}
-          type={'text'}
+          type="text"
           name="name"
           value={inputData}
           onChange={e => setInputData(e.target.value)}
@@ -91,7 +91,7 @@ export const editNameAction: ActionFunction = async ({ request }) => {
     return json({ edited: false, errors: error, oldData: inputName });
   }
 
-  const response = await fetchPost('user/name', { name: inputName });
+  const response = await fetchPatch('user/name', { name: inputName });
 
   if (!response.ok) {
     if (response.status === 401) {

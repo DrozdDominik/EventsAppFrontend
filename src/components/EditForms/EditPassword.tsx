@@ -14,9 +14,9 @@ import classes from './EditForms.module.css';
 import { ChangeBtn } from '../common/Btns/Change/ChangeBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
-import { fetchPost } from '../../utils/fetch-post';
 import { validatePassword } from '../../utils/validate-password';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
+import { fetchPatch } from '../../utils/fetch-patch';
 
 export const EditPassword = () => {
   const [inputData, setInputData] = useState('');
@@ -72,7 +72,7 @@ export const EditPassword = () => {
       {data && !data.edited && data.errors && (
         <ErrorsScreen errors={data.errors} />
       )}
-      <Form method={'post'} className={classes.form}>
+      <Form method="patch" className={classes.form}>
         <div className={classes.password}>
           <input
             className={classes.edit_input}
@@ -103,7 +103,7 @@ export const editPasswordAction: ActionFunction = async ({ request }) => {
     return json({ edited: false, errors: error, oldData: inputPassword });
   }
 
-  const response = await fetchPost('user/pass', { password: inputPassword });
+  const response = await fetchPatch('user/pass', { password: inputPassword });
 
   if (!response.ok) {
     if (response.status === 401) {
