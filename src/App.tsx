@@ -16,7 +16,8 @@ import { action as logoutAction } from './pages/Logout/Logout';
 import { authAction } from './pages/Auth/Auth';
 import { editNameAction } from './components/EditForms/EditName';
 import { userAuthLoader, UserLayout } from './layouts/user/User';
-import {editPasswordAction} from "./components/EditForms/EditPassword";
+import { editPasswordAction } from './components/EditForms/EditPassword';
+import { editEmailAction } from './components/EditForms/EditEmail';
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,7 @@ const router = createBrowserRouter([
           {
             path: 'email',
             element: <EditData dataType={EditDataType.email} />,
+            action: editEmailAction,
           },
           {
             path: 'password',
