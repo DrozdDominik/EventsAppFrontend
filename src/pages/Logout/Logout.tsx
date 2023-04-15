@@ -1,16 +1,10 @@
 import { json, redirect } from 'react-router-dom';
-import { apiUrl } from '../../config/api';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
+import { fetchGet } from '../../utils/fetch-get';
 
-export const action = async () => {
-  const result = await fetch(`${apiUrl}/user/logout`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  });
+export const logoutAction = async () => {
+  const result = await fetchGet('user/logout');
+
   if (result.status !== 200) {
     throw json(
       { message: 'Wystąpił bład podczas wylogowywania' },

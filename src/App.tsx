@@ -12,7 +12,7 @@ import { eventsLoader, EventsPage } from './pages/Events/EventsPage';
 import { Auth } from './pages/Auth/Auth';
 import { checkEditorLoader, getAuthRole } from './utils/auth';
 import { EventsLayout } from './layouts/events/Events';
-import { action as logoutAction } from './pages/Logout/Logout';
+import { logoutAction } from './pages/Logout/Logout';
 import { authAction } from './pages/Auth/Auth';
 import { editNameAction } from './components/EditForms/EditName';
 import { userAuthLoader, UserLayout } from './layouts/user/User';
