@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './UserPanel.module.css';
 import { NavigateBtn } from '../../components/common/Btns/Navigate/NavigateBtn';
 import { DeleteBtn } from '../../components/common/Btns/Delete/DeleteBtn';
@@ -10,11 +10,14 @@ import {
   redirect,
   useLoaderData,
   useNavigation,
+  useSearchParams,
 } from 'react-router-dom';
 import { DeleteModal } from '../../components/DeleteModal/DeleteModal';
 import { getRole } from '../../utils/auth';
 import { fetchGet } from '../../utils/fetch-get';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
+import { NotificationStatus, uiAction } from '../../store/ui-slice';
+import { useDispatch } from 'react-redux';
 
 export const UserPanel = () => {
   const navigation = useNavigation();
@@ -22,6 +25,22 @@ export const UserPanel = () => {
   const permissions = getPermissions();
   const { name } = useLoaderData() as { name: string };
   const isLoading = navigation.state === 'loading';
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const denied = searchParams.get('denied');
+
+  useEffect(() => {
+    if (denied === 'true') {
+      dispatch(
+        uiAction.showNotification({
+          status: NotificationStatus.error,
+          title: 'Błąd!',
+          message: 'Operacja niedostępna dla tego użytkownika!',
+          duration: 3500,
+        }),
+      );
+    }
+  }, []);
 
   if (isLoading) {
     return <Spinner isLoading={isLoading} />;

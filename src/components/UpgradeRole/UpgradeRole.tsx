@@ -17,6 +17,8 @@ import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { fetchGet } from '../../utils/fetch-get';
 import { fetchPatch } from '../../utils/fetch-patch';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
+import { getRole } from '../../utils/auth';
+import { UserRole } from 'types';
 
 export const UpgradeRole = () => {
   const dispatch = useDispatch();
@@ -84,20 +86,27 @@ export const UpgradeRole = () => {
 };
 
 export const upgradeRoleLoader: LoaderFunction = async () => {
+  const role = getRole();
+  const path = encodeURIComponent('user/role');
+
+  if (!role) {
+    return redirect(`/?path=${path}&logged=false`);
+  }
+
+  if (role !== UserRole.User) {
+    return redirect('/user?denied=true');
+  }
+
   const data = await fetchGet('user/permissions');
 
   if (!data.ok) {
     if (data.status === 401) {
       cleanUpLocalStorage();
-      const path = encodeURIComponent('user/role');
       return redirect(`/?path=${path}&logged=false`);
     }
 
     if (data.status === 400) {
-      throw json(
-        { message: 'Operacja niedostępna dla tego użytkownika!' },
-        { status: 400 },
-      );
+      return redirect('/user?denied=true');
     }
 
     throw json({ message: 'Błąd podczas pobierania danych' }, { status: 500 });
