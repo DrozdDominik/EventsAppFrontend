@@ -18,6 +18,10 @@ import { editNameAction } from './components/EditForms/EditName';
 import { userAuthLoader, UserLayout } from './layouts/user/User';
 import { editPasswordAction } from './components/EditForms/EditPassword';
 import { editEmailAction } from './components/EditForms/EditEmail';
+import {
+  upgradeRoleAction,
+  upgradeRoleLoader,
+} from './components/UpgradeRole/UpgradeRole';
 
 const router = createBrowserRouter([
   {
@@ -82,6 +86,8 @@ const router = createBrowserRouter([
           {
             path: 'role',
             element: <EditData dataType={EditDataType.role} />,
+            loader: upgradeRoleLoader,
+            action: upgradeRoleAction,
           },
         ],
       },
