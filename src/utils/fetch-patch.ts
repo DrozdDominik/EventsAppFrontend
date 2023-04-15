@@ -2,14 +2,22 @@ import { apiUrl } from '../config/api';
 
 export const fetchPatch = async <T>(
   path: string,
-  data: T,
+  data?: T,
 ): Promise<Response> => {
-  return await fetch(`${apiUrl}/${path}`, {
+  let options: RequestInit = {
     method: 'PATCH',
     headers: {
       'Content-type': 'application/json',
     },
     credentials: 'include',
-    body: JSON.stringify(data),
-  });
+  };
+
+  if (data) {
+    options = {
+      ...options,
+      body: JSON.stringify(data),
+    };
+  }
+
+  return await fetch(`${apiUrl}/${path}`, options);
 };
