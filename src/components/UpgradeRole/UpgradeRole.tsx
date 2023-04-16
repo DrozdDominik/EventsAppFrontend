@@ -76,7 +76,11 @@ export const UpgradeRole = () => {
         </div>
       ) : (
         <Form method={'patch'}>
-          <button type="submit" className={classes.upgrade}>
+          <button
+            type="submit"
+            className={classes.upgrade}
+            disabled={isSubmitting}
+          >
             {isSubmitting ? 'Wysyłanie prośby' : 'Uzyskaj uprawnienia edytora'}
           </button>
         </Form>
