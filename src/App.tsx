@@ -5,7 +5,11 @@ import { eventLoader, EventPage } from './pages/Event/EventPage';
 import { ErrorPage } from './pages/Error/Error';
 import { addEventAction, AddEventPage } from './pages/AddEvent/AddEventPage';
 import { EditData } from './pages/EditData/EditData';
-import { userLoader, UserPanel } from './pages/UserPanel/UserPanel';
+import {
+  deleteAction,
+  userLoader,
+  UserPanel,
+} from './pages/UserPanel/UserPanel';
 import { EditDataType } from './types';
 import { RootLayout } from './layouts/root/Root';
 import { eventsLoader, EventsPage } from './pages/Events/EventsPage';
@@ -67,6 +71,7 @@ const router = createBrowserRouter([
             index: true,
             element: <UserPanel />,
             loader: userLoader,
+            action: deleteAction,
           },
           {
             path: 'name',

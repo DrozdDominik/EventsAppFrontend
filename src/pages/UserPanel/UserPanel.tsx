@@ -5,6 +5,7 @@ import { DeleteBtn } from '../../components/common/Btns/Delete/DeleteBtn';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { UserRole } from 'types';
 import {
+  ActionFunction,
   json,
   LoaderFunction,
   redirect,
@@ -18,6 +19,7 @@ import { fetchGet } from '../../utils/fetch-get';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
+import { fetchDelete } from '../../utils/fetch-delete';
 
 export const UserPanel = () => {
   const navigation = useNavigation();
@@ -28,6 +30,7 @@ export const UserPanel = () => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const denied = searchParams.get('denied');
+  const deleted = searchParams.get('deleted');
 
   useEffect(() => {
     if (denied === 'true') {
@@ -37,6 +40,17 @@ export const UserPanel = () => {
           title: 'Błąd!',
           message: 'Operacja niedostępna dla tego użytkownika!',
           duration: 3500,
+        }),
+      );
+    }
+
+    if (deleted === 'false') {
+      dispatch(
+        uiAction.showNotification({
+          status: NotificationStatus.error,
+          title: 'Operacja usunięcia nie powiodła się!',
+          message: 'Przepraszamy, prosimy spróbować później!',
+          duration: 4000,
         }),
       );
     }
@@ -106,6 +120,29 @@ export const userLoader: LoaderFunction = async () => {
   }
 
   return data;
+};
+
+export const deleteAction: ActionFunction = async () => {
+  const response = await fetchDelete('user/delete');
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      cleanUpLocalStorage();
+      return redirect('/?logged=false');
+    }
+
+    throw json(
+      { message: 'Przepraszamy, prosimy spróbować później' },
+      { status: 500 },
+    );
+  }
+
+  if (await response.json()) {
+    cleanUpLocalStorage();
+    return redirect('/?deleted=true');
+  }
+
+  return redirect('/user?deleted=false');
 };
 
 const getPermissions = () => {

@@ -30,6 +30,7 @@ export const Auth = () => {
 
   const logged = searchParams.get('logged');
   const permissions = searchParams.get('permissions');
+  const deleted = searchParams.get('deleted');
 
   useEffect(() => {
     if (logged === 'false') {
@@ -50,6 +51,17 @@ export const Auth = () => {
           title: 'Brak uprawnień!',
           message: '',
           duration: 3500,
+        }),
+      );
+    }
+
+    if (deleted === 'true') {
+      dispatch(
+        uiAction.showNotification({
+          status: NotificationStatus.info,
+          title: 'Operacja powiodła się!',
+          message: 'Konto usunięte poprawnie!',
+          duration: 4000,
         }),
       );
     }
