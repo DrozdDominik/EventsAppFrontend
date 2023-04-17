@@ -3,6 +3,7 @@ import classes from './CancelBtn.module.css';
 
 interface Props {
   handleCancel: () => void;
+  isSubmitting: boolean;
 }
 
 export const CancelBtn = (props: Props) => {
@@ -12,6 +13,7 @@ export const CancelBtn = (props: Props) => {
         type={'button'}
         className={classes.cancel}
         onClick={props.handleCancel}
+        disabled={props.isSubmitting}
       >
         Anuluj
       </button>

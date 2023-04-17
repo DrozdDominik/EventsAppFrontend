@@ -120,7 +120,7 @@ export const LoginForm = (props: Props) => {
             />
           </label>
           <div className={classes.btnsContainer}>
-            <CancelBtn handleCancel={cancel} />
+            <CancelBtn handleCancel={cancel} isSubmitting={isSubmitting} />
             <button className={classes.submit} disabled={isSubmitting}>
               {isSubmitting ? 'Logowanie' : 'Zaloguj'}
             </button>

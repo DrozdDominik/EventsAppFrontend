@@ -118,7 +118,7 @@ export const RegisterForm = () => {
               />
             </label>
             <div className={classes.btnsContainer}>
-              <CancelBtn handleCancel={cancel} />
+              <CancelBtn handleCancel={cancel} isSubmitting={isSubmitting} />
               <button
                 className={classes.submit}
                 type="submit"
