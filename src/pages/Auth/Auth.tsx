@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { AuthBtn } from '../../components/common/Btns/Auth/AuthBtn';
 import { LoginForm } from '../../components/LoginForm/LoginForm';
 import { RegisterForm } from '../../components/RegisterForm/RegisterForm';
@@ -9,18 +9,13 @@ import { useDispatch } from 'react-redux';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { fetchPost } from '../../utils/fetch-post';
 import { UserRole } from 'types';
-
-export enum FormType {
-  'Register',
-  'Login',
-}
+import { validateUserData } from '../../utils/validate-user-data';
+import { UserData } from '../../types';
 
 export const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-  const [formType, setFormType] = useState<FormType>(FormType.Register);
-
   const urlParams = searchParams.get('path');
   let path = '/';
 
@@ -31,6 +26,9 @@ export const Auth = () => {
   const logged = searchParams.get('logged');
   const permissions = searchParams.get('permissions');
   const deleted = searchParams.get('deleted');
+  const mode = searchParams.get('mode');
+
+  const register = mode === 'register';
 
   useEffect(() => {
     if (logged === 'false') {
@@ -73,46 +71,72 @@ export const Auth = () => {
     }
   }, []);
 
-  const handleChangeFormType = () => {
-    const type =
-      formType === FormType.Register ? FormType.Login : FormType.Register;
-    setFormType(type);
-  };
-
   return (
     <div className={classes.authContainer}>
       <nav>
-        <AuthBtn type={formType} click={handleChangeFormType} />
+        <AuthBtn register={register} />
       </nav>
-      {formType === FormType.Register ? (
-        <LoginForm path={path} />
-      ) : (
-        <RegisterForm changeFormType={handleChangeFormType} />
-      )}
+      {register ? <RegisterForm /> : <LoginForm path={path} />}
     </div>
   );
 };
 
 export const authAction = async ({ request }: { request: Request }) => {
-  const formData = await request.formData();
-  const user = {
-    email: formData.get('email'),
-    password: formData.get('password'),
-  };
-  const result = await fetchPost('user/login', user);
+  const url = new URL(request.url);
+  const mode =
+    url.searchParams.get('mode') === 'register' ? 'register' : 'login';
+  const endpoint = mode === 'register' ? 'user' : 'user/login';
 
-  if (result.status === 401) {
-    return json({ logged: false });
+  const formData = Object.fromEntries(await request.formData());
+
+  if (mode === 'register') {
+    const validationResult = await validateUserData(
+      formData as unknown as UserData,
+    );
+
+    if (Array.isArray(validationResult)) {
+      return json({
+        success: false,
+        errors: validationResult,
+      });
+    }
   }
 
-  if (result.status !== 200) {
+  const response = await fetchPost(`${endpoint}`, formData);
+
+  if (!response.ok) {
+    if (response.status === 400) {
+      return json({
+        success: false,
+        message: 'Podany email jest już zajęty!',
+      });
+    }
+
+    if (response.status === 401) {
+      return json({
+        success: false,
+        message: 'Niepoprawne dane logowania!',
+      });
+    }
+
     throw json({ message: 'Przepraszamy wystąpił błąd' }, { status: 500 });
   }
 
-  const data = (await result.json()) as { role: UserRole };
-  localStorage.setItem('role', data.role);
-  const expiration = new Date();
-  expiration.setHours(expiration.getHours() + 24);
-  localStorage.setItem('expiration', expiration.toISOString());
-  return json({ logged: true });
+  if (response.status === 200) {
+    const data = (await response.json()) as { role: UserRole };
+    localStorage.setItem('role', data.role);
+    const expiration = new Date();
+    expiration.setHours(expiration.getHours() + 24);
+    localStorage.setItem('expiration', expiration.toISOString());
+
+    return json({
+      success: true,
+      message: 'Udane logowanie!',
+    });
+  }
+
+  return json({
+    success: true,
+    message: 'Rejestracja powiodła się!',
+  });
 };

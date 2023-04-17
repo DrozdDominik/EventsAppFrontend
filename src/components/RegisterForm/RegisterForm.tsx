@@ -1,103 +1,65 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 import classes from '../../layouts/form/form.module.css';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
-import { fetchPost } from '../../utils/fetch-post';
-import { UserData } from '../../types';
-import { validateUserData } from '../../utils/validate-user-data';
-import { Spinner } from '../Spinner/Spinner';
+import { AuthActionData, UserData } from '../../types';
 import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom';
 
-interface Props {
-  changeFormType: () => void;
-}
-
-export const RegisterForm = (props: Props) => {
+export const RegisterForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
 
   const [user, setUser] = useState<UserData>({
     name: '',
     email: '',
     password: '',
   });
-  const [loading, setLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState<string[]>([]);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const response = useActionData() as AuthActionData;
+
+  useEffect(() => {
+    if (!response) {
+      return;
+    }
+
+    if (response.success) {
+      dispatch(
+        uiAction.showNotification({
+          status: NotificationStatus.success,
+          title: response.message,
+          message: 'Możesz już się zalogować',
+          duration: 4000,
+        }),
+      );
+
+      return navigate('/');
+    }
+
+    dispatch(
+      uiAction.showNotification({
+        status: NotificationStatus.error,
+        title: 'Błąd',
+        message: response.message,
+        duration: 2500,
+      }),
+    );
+  }, [response]);
 
   const change = (e: ChangeEvent<HTMLInputElement>) =>
     setUser(person => ({
       ...person,
       [e.target.name]: e.target.value,
     }));
-
-  const submit = async (e: FormEvent): Promise<void> => {
-    e.preventDefault();
-
-    setLoading(true);
-    setErrors([]);
-
-    const validationResult = await validateUserData(user);
-
-    if (Array.isArray(validationResult)) {
-      setErrors(validationResult);
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Błąd',
-          message: 'Podano błędne dane!',
-          duration: 4000,
-        }),
-      );
-      setLoading(false);
-      return;
-    }
-
-    const result = await fetchPost('user', user);
-
-    if (result.status === 201) {
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.success,
-          title: 'Rejestracja powiodła się!',
-          message: 'Możesz już się zalogować',
-          duration: 4000,
-        }),
-      );
-      props.changeFormType();
-    } else if (result.status === 400) {
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Błąd',
-          message: 'Podany email jest już zajęty!',
-          duration: 5000,
-        }),
-      );
-    } else if (result.status === 422) {
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Niepoprawne hasło!',
-          message:
-            'Hasło musi zawierać od 7 do 15 znaków w tym przynajmniej jedną literą, cyfrę i znak specjalny',
-          duration: 6000,
-        }),
-      );
-    } else {
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Błąd',
-          message: 'Serwis czasowo niedostępny!',
-          duration: 4000,
-        }),
-      );
-    }
-
-    setLoading(false);
-  };
 
   const cancel = () => {
     setUser({
@@ -111,16 +73,14 @@ export const RegisterForm = (props: Props) => {
     setPasswordVisible(!passwordVisible);
   };
 
-  if (loading) {
-    return <Spinner isLoading={loading} />;
-  }
-
   return (
     <>
-      {errors.length !== 0 && <ErrorsScreen errors={errors} />}
+      {response && !response.success && response.errors && (
+        <ErrorsScreen errors={response.errors} />
+      )}
       <div className={classes.formContainer}>
         <h1>Rejestracja</h1>
-        <form onSubmit={submit} className={classes.registerForm}>
+        <Form method="post" className={classes.registerForm}>
           <fieldset>
             <legend>Podaj dane</legend>
             <label>
@@ -159,12 +119,16 @@ export const RegisterForm = (props: Props) => {
             </label>
             <div className={classes.btnsContainer}>
               <CancelBtn handleCancel={cancel} />
-              <button className={classes.submit} type="submit">
-                Zarejestruj!
+              <button
+                className={classes.submit}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Rejestracja' : 'Zarejestruj!'}
               </button>
             </div>
           </fieldset>
-        </form>
+        </Form>
       </div>
     </>
   );

@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom';
 import { RootState } from '../../store';
 import { Notification } from '../Notification/Notification';
+import { AuthActionData } from '../../types';
 
 interface Props {
   path: string;
@@ -27,7 +28,7 @@ export const LoginForm = (props: Props) => {
     password: '',
   });
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const response = useActionData() as { logged: boolean } | undefined;
+  const response = useActionData() as AuthActionData;
   const [path, setPath] = useState<string>('/');
 
   const isSubmitting = navigation.state === 'submitting';
@@ -41,11 +42,11 @@ export const LoginForm = (props: Props) => {
       return;
     }
 
-    if (response.logged) {
+    if (response.success) {
       dispatch(
         uiAction.showNotification({
           status: NotificationStatus.success,
-          title: 'Udane logowanie!',
+          title: response.message,
           message: 'Witamy w serwisie',
           duration: 3000,
         }),
@@ -58,7 +59,7 @@ export const LoginForm = (props: Props) => {
       uiAction.showNotification({
         status: NotificationStatus.error,
         title: 'Błąd',
-        message: 'Niepoprawne dane logowania!',
+        message: response.message,
         duration: 2500,
       }),
     );
