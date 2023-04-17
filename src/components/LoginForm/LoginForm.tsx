@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import classes from '../../layouts/form/form.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
@@ -10,8 +10,6 @@ import {
   useNavigate,
   useNavigation,
 } from 'react-router-dom';
-import { RootState } from '../../store';
-import { Notification } from '../Notification/Notification';
 import { AuthActionData } from '../../types';
 
 interface Props {
@@ -20,7 +18,6 @@ interface Props {
 
 export const LoginForm = (props: Props) => {
   const dispatch = useDispatch();
-  const notification = useSelector((state: RootState) => state.ui.notification);
   const navigate = useNavigate();
   const navigation = useNavigation();
   const [user, setUser] = useState({
@@ -84,13 +81,6 @@ export const LoginForm = (props: Props) => {
 
   return (
     <div className={classes.formContainer}>
-      {notification && (
-        <Notification
-          status={notification.status}
-          title={notification.title}
-          message={notification.message}
-        />
-      )}
       <h1>Logowanie</h1>
       <Form method="post" className={classes.loginForm}>
         <fieldset>
