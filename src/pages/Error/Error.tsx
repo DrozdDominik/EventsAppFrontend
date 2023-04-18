@@ -1,31 +1,55 @@
-import React from 'react';
-import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
-import { NavigateBtn } from '../../components/common/Btns/Navigate/NavigateBtn';
+import React, { useEffect } from 'react';
+import {
+  useRouteError,
+  isRouteErrorResponse,
+  useNavigate,
+} from 'react-router-dom';
+import { Spinner } from '../../components/Spinner/Spinner';
+import { useDispatch } from 'react-redux';
+import { NotificationStatus, uiAction } from '../../store/ui-slice';
 
 export const ErrorPage = () => {
   const error = useRouteError();
-  let title = 'Wystąpił błąd!';
-  let message = 'Przepraszamy, coś poszło nie tak...';
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  if (isRouteErrorResponse(error)) {
-    switch (error.status) {
-      case 404: {
-        title = 'Nie znaleziono!';
-        message = 'Nie ma takiej strony!';
-        break;
+  useEffect(() => {
+    if (isRouteErrorResponse(error)) {
+      if (error.status === 400) {
+        dispatch(
+          uiAction.showNotification({
+            status: NotificationStatus.info,
+            title: 'Nie znaleziono!',
+            message: error.data.message,
+            duration: 4000,
+          }),
+        );
       }
-      case 500: {
-        message = error.data.message;
-        break;
+
+      if (error.status === 404) {
+        dispatch(
+          uiAction.showNotification({
+            status: NotificationStatus.info,
+            title: 'Nie znaleziono!',
+            message: 'Nie ma takiej strony!',
+            duration: 4000,
+          }),
+        );
       }
+
+      if (error.status === 500) {
+        dispatch(
+          uiAction.showNotification({
+            status: NotificationStatus.error,
+            title: 'Błąd!',
+            message: error.data.message,
+            duration: 4000,
+          }),
+        );
+      }
+      return navigate('/');
     }
-  }
+  }, []);
 
-  return (
-    <>
-      <h3>{title}</h3>
-      <p>{message}</p>
-      <NavigateBtn url={'/'} text={'Strona głowna'} />
-    </>
-  );
+  return <Spinner isLoading={true} />;
 };
