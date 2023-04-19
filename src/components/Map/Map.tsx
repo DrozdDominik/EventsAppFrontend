@@ -25,7 +25,7 @@ export const Map = (props: Props) => {
             <Popup className={'popup'}>
               <h3>{event.name}</h3>
               <p>{event.description}</p>
-              <Link className={'link'} to={`/event/${event.id}`}>
+              <Link className={'link'} to={`/events/${event.id}`}>
                 Szczegóły
               </Link>
             </Popup>

@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavigateBtn } from '../../components/common/Btns/Navigate/NavigateBtn';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import { EditDataType } from '../../types';
-import { Notification } from '../../components/Notification/Notification';
 import { EditName } from '../../components/EditForms/EditName';
-import { Spinner } from '../../components/Spinner/Spinner';
-import { getUserRole } from '../../utils/get-role';
-import { NotificationStatus, uiAction } from '../../store/ui-slice';
-import { useNavigate } from 'react-router-dom';
 import classes from './EditData.module.css';
 import { EditEmail } from '../../components/EditForms/EditEmail';
 import { EditPassword } from '../../components/EditForms/EditPassword';
@@ -18,50 +11,8 @@ interface Props {
   dataType: EditDataType;
 }
 export const EditData = (props: Props) => {
-  const { role } = useSelector((state: RootState) => state.auth);
-  const notification = useSelector((state: RootState) => state.ui.notification);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      let userRole = role;
-      if (!role) {
-        userRole = await getUserRole();
-        if (!userRole) {
-          dispatch(
-            uiAction.showNotification({
-              status: NotificationStatus.info,
-              title: 'Wymagane logowanie!',
-              message: '',
-              duration: 4000,
-            }),
-          );
-
-          navigate('/');
-          return;
-        }
-      }
-
-      setLoading(false);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (notification) {
-      setTimeout(() => {
-        dispatch(uiAction.clearNotification());
-      }, notification.duration);
-    }
-  }, [notification]);
-
-  if (loading) {
-    return <Spinner isLoading={loading} />;
-  }
-
   return (
-    <div className={classes.container}>
+    <>
       <h2 className={classes.title}>Edytuj</h2>
       {props.dataType === EditDataType.name && (
         <div className={classes.main}>
@@ -87,14 +38,7 @@ export const EditData = (props: Props) => {
           <UpgradeRole />
         </>
       )}
-      <NavigateBtn url={'/user/settings'} text={'Powrót'} />
-      {notification && (
-        <Notification
-          status={notification.status}
-          title={notification.title}
-          message={notification.message}
-        />
-      )}
-    </div>
+      <NavigateBtn url={'..'} text={'Powrót'} />
+    </>
   );
 };

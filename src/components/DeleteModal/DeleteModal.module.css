@@ -39,6 +39,29 @@
     align-items: center;
 }
 
+.delete {
+    display: block;
+    font: inherit;
+    font-size: 1.25rem;
+    margin: 0.75rem 0;
+    padding: 1em;
+    font-weight: 500;
+    background-color: #e86464;
+    border-radius: 6px;
+    border: 0;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+.delete:focus {
+    outline-color: blueviolet;
+}
+
+.delete:hover {
+    color: #5d4bf6;
+}
+
 @media (max-width: 1500px) {
     .title {
         font-size: 3.5rem;
@@ -109,6 +132,10 @@
     .title {
         font-size: 1.5rem;
     }
+
+    .delete {
+        font-size: 13px;
+    }
 }
 
 @media (max-width: 270px) {
@@ -129,9 +156,41 @@
     }
 }
 
-@media (orientation: landscape) and (max-height: 350px) {
+@media (orientation: portrait) and (max-width: 400px) {
+    .delete {
+        font-size: 15px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 450px) {
     .title {
         font-size: 2rem;
+    }
+
+    .btns {
+        flex-direction: row;
+    }
+
+    .delete {
+        margin-right: 0.8rem;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 350px) {
+    .title {
+        font-size: 1.7rem;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .delete {
+        font-size: 14px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 200px) {
+    .title {
+        font-size: 1rem;
     }
 }
 

@@ -1,19 +1,22 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { NewEventData } from 'types';
+import React, { useEffect, useState } from 'react';
 import classes from './EventAddForm.module.css';
 import { NavigateBtn } from '../common/Btns/Navigate/NavigateBtn';
-import { useDispatch, useSelector } from 'react-redux';
-import { NotificationStatus, uiAction } from '../../store/ui-slice';
-import { RootState } from '../../store';
 import { EventFormData } from 'src/types';
-import { validateData } from '../../utils/validate-event-data';
-import { fetchPost } from '../../utils/fetch-post';
 import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
-import { Spinner } from '../Spinner/Spinner';
-import { addProtocol } from '../../utils/addProtocol';
-import { useNavigate } from 'react-router-dom';
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom';
+import { NotificationStatus, uiAction } from '../../store/ui-slice';
+import { useDispatch } from 'react-redux';
 
 export const EventAddForm = () => {
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
   const initialState: EventFormData = {
     name: '',
     description: '',
@@ -26,70 +29,24 @@ export const EventAddForm = () => {
   };
 
   const [eventData, setEventData] = useState<EventFormData>(initialState);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useDispatch();
-  const notification = useSelector((state: RootState) => state.ui.notification);
-  const navigate = useNavigate();
-
-  const updateForm = (key: string, value: string | number) => {
-    setEventData(eventData => ({
-      ...eventData,
-      [key]: value,
-    }));
+  const data = useActionData() as {
+    added: boolean;
+    errors?: string[];
+    oldData?: EventFormData;
+    id?: string;
   };
 
-  const sendData = async (data: NewEventData): Promise<string | null> => {
-    const result = await fetchPost('api/event', data);
-
-    return result.status === 201 ? await result.json() : null;
-  };
-
-  const saveEvent = async (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    setLoading(true);
-    setErrors([]);
-
-    const validationResult = await validateData(eventData);
-
-    if (Array.isArray(validationResult)) {
-      setErrors(validationResult);
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Błąd',
-          message: 'Podano błędne dane!',
-          duration: 4000,
-        }),
-      );
-      setLoading(false);
+  useEffect(() => {
+    if (!data) {
       return;
     }
 
-    const { lat, lon } = validationResult;
+    if (data.oldData) {
+      setEventData(data.oldData);
+    }
 
-    const eventToSave: NewEventData = {
-      name: eventData.name,
-      description: eventData.description,
-      estimatedTime: Number(eventData.time),
-      link: eventData.link !== '' ? addProtocol(eventData.link) : null,
-      lat,
-      lon,
-    };
-
-    const id = await sendData(eventToSave);
-
-    if (!id) {
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Błąd',
-          message: 'Nie udało się dodać wydarzenia!',
-          duration: 3000,
-        }),
-      );
-    } else {
+    if (data.added) {
       dispatch(
         uiAction.showNotification({
           status: NotificationStatus.success,
@@ -99,32 +56,27 @@ export const EventAddForm = () => {
         }),
       );
       setEventData(initialState);
-      navigate(`/event/${id}`);
+      return navigate(`/events/${data.id}`);
     }
+  }, [data]);
 
-    setLoading(false);
+  const updateForm = (key: string, value: string | number) => {
+    setEventData(eventData => ({
+      ...eventData,
+      [key]: value,
+    }));
   };
-
-  useEffect(() => {
-    if (notification) {
-      setTimeout(() => {
-        dispatch(uiAction.clearNotification());
-      }, notification.duration);
-    }
-  }, [notification]);
-
-  if (loading) {
-    return <Spinner isLoading={loading} />;
-  }
 
   return (
     <>
-      {errors.length !== 0 && <ErrorsScreen errors={errors} />}
+      {data && !data.added && data.errors && (
+        <ErrorsScreen errors={data.errors} />
+      )}
       <div className={classes.card}>
         <div className={classes.card_info}>
           <h1 className={classes.card_header}>Dodaj wydarzenie</h1>
         </div>
-        <form className={classes.add_event_form} onSubmit={saveEvent}>
+        <Form method={'post'} className={classes.add_event_form}>
           <div className={classes.input}>
             <input
               type="text"
@@ -218,12 +170,16 @@ export const EventAddForm = () => {
             <label className={classes.input_label}>Numer budynku</label>
           </div>
           <div className={classes.div_submit}>
-            <button className={classes.btn_submit} type="submit">
-              Dodaj!
+            <button
+              className={classes.btn_submit}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Dodawanie...' : 'Dodaj!'}
             </button>
-            <NavigateBtn url={'/'} text={'Powrót'} />
+            <NavigateBtn url={'/events'} text={'Powrót'} />
           </div>
-        </form>
+        </Form>
       </div>
     </>
   );

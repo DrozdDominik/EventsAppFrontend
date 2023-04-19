@@ -21,3 +21,9 @@ export enum EditDataType {
   password = 'password',
   role = 'role',
 }
+
+export interface AuthActionData {
+  success: boolean;
+  message: string;
+  errors?: string[];
+}

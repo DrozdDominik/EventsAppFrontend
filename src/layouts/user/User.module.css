@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    margin: 4rem auto;
+    justify-content: center;
+    align-items: center;
+    background-color: #94c9c3;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 0 rgb(45, 162, 155);
+    padding: 2rem;
+    overflow: hidden;
+}
+
+@media (max-width: 540px) {
+    .container {
+        width: 70vw;
+    }
+}
+
+
+
+@media (max-width: 400px) {
+    .container {
+        width: 80vw;
+    }
+}
+
+@media (max-width: 270px) {
+    .container {
+        width: 90vw;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 320px) {
+    .container {
+        margin: 2rem auto;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 740px) {
+    .container {
+        margin: 1.5rem auto;
+    }
+}

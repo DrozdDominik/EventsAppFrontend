@@ -1,55 +1,72 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import classes from '../../layouts/form/form.module.css';
 import { useDispatch } from 'react-redux';
-import { authActions } from '../../store/auth-slice';
-import { UserRole } from 'types';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { CancelBtn } from '../common/Btns/Cancel/CancelBtn';
 import { ShowPassword } from '../common/ShowPassword/ShowPassword';
-import { fetchPost } from '../../utils/fetch-post';
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom';
+import { AuthActionData } from '../../types';
 
-export const LoginForm = () => {
+interface Props {
+  path: string;
+}
+
+export const LoginForm = (props: Props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const navigation = useNavigation();
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
-
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const response = useActionData() as AuthActionData;
+  const [path, setPath] = useState<string>('/');
+
+  const isSubmitting = navigation.state === 'submitting';
+
+  useEffect(() => {
+    if (props.path) {
+      props.path === '/' ? setPath('events') : setPath(props.path);
+    }
+
+    if (!response) {
+      return;
+    }
+
+    if (response.success) {
+      dispatch(
+        uiAction.showNotification({
+          status: NotificationStatus.success,
+          title: response.message,
+          message: 'Witamy w serwisie',
+          duration: 3000,
+        }),
+      );
+
+      return navigate(`${path}`);
+    }
+
+    dispatch(
+      uiAction.showNotification({
+        status: NotificationStatus.error,
+        title: 'Błąd',
+        message: response.message,
+        duration: 2500,
+      }),
+    );
+  }, [response]);
 
   const change = (e: ChangeEvent<HTMLInputElement>) =>
     setUser(user => ({
       ...user,
       [e.target.name]: e.target.value,
     }));
-
-  const submit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const result = await fetchPost('user/login', user);
-
-    if (result.status === 200) {
-      const data = (await result.json()) as { role: UserRole };
-      dispatch(authActions.login(data.role));
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.success,
-          title: 'Udane logowanie!',
-          message: 'Witamy w serwisie',
-          duration: 3000,
-        }),
-      );
-    } else {
-      dispatch(
-        uiAction.showNotification({
-          status: NotificationStatus.error,
-          title: 'Błąd',
-          message: 'Niepoprawne dane logowania!',
-          duration: 2500,
-        }),
-      );
-    }
-  };
 
   const cancel = () => {
     setUser({
@@ -65,7 +82,7 @@ export const LoginForm = () => {
   return (
     <div className={classes.formContainer}>
       <h1>Logowanie</h1>
-      <form className={classes.loginForm} onSubmit={submit}>
+      <Form method="post" className={classes.loginForm}>
         <fieldset>
           <legend>Autentykacja</legend>
           <label>
@@ -93,13 +110,13 @@ export const LoginForm = () => {
             />
           </label>
           <div className={classes.btnsContainer}>
-            <CancelBtn handleCancel={cancel} />
-            <button className={classes.submit} type="submit">
-              Zaloguj
+            <CancelBtn handleCancel={cancel} isSubmitting={isSubmitting} />
+            <button className={classes.submit} disabled={isSubmitting}>
+              {isSubmitting ? 'Logowanie' : 'Zaloguj'}
             </button>
           </div>
         </fieldset>
-      </form>
+      </Form>
     </div>
   );
 };

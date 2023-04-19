@@ -1,4 +1,2 @@
 export const validateEmail = (email: string): boolean =>
-  /^[a-zA-Z\d.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$/.test(
-    email,
-  );
+  /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);

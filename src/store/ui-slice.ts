@@ -33,7 +33,7 @@ export const uiSlice = createSlice({
         duration: action.payload.duration ?? 2000,
       };
     },
-    clearNotification(state) {
+    cleanUpNotification(state) {
       state.notification = null;
     },
   },
