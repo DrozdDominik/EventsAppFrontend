@@ -99,6 +99,11 @@ export const editNameAction: ActionFunction = async ({ request }) => {
       return redirect(`/?logged=false`);
     }
 
+    if (response.status === 422) {
+      const error = ['Nazwa użytkownika musi mieć od 2 do 30 znaków'];
+      return json({ edited: false, errors: error, oldData: inputName });
+    }
+
     throw json({ message: 'Edycja niepowiodła się!' }, { status: 500 });
   }
 

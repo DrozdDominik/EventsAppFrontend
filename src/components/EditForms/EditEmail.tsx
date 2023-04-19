@@ -102,6 +102,11 @@ export const editEmailAction: ActionFunction = async ({ request }) => {
       return json({ edited: false, errors: error, oldData: inputEmail });
     }
 
+    if (response.status === 422) {
+      const error = ['Podano niepoprawny adres email'];
+      return json({ edited: false, errors: error, oldData: inputEmail });
+    }
+
     throw json({ message: 'Edycja niepowiodła się!' }, { status: 500 });
   }
 

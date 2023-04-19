@@ -111,11 +111,11 @@ export const editPasswordAction: ActionFunction = async ({ request }) => {
       return redirect(`/?logged=false`);
     }
 
-    if (response.status === 400) {
-      throw json(
-        { message: 'Podane hasło nie spełnia wymagań' },
-        { status: 400 },
-      );
+    if (response.status === 422) {
+      const error = [
+        'Hasło musi zawierać od 7 do 15 znaków w tym przynajmniej jedną literą, cyfrę i znak specjalny',
+      ];
+      return json({ edited: false, errors: error, oldData: inputPassword });
     }
 
     throw json({ message: 'Edycja niepowiodła się!' }, { status: 500 });
