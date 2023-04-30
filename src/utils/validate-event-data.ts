@@ -27,6 +27,10 @@ export const validateData = async (
     errors.push('Czas wydarzenia musi być wiekszy od 0');
   }
 
+  if (data.categoryId === '') {
+    errors.push('Należy wybrać kategorię');
+  }
+
   if (data.link !== '' && !validUrl(data.link)) {
     errors.push('Podano niepoprawny link');
   }

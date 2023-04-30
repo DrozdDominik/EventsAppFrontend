@@ -7,6 +7,7 @@ export type EventFormData = {
   city: string;
   street: string;
   number: string;
+  categoryId: string;
 };
 
 export interface UserData {

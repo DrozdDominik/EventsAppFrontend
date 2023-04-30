@@ -3,7 +3,11 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { eventLoader, EventPage } from './pages/Event/EventPage';
 import { ErrorPage } from './pages/Error/Error';
-import { addEventAction, AddEventPage } from './pages/AddEvent/AddEventPage';
+import {
+  addEventAction,
+  addEventLoader,
+  AddEventPage,
+} from './pages/AddEvent/AddEventPage';
 import { EditData } from './pages/EditData/EditData';
 import {
   deleteAction,
@@ -14,7 +18,7 @@ import { EditDataType } from './types';
 import { RootLayout } from './layouts/root/Root';
 import { eventsLoader, EventsPage } from './pages/Events/EventsPage';
 import { Auth } from './pages/Auth/Auth';
-import { checkEditorLoader, getAuthRole } from './utils/auth';
+import { getAuthRole } from './utils/auth';
 import { EventsLayout } from './layouts/events/Events';
 import { logoutAction } from './pages/Logout/Logout';
 import { authAction } from './pages/Auth/Auth';
@@ -52,7 +56,7 @@ const router = createBrowserRouter([
           {
             path: 'add',
             element: <AddEventPage />,
-            loader: checkEditorLoader,
+            loader: addEventLoader,
             action: addEventAction,
           },
           {

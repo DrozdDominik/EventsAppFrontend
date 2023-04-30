@@ -1,12 +1,14 @@
 import React from 'react';
 import { json, redirect } from 'react-router-dom';
 import { EventAddForm } from '../../components/EventAddForm/EventAddForm';
-import { NewEventData } from 'types';
+import { NewEventData, UserRole } from 'types';
 import { EventFormData } from '../../types';
 import { validateData } from '../../utils/validate-event-data';
 import { addProtocol } from '../../utils/addProtocol';
 import { fetchPost } from '../../utils/fetch-post';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
+import { fetchGet } from '../../utils/fetch-get';
+import { getRole } from '../../utils/auth';
 
 export const AddEventPage = () => {
   return (
@@ -35,6 +37,7 @@ export const addEventAction = async ({ request }: { request: Request }) => {
     link: formData.link !== '' ? addProtocol(formData.link) : null,
     lat,
     lon,
+    categoryId: formData.categoryId,
   };
 
   const response = await fetchPost('api/event', eventToSave);
@@ -56,4 +59,29 @@ export const addEventAction = async ({ request }: { request: Request }) => {
   const id = (await response.json()) as string;
 
   return json({ added: true, id });
+};
+
+export const addEventLoader = async () => {
+  const role = getRole();
+  const path = 'events/add';
+
+  if (!role) {
+    return redirect(`/?path=${path}&logged=false`);
+  }
+
+  if (role !== UserRole.Editor) {
+    return redirect('/events?permissions=false');
+  }
+
+  const data = await fetchGet('api/category');
+
+  if (!data.ok) {
+    if (data.status === 401) {
+      cleanUpLocalStorage();
+      return redirect(`/?path=${path}&logged=false`);
+    }
+
+    throw json({ message: 'Przepraszamy wystąpił błąd!' }, { status: 500 });
+  }
+  return data;
 };

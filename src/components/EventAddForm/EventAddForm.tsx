@@ -6,16 +6,21 @@ import { ErrorsScreen } from '../ErrorsScreen/ErrorsScreen';
 import {
   Form,
   useActionData,
+  useLoaderData,
   useNavigate,
   useNavigation,
 } from 'react-router-dom';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
+import { CategoryEntity } from 'types';
+import { Spinner } from '../Spinner/Spinner';
 
 export const EventAddForm = () => {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
+  const isLoading = navigation.state === 'loading';
+  const { categories } = useLoaderData() as { categories: CategoryEntity[] };
 
   const initialState: EventFormData = {
     name: '',
@@ -26,6 +31,7 @@ export const EventAddForm = () => {
     city: '',
     street: '',
     number: '',
+    categoryId: '',
   };
 
   const [eventData, setEventData] = useState<EventFormData>(initialState);
@@ -66,6 +72,10 @@ export const EventAddForm = () => {
       [key]: value,
     }));
   };
+
+  if (isLoading) {
+    return <Spinner isLoading={isLoading} />;
+  }
 
   return (
     <>
@@ -112,6 +122,22 @@ export const EventAddForm = () => {
             <label className={classes.input_label}>
               Planowany czas trwania (minuty)
             </label>
+          </div>
+          <div className={classes.input}>
+            <select
+              className={classes.input_field}
+              name="categoryId"
+              onChange={e => updateForm('categoryId', e.target.value)}
+              required={true}
+            >
+              <option value={''}></option>
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <label className={classes.input_label}>Kategoria</label>
           </div>
           <div className={classes.input}>
             <input
