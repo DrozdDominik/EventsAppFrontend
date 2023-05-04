@@ -3,14 +3,14 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import './MapDetailed.css';
 import 'leaflet/dist/leaflet.css';
 import '../../utils/map-icons';
-import { EventEntity } from 'types';
+import { EventResponse } from 'types';
 
 const mapUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const attribution =
   "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> & contributors";
 
 interface Props {
-  event: EventEntity;
+  event: EventResponse;
 }
 
 export const MapDetailed = (props: Props) => {
@@ -20,7 +20,7 @@ export const MapDetailed = (props: Props) => {
         <TileLayer url={mapUrl} attribution={attribution} />
         <Marker position={[props.event.lat, props.event.lon]}>
           <Popup className={'popup'}>
-            <h3>{props.event.name}</h3>
+            <div className={'title'}>{props.event.name}</div>
             <p>{props.event.description}</p>
             {props.event.link && (
               <p>
@@ -30,7 +30,7 @@ export const MapDetailed = (props: Props) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <i>Wyświetl stronę wydarzenia</i>
+                  <span className={'linkText'}>Strona wydarzenia</span>
                 </a>
               </p>
             )}

@@ -12,6 +12,26 @@
   overflow: hidden;
 }
 
+.cardHeader {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.data {
+  padding: 0.5rem;
+  color: #fff;
+  border-radius: 0.7rem;
+  background-color: #00b2ff;
+}
+
+.category {
+  padding: 0.4rem;
+  color: #fff;
+  background-color: #00b2ff;
+  border-radius: 0.7rem;
+}
+
 @media (max-width: 1800px) {
   .cardContainer {
     width: 480px;

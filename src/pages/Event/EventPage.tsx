@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { EventDescription } from '../../components/EventDescription/EventDescription';
-import { EventEntity } from 'types';
+import { EventResponse } from 'types';
 import {
   json,
   LoaderFunction,
@@ -27,7 +27,7 @@ export const EventPage = () => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const isLoading = navigation.state === 'loading';
-  const { event } = useLoaderData() as { event: EventEntity };
+  const { event } = useLoaderData() as { event: EventResponse };
   const permissions = searchParams.get('permissions');
 
   useEffect(() => {

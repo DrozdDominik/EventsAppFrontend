@@ -128,6 +128,7 @@ export const EventAddForm = () => {
               className={classes.input_field}
               name="categoryId"
               onChange={e => updateForm('categoryId', e.target.value)}
+              value={eventData.categoryId}
               required={true}
             >
               <option value={''}></option>
