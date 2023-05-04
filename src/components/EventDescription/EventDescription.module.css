@@ -12,6 +12,26 @@
   padding: 0.75rem;
 }
 
+.cardHeader {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.data {
+  padding: 0.5rem;
+  color: #fff;
+  border-radius: 0.7rem;
+  background-color: #00b2ff;
+}
+
+.category {
+  padding: 0.4rem;
+  color: #fff;
+  background-color: #00b2ff;
+  border-radius: 0.7rem;
+}
+
 .title {
   font-size: 3rem;
   color: #2ff3b9;
@@ -28,6 +48,7 @@
 }
 
 .time {
+  font-weight: bold;
   margin-bottom: 1rem;
 }
 

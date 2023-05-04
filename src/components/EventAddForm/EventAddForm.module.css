@@ -69,6 +69,10 @@ textarea {
   transform: translateY(-1.5rem);
 }
 
+.input_field:invalid {
+  border-bottom-color: #eee;
+}
+
 .div_submit {
   margin-top: 2rem;
 }

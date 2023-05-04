@@ -18,12 +18,25 @@
   color: #246762 !important;
 }
 
-.popup h3 {
+.title {
   font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0.1rem 0;
 }
 
-.popup p {
+.content {
+  margin: 0.5rem 0;
   font-size: 1rem;
+}
+
+.category {
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.2rem;
+  background-color: #31966c;
+  color: #e7e0e0;
+  border-radius: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 @media (max-width: 1750px) {
