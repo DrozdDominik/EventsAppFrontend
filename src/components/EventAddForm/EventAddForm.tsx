@@ -26,8 +26,9 @@ export const EventAddForm = () => {
   const initialState: EventFormData = {
     name: '',
     description: '',
-    time: 0,
     date: getCurrentDate(),
+    time: '',
+    duration: 0,
     link: '',
     country: 'Polska',
     city: '',
@@ -112,11 +113,33 @@ export const EventAddForm = () => {
           </div>
           <div className={classes.input}>
             <input
-              type="number"
+              type="date"
+              className={classes.input_field}
+              name="date"
+              value={eventData.date}
+              onChange={e => updateForm('date', e.target.value)}
+              required={true}
+            />
+            <label className={classes.input_label}>Data wydarzenia</label>
+          </div>
+          <div className={classes.input}>
+            <input
+              type="time"
               className={classes.input_field}
               name="time"
               value={eventData.time}
               onChange={e => updateForm('time', e.target.value)}
+              required={true}
+            />
+            <label className={classes.input_label}>Godzina startu</label>
+          </div>
+          <div className={classes.input}>
+            <input
+              type="number"
+              className={classes.input_field}
+              name="duration"
+              value={eventData.duration}
+              onChange={e => updateForm('duration', e.target.value)}
               min={1}
               step={1}
               required={true}
@@ -141,17 +164,6 @@ export const EventAddForm = () => {
               ))}
             </select>
             <label className={classes.input_label}>Kategoria</label>
-          </div>
-          <div className={classes.input}>
-            <input
-              type="date"
-              className={classes.input_field}
-              name="date"
-              value={eventData.date}
-              onChange={e => updateForm('date', e.target.value)}
-              required={true}
-            />
-            <label className={classes.input_label}>Data wydarzenia</label>
           </div>
           <div className={classes.input}>
             <input

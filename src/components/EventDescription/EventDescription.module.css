@@ -50,6 +50,10 @@
 }
 
 .time {
+  color: #2b3bc4;
+}
+
+.duration {
   font-weight: bold;
   margin-bottom: 1rem;
 }
