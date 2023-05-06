@@ -14,6 +14,7 @@ import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 import { CategoryEntity } from 'types';
 import { Spinner } from '../Spinner/Spinner';
+import { getCurrentDate } from '../../utils/get-current-date';
 
 export const EventAddForm = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const EventAddForm = () => {
     name: '',
     description: '',
     time: 0,
+    date: getCurrentDate(),
     link: '',
     country: 'Polska',
     city: '',
@@ -139,6 +141,17 @@ export const EventAddForm = () => {
               ))}
             </select>
             <label className={classes.input_label}>Kategoria</label>
+          </div>
+          <div className={classes.input}>
+            <input
+              type="date"
+              className={classes.input_field}
+              name="date"
+              value={eventData.date}
+              onChange={e => updateForm('date', e.target.value)}
+              required={true}
+            />
+            <label className={classes.input_label}>Data wydarzenia</label>
           </div>
           <div className={classes.input}>
             <input

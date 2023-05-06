@@ -33,6 +33,7 @@ export const addEventAction = async ({ request }: { request: Request }) => {
   const eventToSave: NewEventData = {
     name: formData.name,
     description: formData.description,
+    date: formData.date,
     estimatedTime: Number(formData.time),
     link: formData.link !== '' ? addProtocol(formData.link) : null,
     lat,

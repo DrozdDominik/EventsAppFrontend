@@ -10,7 +10,7 @@ export const EventDescription = (props: Props) => {
   return (
     <div className={classes.container}>
       <header className={classes.cardHeader}>
-        <div className={classes.data}>2023-05-28</div>
+        <div className={classes.date}>{props.event.date}</div>
         <div className={classes.category}>{props.event.category}</div>
       </header>
       <h2 className={classes.title}>{props.event.name}</h2>
