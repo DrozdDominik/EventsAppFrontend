@@ -2,6 +2,7 @@ export type EventFormData = {
   name: string;
   description: string;
   time: number;
+  date: string;
   link: string;
   country: string;
   city: string;
