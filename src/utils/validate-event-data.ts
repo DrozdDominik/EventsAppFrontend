@@ -23,7 +23,7 @@ export const validateData = async (
     );
   }
 
-  if (data.time <= 0) {
+  if (data.duration <= 0) {
     errors.push('Czas wydarzenia musi być wiekszy od 0');
   }
 
