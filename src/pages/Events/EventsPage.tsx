@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MainEventData } from 'types';
 import { EventsList } from '../../components/EventsList/EventsList';
 import { Map } from '../../components/Map/Map';
@@ -17,6 +17,7 @@ import { getRole } from '../../utils/auth';
 import { NotificationStatus, uiAction } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 import { cleanUpLocalStorage } from '../../utils/clean-up-storage';
+import { getCurrentCategories } from '../../utils/getCurrentCategories';
 
 export const EventsPage = () => {
   const navigation = useNavigation();
@@ -25,6 +26,15 @@ export const EventsPage = () => {
   const isLoading = navigation.state === 'loading';
   const { events } = useLoaderData() as { events: MainEventData[] };
   const permissions = searchParams.get('permissions');
+  const currentEventsCategories = getCurrentCategories(events);
+
+  const [eventsToShow, setEventsToShow] = useState(events);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setEventsToShow(
+      events.filter(event => event.category === e.currentTarget.innerText),
+    );
+  };
 
   useEffect(() => {
     if (permissions === 'false') {
@@ -44,10 +54,31 @@ export const EventsPage = () => {
   }
 
   return (
-    <main className={classes.main}>
-      <EventsList events={events} />
-      <Map events={events} />
-    </main>
+    <>
+      <header className={classes.categories}>
+        <button
+          type="button"
+          className={classes.category}
+          onClick={() => setEventsToShow(events)}
+        >
+          Wszystkie
+        </button>
+        {currentEventsCategories.map(category => (
+          <button
+            type="button"
+            key={category}
+            className={classes.category}
+            onClick={handleClick}
+          >
+            {category}
+          </button>
+        ))}
+      </header>
+      <main className={classes.main}>
+        <EventsList events={eventsToShow} />
+        <Map events={eventsToShow} />
+      </main>
+    </>
   );
 };
 
